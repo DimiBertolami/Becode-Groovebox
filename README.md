@@ -44,3 +44,13 @@ the end result should resemble something like this:
 
 
 As you can see i replaced the creator's name of the device and changed it to becode, because the only other ronald I know is Ronald McDonald!
+
+# Quickstart
+
+```
+npm install
+npm start
+```
+
+Open browser at: http://127.0.0.1:8080/
+
