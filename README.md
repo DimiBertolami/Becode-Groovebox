@@ -40,6 +40,7 @@ the synth (or Bassline) will become boring real quick if you can't modulate the 
 ![image](https://user-images.githubusercontent.com/77209365/177047104-0ba9d94e-a8e0-4a59-8a50-b3ff2b518e00.png)
 
 the end result should resemble something like this:
-![image](https://user-images.githubusercontent.com/77209365/177047871-61bde0ca-a834-41e8-ad3d-da4687dfc5ee.png)
+![image](https://user-images.githubusercontent.com/77209365/177048370-38d24f1c-d63c-4e5c-ba86-9197497e056e.png)
 
-As you can see i replaced the creator's name of the device and changed it to becode, because who the hell is Roland, is it Roland mCDonald?
+
+As you can see i replaced the creator's name of the device and changed it to becode, because the only other ronald I know is Ronald McDonald!
