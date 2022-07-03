@@ -1,21 +1,21 @@
 {
   "name": "becodegroovebox",
   "version": "1.0.0",
-  "description": "",
+  "description": "I am now gaining the skills to create my own toys",
   "main": "looper.js",
   "scripts": {
     "start": "http-server"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/codeMonkeysBe/bertosequence.git"
+    "url": "git+https://github.com/DimiBertolami/Becode-Groovebox.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/codeMonkeysBe/bertosequence/issues"
+    "url": "https://github.com/DimiBertolami/Becode-Groovebox/issues"
   },
-  "homepage": "https://github.com/codeMonkeysBe/bertosequence#readme",
+  "homepage": "https://github.com/DimiBertolami/Becode-Groovebox#readme",
   "dependencies": {
     "http-server": "^14.1.1"
   }

@@ -1,6 +1,13 @@
+
 const keys = new Tone.Players({
     urls: {
         kick: "samples/kick.WAV",
+        longkick: "samples/808longkick.wav",
+        bassdrop: "samples/bass_drop.wav",
+        big2: "samples/Big_2.wav",
+        big808: "samples/Biiiig_808.wav",
+        fly808: "samples/Fly_08.wav",
+        marie808: "samples/Marie_808.wav",
         snare: "samples/snare.WAV",
         hihat: "samples/hihat.WAV",
     },
@@ -8,9 +15,15 @@ const keys = new Tone.Players({
 
 // This is an object of sequence arrays, keeping track of each of the on/off positions of all the steps for each sample
 const sequences = {
-    kick:  [false, false, false, false,false, false, false, false],
-    snare: [false, false, false, false,false, false, false, false],
-    hihat: [false, false, false, false,false, false, false, false],
+    kick:       [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+    longkick:   [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+    bassdrop:   [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+    big2:       [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+    big808:     [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+    fly808:     [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+    marie808:   [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+    snare:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+    hihat:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false]
 }
 
 // Loops over all step sequencer rows ( each row represents a sample, indicated by its `data-sampleName` property
@@ -42,7 +55,7 @@ new Tone.Sequence((time, step) => {
     for (const instrument in sequences) {
         sequences[instrument][step] && keys.player(instrument).start()
     }
-}, [0,1,2,3,4,5,6,7]).start(0);
+}, [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]).start(0);
 
 // Beats per minute
 Tone.Transport.bpm.value = 120;

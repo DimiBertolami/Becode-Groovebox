@@ -18,11 +18,11 @@
 
 .step-sequencer button .light {
     margin-top: 20px;
-    width: 10px;
-    height: 10px;
-    background-color: gray;
+    width: 6px;
+    height: 6px;
+    background-color: black;
 }
 
 .step-sequencer button .active {
-    background-color: red;
+    background-color: palegreen;
 }
