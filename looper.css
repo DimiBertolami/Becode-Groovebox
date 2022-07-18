@@ -8,21 +8,25 @@
 }
 
 .step-sequencer button {
-    margin: 5px;
+    margin: 2px;
     display: flex;
-    height: 60px;
-    width: 45px;
+    height: 50px;
+    width: 60px;
+    /*border: 3px dotted blue;*/
+    border: 1px solid black;
     justify-content: center;
     align-items: center;
+    font-size: medium;
+    color: grey;
 }
 
 .step-sequencer button .light {
     margin-top: 20px;
-    width: 6px;
-    height: 6px;
+    width: 20px;
+    height: 5px;
     background-color: black;
 }
 
 .step-sequencer button .active {
-    background-color: palegreen;
+    background-color: red;
 }

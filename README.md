@@ -48,6 +48,8 @@ As you can see i replaced the creator's name of the device and changed it to bec
 # Quickstart
 
 ```
+npm install tone@next
+
 npm install
 npm start
 ```
