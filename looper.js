@@ -66,7 +66,7 @@ new Tone.Sequence((time, step) => {
 
 // Beats per minute
 // Tone.Transport.bpm.value = 120;
-bpm = document.getElementById('tempo2').value;
+bpm = document.getElementById('tempo').value;
 Tone.Transport.bpm.value = bpm && console.log("new bpm: " + bpm);
 
 // Volume channel
