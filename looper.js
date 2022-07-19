@@ -1,31 +1,47 @@
+
+
 const keys = new Tone.Players({
     urls: {
         kick:       "samples/kick.WAV",
         clap1:      "samples/Clap01.wav",
         clap2:      "samples/Clap02.wav",
-        clap3:      "samples/Clap03.wav",
-        big808:     "samples/Biiiig_808.wav",
-        fly808:     "samples/Fly_08.wav",
-        marie808:   "samples/Marie_808.wav",
         snare:      "samples/snare.WAV",
         hihat:      "samples/hihat.WAV",
         a1:         "samples/Casio_a1.mp3",
-        a2:         "samples/Casio_a2.mp3"
+        a2:         "samples/Casio_a2.mp3",
+        as1:         "samples/casio_As1.mp3",
+        b1:         "samples/Casio_B1.mp3",
+        c2:         "samples/Casio_C2.mp3",
+        cs2:         "samples/Casio_Cs2.mp3",
+        d2:         "samples/Casio_D2.mp3",
+        ds2:         "samples/Casio_Ds2.mp3",
+        e2:         "samples/Casio_E2.mp3",
+        f2:         "samples/Casio_F2.mp3",
+        fs2:         "samples/Casio_Fs2.mp3",
+        g2:         "samples/Casio_G2.mp3",
+        gs1:         "samples/Casio_Gs1.mp3"
     }
 }).toDestination();
 // This is an object of sequence arrays, keeping track of each of the on/off positions of all the steps for each sample
 const sequences = {
-    kick:       [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+     kick:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
     clap1:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
     clap2:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
-    clap3:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
-    big808:     [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
-    fly808:     [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
-    marie808:   [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
     snare:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
     hihat:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
-    a1:         [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
-    a2:         [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false]
+       a1:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+       a2:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+      as1:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+       b1:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+       c2:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+      cs2:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+       d2:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+      ds2:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+       e2:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+       f2:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+      fs2:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+       g2:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false],
+      gs1:      [false, false, false, false,false, false, false, false, false, false, false, false,false, false, false, false]
 }
 
 // Loops over all step sequencer rows ( each row represents a sample, indicated by its `data-sampleName` property
@@ -48,55 +64,53 @@ document.querySelectorAll(".step-sequencer").forEach((sampleSequencerElement) =>
 })
 
 // Play button click handler
-document.querySelector(".play").addEventListener('click', ev => {
+document.querySelector(".playButton").addEventListener('click', ev => {
     Tone.Transport.start();
+    Tone.start();
 });
 
 // Stop button click handler
-document.querySelector(".stop").addEventListener('click', ev => {
+document.querySelector(".stopButton").addEventListener('click', ev => {
     Tone.Transport.stop();
+    // Tone.stop();
 });
 
 // This thing just ticks away at equal intervals, allowing us to step in and program the samples to play at each one of those intervals
 new Tone.Sequence((time, step) => {
     for (const instrument in sequences) {
         sequences[instrument][step] && keys.player(instrument).start()
+        document.getElementById
     }
 }, [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]).start(0);
 
-// Beats per minute
-// Tone.Transport.bpm.value = 120;
-bpm = document.getElementById('tempo').value;
-Tone.Transport.bpm.value = bpm && console.log("new bpm: " + bpm);
 
-// Volume channel
-let channel = new Tone.Channel(0, 12).toDestination();
-let distortion = new Tone.Distortion(0.8).toDestination();
-let fm = new Tone.FMSynth().connect(distortion);
-fm.triggerAttackRelease("A1", "8n");
-// let node = new Tone.Gain();
-// console.log(node.numberOfInputs);
-// keys.connect(distortion);
+Tone.Transport.bpm.value = document.getElementById('tempo').value;
+
+document.getElementById('distortion').addEventListener('click', function (){
+    let volume = document.getElementById('level').value;
+    const dist = new Tone.Distortion(0.8).toDestination();
+    const oVol = new Tone.Volume(volume).toDestination();
+    const osc = new Tone.Oscillator().connect(oVol).start();
+    const fm = new Tone.FMSynth().connect(dist, osc);
+    fm.triggerAttackRelease("A1", "8n").toDestination();
+})
+document.getElementById('level').addEventListener('change', function (){
+    let volume = document.getElementById('level').value
+    const dist = new Tone.Distortion(0.8).toDestination();
+    const oVol = new Tone.Volume(volume).toDestination();
+    const osc = new Tone.Oscillator().connect(oVol).start();
+    const fm = new Tone.FMSynth().connect(dist, osc);
+    fm.triggerAttackRelease("A1", "8n").toDestination();
+})
+
+let channel = new Tone.Channel(-0.12, volume).toDestination();
+
+channel.chain(filter, distortion, Tone.Destination);
+// pass channel to sequencer
 keys.connect(channel);
+//do the same for volume Object
+keys.connect(oVol);
 
-function createPlayer(){
-    return new Tone.Player({
-        url: "https://tonejs.github.io/audio/berklee/gurgling_theremin_1.mp3",
-        loop: true,
-        autostart: true,
-    })
-}
 
-function createDistortion(){
-//create a distortion effect
-    return new Tone.Distortion(0.9).toDestination();
-}
 
-function connectDistortion(){
-    //connect a player to the distortion
-    player.connect(distortion);
-}
 
-// player = createPlayer();
-// distortion = createDistortion();
-// player.connect(distortion);
