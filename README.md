@@ -1,7 +1,7 @@
 # Becode-Groovebox
 
 ## Some updates.. 
-Got the knobs to work but not completely the way i would like. I created an eventlistener for some of the knobs like volume and distortion but distortion only accepts values between -1 and 1 and my knob is trying to send a value between 0 and 100. fix for this is easy, just divide the value by 100 and if it's lower than 0.5 make the value negative otherwise remain positive.. 
+Got the knobs to work but not completely the way i would like. I created an eventlistener for some of the knobs like volume and distortion but distortion only accepts values between -1 and 1 and my knob is trying to send a value between 0 and 100. fix for this is easy, just divide the value by 100 and if it's lower than 50 make the value negative between -1 and 0 (50 increments) otherwise positive 50 increments.. should be easy fix.
 Another thing with this eventlistener is that it is looking for a 'change' event. it should also watch out for click and mouse-scrollwheel events because that would simply be awesome.. again not such a big deal to fix this. I would create a function that just reads the value of the knob and that will be triggered by three seperate eventlisteners (or something)
 
 ![image](https://user-images.githubusercontent.com/77209365/179683868-192c1c7d-b1bd-4bb9-9c65-76d7bcd0d0b6.png)
