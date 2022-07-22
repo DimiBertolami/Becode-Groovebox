@@ -154,39 +154,3 @@ function createDiatonicTriadFormula_OneOctave(scaleDegreeRoot, scale) {
     oneChord.push(scale[(scaleDegreeRoot+4) % 7]);
     return oneChord;
 }
-function setKnob(e){
-    console.log(e.value);
-    switch (e){
-        case "tempo":
-            Tone.Transport.bpm.value = document.getElementById('tempo').value;
-            break;
-        case "level":
-            Tone.Transport.volume.value = document.getElementById('level').value;
-            break;
-        case 'distortion':
-            break;
-        default:
-            // console.log("knob " + e.id + " value " + e.value);
-    }
-}
-function stopIt(){
-    //   console.log('stopIt()');
-    Tone.Transport.stop();
-    Tone.Transport.cancel(0);
-    //   if(piano) {
-    //       piano.dispose();
-    //       piano = null;
-    //   }
-}
-function playIt(){
-    Tone.Transport.start();
-    // Tone.Transport.resume();
-    // Tone.start();
-    // console.log('audio context started');
-}
-function updateTempo()  {
-    let tempo = document.getElementById('tempo').value;
-    Tone.Transport.bpm.value = tempo;
-    console.log("new bpm: " + tempo);
-    return tempo;
-}

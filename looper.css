@@ -1,16 +1,16 @@
 *{
-    background-color: lightgrey;
+    background-color: black;
 
 }
 .container,span {
     display: flex;
     justify-content: center;
-    font-size: small;
+    font-size: xx-small;
     background-color: black;
-    box-shadow: 3px #1aff8c;
+    color: yellow;
+    /*box-shadow: 3px #1aff8c;*/
     /*border: 2px solid blue;*/
 }
-
 .step-sequencer {
     display: flex;
 }
@@ -41,4 +41,7 @@
 
 .step-sequencer button .active {
     background-color: yellow;
+}
+.row{
+    background-color: black;
 }

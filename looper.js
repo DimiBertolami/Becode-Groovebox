@@ -52,7 +52,7 @@ document.querySelectorAll(".step-sequencer").forEach((sampleSequencerElement) =>
     // Loop over each step for a sample, and wire a click event listener
     sampleSequencerElement.querySelectorAll("button").forEach((stepElement, step) => {
         stepElement.addEventListener("click", ( ev ) => {
-            console.log("click", step, sampleName)
+            console.log("click", step, sampleName);
 
             // Toggle the element class to change the red light indicator
             stepElement.querySelector('.light').classList.toggle('active');
@@ -64,15 +64,14 @@ document.querySelectorAll(".step-sequencer").forEach((sampleSequencerElement) =>
 })
 
 // Play button click handler
-document.querySelector(".playButton").addEventListener('click', ev => {
-    Tone.Transport.start();
+document.querySelector(".play").addEventListener('click', function (){
+    // Tone.Transport.start();
     Tone.start();
 });
 
 // Stop button click handler
-document.querySelector(".stopButton").addEventListener('click', ev => {
+document.querySelector(".stopButton").addEventListener('click', function (){
     Tone.Transport.stop();
-    // Tone.stop();
 });
 
 // This thing just ticks away at equal intervals, allowing us to step in and program the samples to play at each one of those intervals
@@ -84,33 +83,5 @@ new Tone.Sequence((time, step) => {
 }, [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]).start(0);
 
 
-Tone.Transport.bpm.value = document.getElementById('tempo').value;
-
-document.getElementById('distortion').addEventListener('click', function (){
-    let volume = document.getElementById('level').value;
-    const dist = new Tone.Distortion(0.8).toDestination();
-    const oVol = new Tone.Volume(volume).toDestination();
-    const osc = new Tone.Oscillator().connect(oVol).start();
-    const fm = new Tone.FMSynth().connect(dist, osc);
-    fm.triggerAttackRelease("A1", "8n").toDestination();
-})
-document.getElementById('level').addEventListener('change', function (){
-    let volume = document.getElementById('level').value
-    const dist = new Tone.Distortion(0.8).toDestination();
-    const oVol = new Tone.Volume(volume).toDestination();
-    const osc = new Tone.Oscillator().connect(oVol).start();
-    const fm = new Tone.FMSynth().connect(dist, osc);
-    fm.triggerAttackRelease("A1", "8n").toDestination();
-})
-
-let channel = new Tone.Channel(-0.12, volume).toDestination();
-
-channel.chain(filter, distortion, Tone.Destination);
-// pass channel to sequencer
-keys.connect(channel);
-//do the same for volume Object
-keys.connect(oVol);
-
-
-
+Tone.Transport.bpm.value = 120;
 
