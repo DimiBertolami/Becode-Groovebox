@@ -64,7 +64,7 @@ document.querySelectorAll(".step-sequencer").forEach((sampleSequencerElement) =>
 })
 
 // Play button click handler
-document.querySelector(".play").addEventListener('click', function (){
+document.querySelector(".playButton").addEventListener('click', function (){
     // Tone.Transport.start();
     Tone.start();
 });
