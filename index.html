@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -7,74 +6,73 @@
     <link href="looper.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="css/MusicTheoryToneJS.css" rel="stylesheet" type="text/css">
 
-    <title>MC-Bertolami</title>
+    <title>MC-Bertolami lol i will keep it for now!</title>
+    <script>  //src="effects.js"
+
+    </script>
+
 </head>
-
-<!--<body style="background-image: radial-gradient(red, yellow, green);">-->
 <body style="background-image: radial-gradient(red, yellow, green);">
 
-<!--to do:
-            Volume,
-            Tempo
-            Distortion,
-            Phaser,
-            Flanger,
-            reverb,
-            ADSR Filter)
-
-    Done:
-    -->
 <div class="container" id="mastering">
     LEVEL
     <input type="range"
            class="input-knob"
            data-diameter="120"
            data-src="./images/blauw.png"
-           value="80"
+           value="50"
            MIN="0"
            MAX="100"
            data-sprites="100"
-           title="LEVEL"
+           title="VOLUME"
            id="level"
-           onchange="setKnob(this)"/>
+           onchange="setVolume(this)"/>
+
+    <!--           onclick="setVolume(this)"-->
+    <!--           onscroll="setVolume(this)"-->
     TEMPO
     <input type="range"
            class="input-knob"
            data-diameter="120"
            data-src="./images/blauw.png"
-           value="120"
-           MIN="20"
-           MAX="180"
+           value="140"
+           MIN="21"
+           MAX="200"
            data-sprites="100"
            title="TEMPO"
            id="tempo"
-           onchange="setKnob(this)"/>
+           onchange="setTempo(this)"/>
+    <!--           onscroll="setTempo(this)"-->
+    <!--           onclick="setTempo(this)"-->
+
     DISTORTION
     <input type="range"
            class="input-knob"
            data-diameter="120"
            data-src="./images/blauw.png"
-           value="-50"
-           MIN="-50"
-           MAX="50"
+           value="0"
+           MIN="0"
+           MAX="100"
            data-sprites="100"
            title="DISTORTION"
            id="distortion"
-           onchange="setKnob(this)"/>
+           onchange="createDistortion(this)"/>
+    <!--           onchange="setDistortion(this)"-->
+
     PHAZER
     <input type="range"
            class="input-knob"
            data-diameter="120"
            data-src="./images/blauw.png"
-           value="0.7"
-           MIN="0.1"
-           MAX="0.9"
+           value="15"
+           MIN="0"
+           MAX="100"
            data-sprites="100"
            title="PHAZER"
-           id="phazer"
-           onchange="setKnob(this)"/>
+           id="phazer"/>
+    <!--           onchange="quadraFuzz()"-->
+
     FLANGER
     <input type="range"
            class="input-knob"
@@ -85,391 +83,570 @@
            MAX="100"
            data-sprites="100"
            title="FLANGER"
-           id="flanger"
-           onchange="setKnob(this)"/>
+           id="flanger"/>
+    <!--           onchange="createFlanger()"-->
+
     REVERB
     <input type="range"
            class="input-knob"
            data-diameter="120"
            data-src="./images/blauw.png"
-           value="0"
+           value="30"
            MIN="0"
            MAX="100"
            data-sprites="100"
            title="REVERB"
            id="reverb"
-           onchange="setKnob(this)"/>
+           onchange="createReverb(this)"/>
+
 </div>
 
-<hr>
+<div class="container" id="drumspan">
+    Tune
+    <input type="range"
+           class="input-knob"
+           data-diameter="140"
+           value="5"
+           MIN="0"
+           MAX="9"
+           data-src="./images/Casio.png"
+           data-sprites="9"
+           title="Tune"
+           id="tune"/>
+    <!--           onchange="setPitch()"-->
 
-<div class="container" id="drumzdiv">
-    <div class="container" id="drumspan" style="border-color: 4px solid blue">
-        Tune
-        <input type="range"
-               class="input-knob"
-               data-diameter="80"
-               value="0"
-               MIN="-24"
-               MAX="24"
-               data-src="./images/dj.png"
-               data-sprites="100"
-               title="Tune"
-               id="tune"
-               onchange="setKnob(this)"/>
-        CutOff
-        <input type="range"
-               class="input-knob"
-               data-diameter="80"
-               value="0"
-               MIN="0"
-               MAX="20"
-               data-src="./images/dj.png"
-               data-sprites="100"
-               title="CutOff"
-               id="cutoff"
-               onchange="setKnob(this)"/>
-        Reso
-        <input type="range"
-               class="input-knob"
-               data-diameter="80"
-               value="0"
-               MIN="0"
-               MAX="20"
-               data-src="./images/dj.png"
-               data-sprites="100"
-               title="Reso"
-               id="reso"
-               onchange="setKnob(this)"/>
-        Env/Mod
-        <input type="range"
-               class="input-knob"
-               data-diameter="80"
-               value="0"
-               MIN="-24"
-               MAX="24"
-               data-src="./images/dj.png"
-               data-sprites="100"
-               title="Env/Mod"
-               id="envmod"
-               onchange="setKnob(this)"/>
-        Decay
-        <input type="range"
-               class="input-knob"
-               data-diameter="80"
-               data-src="./images/dj.png"
-               data-sprites="100"
-               title="Decay"
-               id="decay"
-               onchange="setKnob(this)"/>
-        Accent
-        <input type="range"
-               class="input-knob"
-               data-diameter="80"
-               data-src="./images/dj.png"
-               data-sprites="100"
-               title="Accent"
-               id="accent"
-               onchange="setKnob(this)"/>
-    </div>
-</div>
-<div class="container">kick
-    <div class="col-2" style="background-color: black">
-        <input type="radio" name="group1" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40" checked/>
-        <input type="radio" name="group1" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-        <input type="radio" name="group1" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    </div>
-        <div class="step-sequencer" data-sampleName="kick">
-            <!--        <button> <div class="light"></div>1</button>-->
-            <!--                <img src="./images/ob_button.png" alt="prophet">-->
-            <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-                   data-sprites="2" onchange="setKnob(this)"/>
-            <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-                   data-sprites="2" onchange="setKnob(this)"/>
-            <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-                   data-sprites="2" onchange="setKnob(this)"/>
-            <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-                   data-sprites="2" onchange="setKnob(this)"/>
-            <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-                   data-sprites="2" onchange="setKnob(this)"/>
-            <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-                   data-sprites="2" onchange="setKnob(this)"/>
-            <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-                   data-sprites="2" onchange="setKnob(this)"/>
-            <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-                   data-sprites="2" onchange="setKnob(this)"/>
-            <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-                   data-sprites="2" onchange="setKnob(this)"/>
-            <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-                   data-sprites="2" onchange="setKnob(this)"/>
-            <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-                   data-sprites="2" onchange="setKnob(this)"/>
-            <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-                   data-sprites="2" onchange="setKnob(this)"/>
-            <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-                   data-sprites="2" onchange="setKnob(this)"/>
-            <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-                   data-sprites="2" onchange="setKnob(this)"/>
-            <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-                   data-sprites="2" onchange="setKnob(this)"/>
-            <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-                   data-sprites="2" onchange="setKnob(this)"/>
-        </div>
-    <div class="col">
-        <span>
-            level
-        <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalRed.png" data-sprites="100"
-               title="Volume" id="LEVEL1" onchange="setKnob(this)"/>
-            tone
-        <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalPurple.png" data-sprites="100"
-               title="Tone" id="TONE1" onchange="setKnob(this)"/>
-            decay
-        <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalTurqoise.png"
-               data-sprites="100"
-               title="Decay" id="DECAY1" onchange="setKnob(this)"/>
-        </span>
-    </div>
+    CutOff
+    <input type="range"
+           class="input-knob"
+           data-diameter="140"
+           value="0"
+           MIN="0"
+           MAX="9"
+           data-src="./images/Casio.png"
+           data-sprites="9"
+           title="CutOff"
+           id="cutoff"/>
+    Reso
+    <input type="range"
+           class="input-knob"
+           data-diameter="140"
+           value="0"
+           MIN="0"
+           MAX="9"
+           data-src="./images/Casio.png"
+           data-sprites="9"
+           title="Reso"
+           id="reso" />
+    Env/Mod
+    <input type="range"
+           class="input-knob"
+           data-diameter="140"
+           value="0"
+           MIN="0"
+           MAX="9"
+           data-src="./images/Casio.png"
+           data-sprites="9"
+           title="Env/Mod"
+           id="envmod"
+    />
+    Decay
+    <input type="range"
+           class="input-knob"
+           data-diameter="140"
+           data-src="./images/Casio.png"
+           data-sprites="9"
+           value="0"
+           MIN="0"
+           MAX="9"
+           title="Decay"
+           id="decay"/>
+    <!--           onchange="setKnob(this)"-->
+
+    Accent
+    <input type="range"
+           class="input-knob"
+           data-diameter="140"
+           data-src="./images/Casio.png"
+           data-sprites="9"
+           value="0"
+           MIN="0"
+           MAX="9"
+           title="Accent"
+           id="accent"/>
 </div>
 
-<div class="container">clap1
-    <input type="radio" name="group2" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"
-           checked/>
-    <input type="radio" name="group2" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <input type="radio" name="group2" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
+<!--<div class="container">-->
+<!--    <input type="radio" name="group99" class="input-switch" id="led1" data-src="./images/led.png" data-diameter="44"-->
+<!--           disabled style="opacity: 80%"/>-->
+<!--    <input type="radio" name="group99" class="input-switch" id="led2" data-src="./images/led.png" data-diameter="44"-->
+<!--           disabled style="opacity: 80%"/>-->
+<!--    <input type="radio" name="group99" class="input-switch" id="led3" data-src="./images/led.png" data-diameter="44"-->
+<!--           disabled style="opacity: 80%"/>-->
+<!--    <input type="radio" name="group99" class="input-switch" id="led4" data-src="./images/led.png" data-diameter="44"-->
+<!--           disabled style="opacity: 80%"/>-->
+<!--    <input type="radio" name="group99" class="input-switch" id="led5" data-src="./images/led.png" data-diameter="44"-->
+<!--           disabled style="opacity: 80%"/>-->
+<!--    <input type="radio" name="group99" class="input-switch" id="led6" data-src="./images/led.png" data-diameter="44"-->
+<!--           disabled style="opacity: 80%"/>-->
+<!--    <input type="radio" name="group99" class="input-switch" id="led7" data-src="./images/led.png" data-diameter="44"-->
+<!--           disabled style="opacity: 80%"/>-->
+<!--    <input type="radio" name="group99" class="input-switch" id="led8" data-src="./images/led.png" data-diameter="44"-->
+<!--           disabled style="opacity: 80%"/>-->
+<!--    <input type="radio" name="group99" class="input-switch" id="led9" data-src="./images/led.png" data-diameter="44"-->
+<!--           disabled style="opacity: 80%"/>-->
+<!--    <input type="radio" name="group99" class="input-switch" id="led10" data-src="./images/led.png" data-diameter="44"-->
+<!--           disabled style="opacity: 80%"/>-->
+<!--    <input type="radio" name="group99" class="input-switch" id="led11" data-src="./images/led.png" data-diameter="44"-->
+<!--           disabled style="opacity: 80%"/>-->
+<!--    <input type="radio" name="group99" class="input-switch" id="led12" data-src="./images/led.png" data-diameter="44"-->
+<!--           disabled style="opacity: 80%"/>-->
+<!--    <input type="radio" name="group99" class="input-switch" id="led13" data-src="./images/led.png" data-diameter="44"-->
+<!--           disabled style="opacity: 80%"/>-->
+<!--    <input type="radio" name="group99" class="input-switch" id="led14" data-src="./images/led.png" data-diameter="44"-->
+<!--           disabled style="opacity: 80%"/>-->
+<!--    <input type="radio" name="group99" class="input-switch" id="led15" data-src="./images/led.png" data-diameter="44"-->
+<!--           disabled style="opacity: 80%"/>-->
+<!--    <input type="radio" name="group99" class="input-switch" id="led16" data-src="./images/led.png" data-diameter="44"-->
+<!--           disabled style="opacity: 80%"/>-->
 
-    <div class="step-sequencer" data-sampleName="clap1">
-        <!--        <img src="./images/ob_button.png" alt="prophet">-->
+<!--</div>-->
 
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
+<div class="container">Kick
+    <div class="step-sequencer" data-sampleName="kick">
+        <button >
+            <div class="light active"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light active"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light active"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light active"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
+        <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
+        <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
+        <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
+        <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
+        <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
+        <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
+        <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
+        <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
+        <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
+        <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
+        <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
+        <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
+        <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
+        <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
+        <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
     </div>
+    level <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_amarillo.png" value="5"
+                 MIN="0" MAX="9" data-sprites="9" title="KickVolume" id="LEVEL1" onchange="setLevel1(this)"/>
+    tone <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_azul.png" data-sprites="9"
+                value="5" min="0" max="9" title="Tone" id="TONE1" onchange="setPitch(Kick)"/>
+    dist <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_rosa.png" data-sprites="9"
+                 value="5" min="0" max="9" title="Distortion" id="KickDistortion" onchange="setDistortion(Kick)"/>
 
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalRed.png" data-sprites="100"
-           title="Volume" id="LEVEL2" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalPurple.png" data-sprites="100"
-           title="Tone" id="TONE2" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalTurqoise.png" data-sprites="100"
-           title="Decay" id="DECAY2" onchange="setKnob(this)"/><br>
-</div>
-
-<div class="container">clap2
-    <input type="radio" name="group3" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"
-           checked/>
-    <input type="radio" name="group3" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <input type="radio" name="group3" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-
-    <div class="step-sequencer" data-sampleName="clap2">
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-    </div>
-
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalRed.png" data-sprites="100"
-           title="Volume" id="LEVEL3" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalPurple.png" data-sprites="100"
-           title="Tone" id="TONE3" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalTurqoise.png" data-sprites="100"
-           title="Decay" id="DECAY3" onchange="setKnob(this)"/><br>
 </div>
 
 <div class="container">snare
-    <input type="radio" name="group4" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"
-           checked/>
-    <input type="radio" name="group4" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <input type="radio" name="group4" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
 
     <div class="step-sequencer" data-sampleName="snare">
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
+        <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
+
+        <!--        <button class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png" data-sprites="2"> <div class="light" ><input type="checkbox"/></div> </button>-->
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
     </div>
 
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalRed.png" data-sprites="100"
-           title="Volume" id="LEVEL7" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalPurple.png" data-sprites="100"
-           title="Tone" id="TONE7" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalTurqoise.png" data-sprites="100"
-           title="Decay" id="DECAY7" onchange="setKnob(this)"/><br>
+    level <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_amarillo.png" value="5"
+                 MIN="0" MAX="9" data-sprites="9" title="snareVolume" id="LEVEL2" onchange="setLevel2(this)"/>
+    Tone<input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_azul.png" data-sprites="9"
+               value="5" min="0" max="9" title="Tone" id="TONE2" onchange="setPitch(Snare)"/>
+    dist <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_rosa.png" data-sprites="9"
+                value="5" min="0" max="9" title="Distortion" id="snareDistortion" onchange="setDistortion(Snare)"/>
+</div>
+<div class="container">clap1
+
+    <div class="step-sequencer" data-sampleName="clap1">
+        <!--        <img src="./images/ob_button.png" alt="prophet">-->
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+    </div>
+    level <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_amarillo.png" value="5"
+                 MIN="0" MAX="9" data-sprites="9" title="clap1Volume" id="LEVEL3" onchange="setLevel3(this.value)"/>
+    Tone<input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_azul.png" data-sprites="9"
+               value="5" min="0" max="9" title="Tone" id="TONE3" onchange="setPitch(Clap1)"/>
+    dist <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_rosa.png" data-sprites="9"
+                value="5" min="0" max="9" title="Distortion" id="Clap1Distortion" onchange="setDistortion(Clap1)"/>
 
 </div>
+<div class="container">clap2
 
+    <div class="step-sequencer" data-sampleName="clap2">
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+    </div>
+    <span>
+    Level<input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_amarillo.png" value="5"
+                MIN="0" MAX="9" data-sprites="9" title="clap2Volume" id="LEVEL4" onchange="setLevel4(this.value)"/>
+    Tone<input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_azul.png" data-sprites="9"
+               value="5" min="0" max="9" title="Tone" id="TONE4" onchange="setPitch(Clap2)"/>
+    dist <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_rosa.png" data-sprites="9"
+                value="5" min="0" max="9" title="Distortion" id="Clap2Distortion" onchange="setDistortion(Clap2)"/>
+    </span>
+</div>
+<div class="container">clap3
+
+    <div class="step-sequencer" data-sampleName="clap3">
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+    </div>
+    Level<input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_amarillo.png" value="5"
+                MIN="0" MAX="9" data-sprites="9" title="clap3Volume" id="LEVEL5" onchange="setLevel5(this.value)"/>
+    Tone<input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_azul.png" data-sprites="9"
+               value="5" min="0" max="9" title="Tone" id="TONE5" onchange="setPitch(Clap3)"/>
+    dist <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_rosa.png" data-sprites="9"
+                value="5" min="0" max="9" title="Distortion" id="Clap3Distortion" onchange="setDistortion(Clap3)"/>
+</div>
 <div class="container">hihat
-    <input type="radio" name="group5" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"
-           checked/>
-    <input type="radio" name="group5" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <input type="radio" name="group5" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-
 
     <div class="step-sequencer" data-sampleName="hihat">
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Orange_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Red_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Blue_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
     </div>
 
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalRed.png" data-sprites="100"
-           title="Volume" id="LEVEL8" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalPurple.png" data-sprites="100"
-           title="Tone" id="TONE8" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalTurqoise.png" data-sprites="100"
-           title="Decay" id="DECAY8" onchange="setKnob(this)"/><br>
+    Level<input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_amarillo.png" value="5"
+                MIN="0" MAX="9" data-sprites="9" title="hihatVolume" id="LEVEL6" onchange="setLevel6(this.value)"/>
+    Tone<input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_azul.png" data-sprites="9"
+               value="5" min="0" max="9" title="Tone" id="TONE6" onchange="setPitch(Hihat)"/>
+    dist <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_rosa.png" data-sprites="9"
+                value="5" min="0" max="9" title="Distortion" id="HihatDistortion" onchange="setDistortion(Hihat)"/>
 </div>
+<!--</div>-->
+<!--<br>-->
+<!--</div>-->
 <hr>
-<div class="container" id="synthdiv">
-    <span id="synthspan">
+
+
+<div class="container" id="synthKnobs">
     Tune
     <input type="range"
            class="input-knob"
            data-diameter="80"
+           value="0"
+           MIN="-50"
+           MAX="50"
            data-src="./images/dj.png"
            data-sprites="100"
            title="Tune"
            id="tune"
-           onchange="setKnob(this)"/>
+    />
+    <!--           onchange="setPitch()"-->
     CutOff
     <input type="range"
            class="input-knob"
            data-diameter="80"
+           value="0"
+           MIN="0"
+           MAX="20"
            data-src="./images/dj.png"
            data-sprites="100"
            title="CutOff"
            id="cutoff"
-           onchange="setKnob(this)"/>
+    />
     Reso
     <input type="range"
            class="input-knob"
            data-diameter="80"
+           value="0"
+           MIN="0"
+           MAX="20"
            data-src="./images/dj.png"
            data-sprites="100"
            title="Reso"
            id="reso"
-           onchange="setKnob(this)"/>
+    />
     Env/Mod
     <input type="range"
            class="input-knob"
            data-diameter="80"
+           value="0"
+           MIN="-24"
+           MAX="24"
            data-src="./images/dj.png"
            data-sprites="100"
            title="Env/Mod"
            id="envmod"
-           onchange="setKnob(this)"/>
+    />
     Decay
     <input type="range"
            class="input-knob"
@@ -478,7 +655,8 @@
            data-sprites="100"
            title="Decay"
            id="decay"
-           onchange="setKnob(this)"/>
+    />
+    <!--           onchange="setKnob(this)"-->
     Accent
     <input type="range"
            class="input-knob"
@@ -486,675 +664,590 @@
            data-src="./images/dj.png"
            data-sprites="100"
            title="Accent"
-           id="accent"
-           onchange="setKnob(this)"/>
-    </span>
+           id="accent"/>
+</div>
+<div class="container">
+    <input type="radio" name="group100" class="input-switch" id="led17" data-src="./images/led.png" data-diameter="55"
+           disabled style="opacity: 100%"/>
+    <input type="radio" name="group100" class="input-switch" id="led18" data-src="./images/led.png" data-diameter="55"
+           disabled style="opacity: 100%"/>
+    <input type="radio" name="group100" class="input-switch" id="led19" data-src="./images/led.png" data-diameter="55"
+           disabled style="opacity: 100%"/>
+    <input type="radio" name="group100" class="input-switch" id="led20" data-src="./images/led.png" data-diameter="55"
+           disabled style="opacity: 100%"/>
+    <input type="radio" name="group100" class="input-switch" id="led21" data-src="./images/led.png" data-diameter="55"
+           disabled style="opacity: 100%"/>
+    <input type="radio" name="group100" class="input-switch" id="led22" data-src="./images/led.png" data-diameter="55"
+           disabled style="opacity: 100%"/>
+    <input type="radio" name="group100" class="input-switch" id="led23" data-src="./images/led.png" data-diameter="55"
+           disabled style="opacity: 100%"/>
+    <input type="radio" name="group100" class="input-switch" id="led24" data-src="./images/led.png" data-diameter="55"
+           disabled style="opacity: 100%"/>
+    <input type="radio" name="group100" class="input-switch" id="led25" data-src="./images/led.png" data-diameter="55"
+           disabled style="opacity: 100%"/>
+    <input type="radio" name="group100" class="input-switch" id="led26" data-src="./images/led.png" data-diameter="55"
+           disabled style="opacity: 100%"/>
+    <input type="radio" name="group100" class="input-switch" id="led27" data-src="./images/led.png" data-diameter="55"
+           disabled style="opacity: 100%"/>
+    <input type="radio" name="group100" class="input-switch" id="led28" data-src="./images/led.png" data-diameter="55"
+           disabled style="opacity: 100%"/>
+    <input type="radio" name="group100" class="input-switch" id="led29" data-src="./images/led.png" data-diameter="55"
+           disabled style="opacity: 100%"/>
+    <input type="radio" name="group100" class="input-switch" id="led30" data-src="./images/led.png" data-diameter="55"
+           disabled style="opacity: 100%"/>
+    <input type="radio" name="group100" class="input-switch" id="led31" data-src="./images/led.png" data-diameter="55"
+           disabled style="opacity: 100%"/>
+    <input type="radio" name="group100" class="input-switch" id="led32" data-src="./images/led.png" data-diameter="55"
+           disabled style="opacity: 100%"/>
+</div>
+
+<div class="container">
+    <div class="step-sequencer" data-sampleName="kick">
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E4');"/>
+
+    </div>
+    <!--	        <div class="col">-->
+    <!--            <span>-->
+    <!--                level-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalRed.png" data-sprites="100" title="Volume" id="LEVEL4" onchange="setKnob(this)"/>-->
+    <!--                tone-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalPurple.png" data-sprites="100" title="Tone" id="TONE4" onchange="setKnob(this)"/>-->
+    <!--                decay-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalTurqoise.png" data-sprites="100" title="Decay" id="DECAY4" onchange="setKnob(this)"/>-->
+    <!--            </span>-->
+    <!--        </div>-->
+</div>
+<div class="container">
+    <div class="step-sequencer" data-sampleName="kick">
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D4');"/>
+    </div>
+    <!--	        <div class="col">-->
+    <!--            <span>-->
+    <!--                level-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalRed.png" data-sprites="100" title="Volume" id="LEVEL4" onchange="setKnob(this)"/>-->
+    <!--                tone-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalPurple.png" data-sprites="100" title="Tone" id="TONE4" onchange="setKnob(this)"/>-->
+    <!--                decay-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalTurqoise.png" data-sprites="100" title="Decay" id="DECAY4" onchange="setKnob(this)"/>-->
+    <!--            </span>-->
+    <!--        </div>-->
+</div>
+<div class="container">
+    <div class="step-sequencer" data-sampleName="kick">
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C4');"/>
+    </div>
+    <!--	        <div class="col">-->
+    <!--            <span>-->
+    <!--                level-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalRed.png" data-sprites="100" title="Volume" id="LEVEL4" onchange="setKnob(this)"/>-->
+    <!--                tone-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalPurple.png" data-sprites="100" title="Tone" id="TONE4" onchange="setKnob(this)"/>-->
+    <!--                decay-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalTurqoise.png" data-sprites="100" title="Decay" id="DECAY4" onchange="setKnob(this)"/>-->
+    <!--            </span>-->
+    <!--        </div>-->
+</div>
+<div class="container">
+    <div class="step-sequencer" data-sampleName="kick">
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('B4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('B4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('B4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('B4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('B4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('B4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('B4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('B4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('B4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('B4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('B4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('B4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('B4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('B4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('B4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('B4');"/>
+    </div>
+    <!--	        <div class="col">-->
+    <!--            <span>-->
+    <!--                level-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalRed.png" data-sprites="100" title="Volume" id="LEVEL4" onchange="setKnob(this)"/>-->
+    <!--                tone-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalPurple.png" data-sprites="100" title="Tone" id="TONE4" onchange="setKnob(this)"/>-->
+    <!--                decay-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalTurqoise.png" data-sprites="100" title="Decay" id="DECAY4" onchange="setKnob(this)"/>-->
+    <!--            </span>-->
+    <!--        </div>-->
+</div>
+<div class="container">
+    <div class="step-sequencer" data-sampleName="kick">
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('A4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('A4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('A4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('A4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('A4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('A4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('A4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('A4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('A4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('A4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('A4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('A4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('A4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('A4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('A4');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('A4');"/>
+    </div>
+    <!--	        <div class="col">-->
+    <!--            <span>-->
+    <!--                level-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalRed.png" data-sprites="100" title="Volume" id="LEVEL4" onchange="setKnob(this)"/>-->
+    <!--                tone-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalPurple.png" data-sprites="100" title="Tone" id="TONE4" onchange="setKnob(this)"/>-->
+    <!--                decay-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalTurqoise.png" data-sprites="100" title="Decay" id="DECAY4" onchange="setKnob(this)"/>-->
+    <!--            </span>-->
+    <!--        </div>-->
+</div>
+
+<div class="container">
+    <div class="step-sequencer" data-sampleName="kick">
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G3');"/>
+    </div>
+    <!--	        <div class="col">-->
+    <!--            <span>-->
+    <!--                level-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalRed.png" data-sprites="100" title="Volume" id="LEVEL4" onchange="setKnob(this)"/>-->
+    <!--                tone-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalPurple.png" data-sprites="100" title="Tone" id="TONE4" onchange="setKnob(this)"/>-->
+    <!--                decay-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalTurqoise.png" data-sprites="100" title="Decay" id="DECAY4" onchange="setKnob(this)"/>-->
+    <!--            </span>-->
+    <!--        </div>-->
+</div>
+<div class="container">
+    <div class="step-sequencer" data-sampleName="kick">
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('F3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('F3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('F3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('F3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('F3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('F3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('F3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('F3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('F3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('F3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('F3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('F3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('F3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('F3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('F3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('F3');"/>
+    </div>
+    <!--	        <div class="col">-->
+    <!--            <span>-->
+    <!--                level-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalRed.png" data-sprites="100" title="Volume" id="LEVEL5" onchange="setKnob(this)"/>-->
+    <!--                tone-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalPurple.png" data-sprites="100" title="Tone" id="TONE5" onchange="setKnob(this)"/>-->
+    <!--                decay-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalTurqoise.png" data-sprites="100" title="Decay" id="DECAY5" onchange="setKnob(this)"/>-->
+    <!--            </span>-->
+    <!--        </div>-->
+</div>
+<div class="container">
+    <div class="step-sequencer" data-sampleName="kick">
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('E3');"/>
+    </div>
+    <!--	        <div class="col">-->
+    <!--            <span>-->
+    <!--                level-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalRed.png" data-sprites="100" title="Volume" id="LEVEL6" onchange="setKnob(this)"/>-->
+    <!--                tone-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalPurple.png" data-sprites="100" title="Tone" id="TONE6" onchange="setKnob(this)"/>-->
+    <!--                decay-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalTurqoise.png" data-sprites="100" title="Decay" id="DECAY6" onchange="setKnob(this)"/>-->
+    <!--            </span>-->
+    <!--        </div>-->
+</div>
+<div class="container">
+    <div class="step-sequencer" data-sampleName="kick">
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('D3');"/>
+    </div>
+    <!--	        <div class="col">-->
+    <!--            <span>-->
+    <!--                level-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalRed.png" data-sprites="100" title="Volume" id="LEVEL7" onchange="setKnob(this)"/>-->
+    <!--                tone-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalPurple.png" data-sprites="100" title="Tone" id="TONE7" onchange="setKnob(this)"/>-->
+    <!--                decay-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalTurqoise.png" data-sprites="100" title="Decay" id="DECAY7" onchange="setKnob(this)"/>-->
+    <!--            </span>-->
+    <!--        </div>-->
+</div>
+<div class="container">
+
+    <div class="step-sequencer" data-sampleName="kick">
+
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C3');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('C3');"/>
+    </div>
+    <!--        <div class="col">-->
+    <!--            <span>-->
+    <!--                level-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalRed.png" data-sprites="100" title="Volume" id="LEVEL8" onchange="setKnob(this)"/>-->
+    <!--                tone-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalPurple.png" data-sprites="100" title="Tone" id="TONE8" onchange="setKnob(this)"/>-->
+    <!--                decay-->
+    <!--            <input type="range" class="input-knob" data-diameter="40" data-src="./images/metalTurqoise.png" data-sprites="100" title="Decay" id="DECAY8" onchange="setKnob(this)"/>-->
+    <!--            </span>-->
+    <!--        </div>-->
+</div>
+<div class="container">
+
+    <div class="step-sequencer" data-sampleName="kick">
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G2');" id="synthX"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G2');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G2');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G2');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G2');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G2');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G2');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G2');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G2');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G2');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G2');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G2');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G2');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G2');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G2');"/>
+        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
+               data-sprites="2" onclick="createSynth('G2');"/>
+    </div>
 </div>
 <span>
-<input type="radio" name="group99" class="input-switch" id="led1" data-src="./images/led.png" data-diameter="40"
-       disabled style="opacity: 40%"/>
-<input type="radio" name="group99" class="input-switch" id="led2" data-src="./images/led.png" data-diameter="40"
-       disabled style="opacity: 40%"/>
-<input type="radio" name="group99" class="input-switch" id="led3" data-src="./images/led.png" data-diameter="40"
-       disabled style="opacity: 40%"/>
-<input type="radio" name="group99" class="input-switch" id="led4" data-src="./images/led.png" data-diameter="40"
-       disabled style="opacity: 40%"/>
-<input type="radio" name="group99" class="input-switch" id="led5" data-src="./images/led.png" data-diameter="40"
-       disabled style="opacity: 40%"/>
-<input type="radio" name="group99" class="input-switch" id="led6" data-src="./images/led.png" data-diameter="40"
-       disabled style="opacity: 40%"/>
-<input type="radio" name="group99" class="input-switch" id="led7" data-src="./images/led.png" data-diameter="40"
-       disabled style="opacity: 40%"/>
-<input type="radio" name="group99" class="input-switch" id="led8" data-src="./images/led.png" data-diameter="40"
-       disabled style="opacity: 40%"/>
-<input type="radio" name="group99" class="input-switch" id="led9" data-src="./images/led.png" data-diameter="40"
-       disabled style="opacity: 40%"/>
-<input type="radio" name="group99" class="input-switch" id="led10" data-src="./images/led.png" data-diameter="40"
-       disabled style="opacity: 40%"/>
-<input type="radio" name="group99" class="input-switch" id="led11" data-src="./images/led.png" data-diameter="40"
-       disabled style="opacity: 40%"/>
-<input type="radio" name="group99" class="input-switch" id="led12" data-src="./images/led.png" data-diameter="40"
-       disabled style="opacity: 40%"/>
-<input type="radio" name="group99" class="input-switch" id="led13" data-src="./images/led.png" data-diameter="40"
-       disabled style="opacity: 40%"/>
-<input type="radio" name="group99" class="input-switch" id="led14" data-src="./images/led.png" data-diameter="40"
-       disabled style="opacity: 40%"/>
-<input type="radio" name="group99" class="input-switch" id="led15" data-src="./images/led.png" data-diameter="40"
-       disabled style="opacity: 40%"/>
-<input type="radio" name="group99" class="input-switch" id="led16" data-src="./images/led.png" data-diameter="40"
-       disabled style="opacity: 40%"/>
+    <div class="controls">
+        <button class="play">Play</button>
+        <button class="stop">Stop</button>
+    </div>
 </span>
+<!--<div class="container" id="synthdiv">-->
 
-<div class="container">A1
-    <input type="radio" name="group6" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"
-           checked/>
-    <input type="radio" name="group6" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <input type="radio" name="group6" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <div class="step-sequencer" data-sampleName="a1">
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-    </div>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Volume" id="LEVEL9" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Tone" id="TONE9" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Decay" id="DECAY9" onchange="setKnob(this)"/><br>
-</div>
-<div class="container">A2
-    <input type="radio" name="group7" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"
-           checked/>
-    <input type="radio" name="group7" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <input type="radio" name="group7" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-
-
-    <div class="step-sequencer" data-sampleName="a2">
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-    </div>
-
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Volume" id="LEVEL10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Tone" id="TONE10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Decay" id="DECAY10" onchange="setKnob(this)"/><br>
-</div>
-<div class="container">as1
-    <input type="radio" name="group8" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"
-           checked/>
-    <input type="radio" name="group8" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <input type="radio" name="group8" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <div class="step-sequencer" data-sampleName="as1">
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-    </div>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Volume" id="LEVEL10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Tone" id="TONE10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Decay" id="DECAY10" onchange="setKnob(this)"/><br>
-</div>
-<div class="container">b1
-    <input type="radio" name="group9" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"
-           checked/>
-    <input type="radio" name="group9" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <input type="radio" name="group9" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <div class="step-sequencer" data-sampleName="b1">
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-    </div>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Volume" id="LEVEL10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Tone" id="TONE10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Decay" id="DECAY10" onchange="setKnob(this)"/><br>
-</div>
-<div class="container">C2
-    <input type="radio" name="group10" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"
-           checked/>
-    <input type="radio" name="group10" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <input type="radio" name="group10" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <div class="step-sequencer" data-sampleName="C2">
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-    </div>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Volume" id="LEVEL10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Tone" id="TONE10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Decay" id="DECAY10" onchange="setKnob(this)"/><br>
-</div>
-<div class="container">cs2
-    <input type="radio" name="group11" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"
-           checked/>
-    <input type="radio" name="group11" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <input type="radio" name="group11" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <div class="step-sequencer" data-sampleName="cs2">
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-    </div>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Volume" id="LEVEL10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Tone" id="TONE10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Decay" id="DECAY10" onchange="setKnob(this)"/><br>
-</div>
-<div class="container">D2
-    <input type="radio" name="group12" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"
-           checked/>
-    <input type="radio" name="group12" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <input type="radio" name="group12" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <div class="step-sequencer" data-sampleName="D2">
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-    </div>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Volume" id="LEVEL10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Tone" id="TONE10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Decay" id="DECAY10" onchange="setKnob(this)"/><br>
-</div>
-<div class="container">ds2
-    <input type="radio" name="group13" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"
-           checked/>
-    <input type="radio" name="group13" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <input type="radio" name="group13" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <div class="step-sequencer" data-sampleName="ds2">
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-    </div>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Volume" id="LEVEL10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Tone" id="TONE10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Decay" id="DECAY10" onchange="setKnob(this)"/><br>
-</div>
-<div class="container">E2
-    <input type="radio" name="group14" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"
-           checked/>
-    <input type="radio" name="group14" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <input type="radio" name="group14" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <div class="step-sequencer" data-sampleName="E2">
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-    </div>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Volume" id="LEVEL10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Tone" id="TONE10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Decay" id="DECAY10" onchange="setKnob(this)"/><br>
-</div>
-<div class="container">f2
-    <input type="radio" name="group15" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"
-           checked/>
-    <input type="radio" name="group15" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <input type="radio" name="group15" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <div class="step-sequencer" data-sampleName="f2">
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-    </div>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Volume" id="LEVEL10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Tone" id="TONE10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Decay" id="DECAY10" onchange="setKnob(this)"/><br>
-</div>
-<div class="container">fs2
-    <input type="radio" name="group16" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"
-           checked/>
-    <input type="radio" name="group16" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <input type="radio" name="group16" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <div class="step-sequencer" data-sampleName="fs2">
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-    </div>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Volume" id="LEVEL10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Tone" id="TONE10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Decay" id="DECAY10" onchange="setKnob(this)"/><br>
-</div>
-<div class="container">G2
-    <input type="radio" name="group17" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"
-           checked/>
-    <input type="radio" name="group17" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <input type="radio" name="group17" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <div class="step-sequencer" data-sampleName="g2">
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-    </div>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Volume" id="LEVEL10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Tone" id="TONE10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Decay" id="DECAY10" onchange="setKnob(this)"/><br>
-</div>
-<div class="container">gs1
-    <input type="radio" name="group18" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"
-           checked/>
-    <input type="radio" name="group18" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <input type="radio" name="group18" class="input-switch" data-src="./images/switch_offon.png" data-diameter="40"/>
-    <div class="step-sequencer" data-sampleName="gs1">
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-        <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onchange="setKnob(this)"/>
-    </div>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Volume" id="LEVEL10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Tone" id="TONE10" onchange="setKnob(this)"/><br>
-    <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob70.png" data-sprites="100"
-           title="Decay" id="DECAY10" onchange="setKnob(this)"/><br>
-</div>
-
-
-<div class="container">
-    <input type="button" class="playButton" value="Play" id="play">
-    <input type="button" class="stopButton" value="Stop" onclick="stopIt()">
-    <!--    <button class="play" title="Drop some beats">Play</button>-->
-</div>
-
-<div class="container">
-
-    <!--    <button class="stop" title="Hold up">Stop</button><BR>-->
-</div>
-<br>
-
-
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.40/Tone.min.js" integrity="sha512-EAIf5pTV4uiP7DCNsEvvQI8J9KvBuvbcgzwat4vAW08v37jEa8gQLPLBu+8eeOSkm5L3+yHhjvUxuolLacZ/rw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
-<script src="./JS/tuna.js"></script>
-<script src="https://tonejs.github.io/build/Tone.js"></script>
-<!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
-<script src="https://g200kg.github.io/input-knobs/input-knobs.js"></script>
+<script src="input-knobs.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous">
 </script>
-
-<script src="looper.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tonaljs/tonal/browser/tonal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.40/Tone.min.js"
+integrity="sha512-EAIf5pTV4uiP7DCNsEvvQI8J9KvBuvbcgzwat4vAW08v37jEa8gQLPLBu+8eeOSkm5L3+yHhjvUxuolLacZ/rw=="
+crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!--<script src="./js/tone-ui.js"></script>-->
+<!--<script src="./js/components.js"></script>-->
+<script src="./JS/tuna.js"></script>
+<!--<script src="bundle.js"></script>-->
 <script src="effects.js"></script>
-<script src="Chordz.js"></script>
+<script src="looper.js"></script>
+<!--<script src="../build/Tone.js"></script>-->
+<!--<script src="https://tonejs.github.io/build/Tone.js"></script>-->
+<!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--<script src="howler.js"></script>-->
+<!--<script>-->
+<!--    // ChordSheetJS is available in global namespace now-->
+<!--    // const parser = new ChordSheetJS.ChordProParser();-->
 
-<!--<script src="effects.js"></script>-->
+<!--    const chordSheet = `-->
+<!--       Am         C/G        F          C-->
+<!--Let it be, let it be, let it be, let it be-->
+<!--C                G              F  C/E Dm C-->
+<!--Whisper words of wisdom, let it be`.substring(1);-->
+
+<!--    const parser = new ChordSheetJS.ChordSheetParser();-->
+<!--    const song = parser.parse(chordSheet);-->
+<!--    const formatter = new ChordSheetJS.HtmlTableFormatter();-->
+<!--    const disp = formatter.format(song);-->
+<!--</script>-->
+<!--<script src="Chordz.js"></script>-->
+<script>
+    console.log(Tonal.Key.minorKey("Ab"));
+</script>
 </body>
 </html>
