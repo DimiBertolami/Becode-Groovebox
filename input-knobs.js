@@ -315,10 +315,10 @@ input[type=checkbox].input-switch:checked,input[type=radio].input-switch:checked
     };
     el.refresh();
     el.redraw(true);
-    el.addEventListener("keydown",ik.keydown, {passive: true});
-    el.addEventListener("mousedown",ik.pointerdown, {passive: true});
-    el.addEventListener("touchstart",ik.pointerdown, {passive: true});
-    el.addEventListener("wheel",ik.wheel, {passive: true});
+    el.addEventListener("keydown",ik.keydown, {passive: false});
+    el.addEventListener("mousedown",ik.pointerdown, {passive: false});
+    el.addEventListener("touchstart",ik.pointerdown, {passive: false});
+    el.addEventListener("wheel",ik.wheel, {passive: false});
   }
   let refreshque=()=>{
     let elem=document.querySelectorAll("input.input-knob,input.input-slider");
