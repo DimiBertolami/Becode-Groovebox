@@ -51,7 +51,7 @@ function playFamilyOfTriads() {
     chordPart.loopStart = "0:0";
     chordPart.loopEnd = "2:0";
 
-    Tone.Transport.start("+0.1");
+    Tone.Transport.start("+0.5");
 }
 function playChordProgression() {
 //    console.log("playChordProgression");
