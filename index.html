@@ -16,74 +16,118 @@
 <body style="background-image: radial-gradient(red, yellow, green);">
 
 <div class="container" id="mastering">
-    LEVEL
     <input type="range"
            class="input-knob"
-           data-diameter="120"
            data-src="./images/blauw.png"
-           value="50"
-           MIN="0"
-           MAX="100"
-           data-sprites="100"
+           id="volume1"
            title="VOLUME"
-           id="level"
-           onchange="setVolume(this)"/>
+           min="-10"
+           max="10"
+           step="0.1"
+           value="0"
+           data-sprites="100"
+           data-diameter="120"
+           oninput="inputEventHandler(this)"
+           onchange="changeEventHandler(this)" />
 
-    <!--           onclick="setVolume(this)"-->
-    <!--           onscroll="setVolume(this)"-->
-    TEMPO
     <input type="range"
            class="input-knob"
+           min="85"
+           max="200"
+           value="85"
+           step="1"
            data-diameter="120"
            data-src="./images/blauw.png"
-           value="140"
-           MIN="21"
-           MAX="200"
            data-sprites="100"
            title="TEMPO"
            id="tempo"
-           onchange="setTempo(this)"/>
-    <!--           onscroll="setTempo(this)"-->
-    <!--           onclick="setTempo(this)"-->
-
-    DISTORTION
+           oninput="inputEventHandlerTempo(this)"
+           onchange="changeEventHandlerTempo(this)"/>
     <input type="range"
            class="input-knob"
+           min="0"
+           max="1"
+           step="0.01"
            data-diameter="120"
            data-src="./images/blauw.png"
-           value="0"
-           MIN="0"
-           MAX="100"
            data-sprites="100"
-           title="DISTORTION"
            id="distortion"
-           onchange="createDistortion(this)"/>
-    <!--           onchange="setDistortion(this)"-->
+           oninput="inputEventHandlerDistortion(this)"
+           onchange="changeEventHandlerDistortion(this)"/>
+<!--    LEVEL-->
+<!--    <input type="range"-->
+<!--           class="input-knob"-->
+<!--           value="100"-->
+<!--           MIN="0"-->
+<!--           MAX="10"-->
+<!--           data-diameter="120"-->
+<!--           data-src="./images/blauw.png"-->
+<!--           data-sprites="100"-->
+<!--           title="VOLUME"-->
+<!--           id="level"-->
+<!--           onchange="setVolume(this)"/>-->
+
+<!--    &lt;!&ndash;           onclick="setVolume(this)"&ndash;&gt;-->
+<!--    &lt;!&ndash;           onscroll="setVolume(this)"&ndash;&gt;-->
+<!--    TEMPO-->
+<!--    <input type="range"-->
+<!--           class="input-knob"-->
+<!--           data-diameter="120"-->
+<!--           data-src="./images/blauw.png"-->
+<!--           value="140"-->
+<!--           MIN="21"-->
+<!--           MAX="220"-->
+<!--           data-sprites="100"-->
+<!--           title="TEMPO"-->
+<!--           id="tempo"-->
+<!--           onchange="setTempo(this)"/>-->
+<!--    &lt;!&ndash;           onscroll="setTempo(this)"&ndash;&gt;-->
+<!--    &lt;!&ndash;           onclick="setTempo(this)"&ndash;&gt;-->
+
+<!--    DISTORTION-->
+<!--    <input type="range"-->
+<!--           class="input-knob"-->
+<!--           data-diameter="120"-->
+<!--           data-src="./images/blauw.png"-->
+<!--           value="0"-->
+<!--           MIN="0"-->
+<!--           MAX="100"-->
+<!--           data-sprites="100"-->
+<!--           title="DISTORTION"-->
+<!--           id="distortion"/>-->
+<!--    &lt;!&ndash;           onchange="setDistortion(this)"              onchange="createDistortion(this)"&ndash;&gt;-->
 
     PHAZER
     <input type="range"
            class="input-knob"
            data-diameter="120"
-           data-src="./images/blauw.png"
-           value="15"
-           MIN="0"
-           MAX="100"
            data-sprites="100"
+           data-src="./images/blauw.png"
+           value="0"
+           min="0"
+           max="1"
+           step="0.01"
            title="PHAZER"
-           id="phazer"/>
-    <!--           onchange="quadraFuzz()"-->
+           id="phazer"
+           onchange="quadrafuzzer(this)"
+           oninput="quadrafuzzer(this)"/>
+    <!--           -->
 
     FLANGER
     <input type="range"
            class="input-knob"
            data-diameter="120"
+           data-sprites="100"
            data-src="./images/blauw.png"
            value="0"
-           MIN="0"
-           MAX="100"
-           data-sprites="100"
+           min="0"
+           max="1"
+           step="0.01"
            title="FLANGER"
-           id="flanger"/>
+           id="flanger"
+           onchange="FlangerEffect(this)"
+           oninput="FlangerEffect(this)"/>
+
     <!--           onchange="createFlanger()"-->
 
     REVERB
@@ -91,26 +135,31 @@
            class="input-knob"
            data-diameter="120"
            data-src="./images/blauw.png"
-           value="30"
+           value="0"
            MIN="0"
-           MAX="100"
+           MAX="1"
+           step="0.01"
            data-sprites="100"
            title="REVERB"
            id="reverb"
-           onchange="createReverb(this)"/>
+           onchange="Reverberator(this)"
+           oninput="Reverberator(this)"/>
+
+
+    <!--    onchange="createReverb(this)"-->
 
 </div>
 
-<div class="container" id="drumspan">
+<div class="container" id="drumspan" style="border: 1px solid darkblue">
     Tune
     <input type="range"
            class="input-knob"
-           data-diameter="140"
-           value="5"
+           data-diameter="90"
+           value="0"
            MIN="0"
-           MAX="9"
-           data-src="./images/Casio.png"
-           data-sprites="9"
+           MAX="99"
+           data-sprites="99"
+           data-src="./images/Casio_Multicolour.png"
            title="Tune"
            id="tune"/>
     <!--           onchange="setPitch()"-->
@@ -118,46 +167,45 @@
     CutOff
     <input type="range"
            class="input-knob"
-           data-diameter="140"
+           data-diameter="90"
            value="0"
            MIN="0"
-           MAX="9"
-           data-src="./images/Casio.png"
-           data-sprites="9"
+           MAX="99"
+           data-sprites="99"
+           data-src="./images/Casio_Multicolour.png"
            title="CutOff"
            id="cutoff"/>
     Reso
     <input type="range"
            class="input-knob"
-           data-diameter="140"
+           data-diameter="90"
            value="0"
            MIN="0"
-           MAX="9"
-           data-src="./images/Casio.png"
-           data-sprites="9"
+           MAX="99"
+           data-sprites="99"
+           data-src="./images/Casio_Multicolour.png"
            title="Reso"
            id="reso" />
     Env/Mod
     <input type="range"
            class="input-knob"
-           data-diameter="140"
+           data-diameter="90"
            value="0"
            MIN="0"
-           MAX="9"
-           data-src="./images/Casio.png"
-           data-sprites="9"
+           MAX="99"
+           data-sprites="99"
+           data-src="./images/Casio_Multicolour.png"
            title="Env/Mod"
-           id="envmod"
-    />
+           id="envmod"/>
     Decay
     <input type="range"
            class="input-knob"
-           data-diameter="140"
-           data-src="./images/Casio.png"
-           data-sprites="9"
+           data-diameter="90"
+           data-src="./images/Casio_Multicolour.png"
            value="0"
            MIN="0"
-           MAX="9"
+           MAX="99"
+           data-sprites="99"
            title="Decay"
            id="decay"/>
     <!--           onchange="setKnob(this)"-->
@@ -165,12 +213,12 @@
     Accent
     <input type="range"
            class="input-knob"
-           data-diameter="140"
-           data-src="./images/Casio.png"
-           data-sprites="9"
+           data-diameter="90"
+           data-src="./images/Casio_Multicolour.png"
            value="0"
            MIN="0"
-           MAX="9"
+           MAX="99"
+           data-sprites="99"
            title="Accent"
            id="accent"/>
 </div>
@@ -223,6 +271,9 @@
             <div class="light"></div>
         </button>
         <button>
+            <div class="light active"></div>
+        </button>
+        <button>
             <div class="light"></div>
         </button>
         <button>
@@ -235,16 +286,13 @@
             <div class="light"></div>
         </button>
         <button>
-            <div class="light"></div>
-        </button>
-        <button>
             <div class="light active"></div>
         </button>
         <button>
             <div class="light"></div>
         </button>
         <button>
-            <div class="light"></div>
+            <div class="light active"></div>
         </button>
         <button>
             <div class="light"></div>
@@ -278,12 +326,18 @@
         <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
         <!--    <input type="checkbox" class="input-switch" data-diameter="40" data-src="./images/Green_PC3_LED_Button.png" data-sprites="2" onchange="setKnob(this)"/>-->
     </div>
-    level <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_amarillo.png" value="5"
-                 MIN="0" MAX="9" data-sprites="9" title="KickVolume" id="LEVEL1" onchange="setLevel1(this)"/>
-    tone <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_azul.png" data-sprites="9"
-                value="5" min="0" max="9" title="Tone" id="TONE1" onchange="setPitch(Kick)"/>
+    level <input type="range" class="input-knob" data-diameter="40" data-src="./images/Casio_Multicolour.png" value="0"
+                 MIN="0" MAX="100" data-sprites="99" title="KickVolume" id="LEVEL1" oninput="inputEventHandlerKickLevel(this)"
+                 onchange="changeEventHandlerKickLevel(this)"/> <!--  onclick="setLevel1(this)"  -->
+    tone <input type="range" class="input-knob" data-diameter="40" data-src="./images/Casio_Multicolour.png" data-sprites="99"
+                value="0" min="-24" max="24" title="Tone" id="TONE1"  oninput="inputEventHandlerKickPitch(this)"
+                onchange="changeEventHandlerKickPitch(this)"/>
+<!--    onchange="setPitch(Kick)"-->
     dist <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_rosa.png" data-sprites="9"
-                 value="5" min="0" max="9" title="Distortion" id="KickDistortion" onchange="setDistortion(Kick)"/>
+                 value="0" min="0" max="9" title="Distortion" id="KickDistortion" param="Kick" oninput="inputEventHandlerKickDistortion(this)"
+                 onchange="changeEventHandlerKickDistortion(this)"/>
+<!--    onchange="setDistortion(this)"-->
+
 
 </div>
 
@@ -312,7 +366,7 @@
             <div class="light"></div>
         </button>
         <button>
-            <div class="light"></div>
+            <div class="light active"></div>
         </button>
         <button>
             <div class="light"></div>
@@ -336,19 +390,25 @@
             <div class="light"></div>
         </button>
         <button>
-            <div class="light"></div>
+            <div class="light active"></div>
         </button>
         <button>
             <div class="light"></div>
         </button>
     </div>
 
-    level <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_amarillo.png" value="5"
-                 MIN="0" MAX="9" data-sprites="9" title="snareVolume" id="LEVEL2" onchange="setLevel2(this)"/>
-    Tone<input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_azul.png" data-sprites="9"
-               value="5" min="0" max="9" title="Tone" id="TONE2" onchange="setPitch(Snare)"/>
+    level <input type="range" class="input-knob" data-diameter="40" data-src="./images/Casio_Multicolour.png" value="0"
+                 MIN="0" MAX="100" data-sprites="99" title="snareVolume" id="LEVEL2" oninput="inputEventHandlerSnareLevel(this)"
+                 onchange="changeEventHandlerSnareLevel(this)" />
+<!--    onchange="setLevel2(this)"-->
+    Tone<input type="range" class="input-knob" data-diameter="40" data-src="./images/Casio_Multicolour.png" data-sprites="99"
+               value="0" min="-24" max="24" title="Tone" id="TONE2"   oninput="inputEventHandlerSnarePitch(this)"
+               onchange="changeEventHandlerSnarePitch(this)"/>
+<!--    onchange="setPitch(Snare)"/-->
     dist <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_rosa.png" data-sprites="9"
-                value="5" min="0" max="9" title="Distortion" id="snareDistortion" onchange="setDistortion(Snare)"/>
+                value="0" min="0" max="9" title="Distortion" id="snareDistortion" onchange="changeEventHandlerSnareDistortion(this)"
+                oninput="inputEventHandlerSnareDistortion(this)"/>
+<!--    onchange="setDistortion(this)"-->
 </div>
 <div class="container">clap1
 
@@ -403,12 +463,18 @@
             <div class="light"></div>
         </button>
     </div>
-    level <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_amarillo.png" value="5"
-                 MIN="0" MAX="9" data-sprites="9" title="clap1Volume" id="LEVEL3" onchange="setLevel3(this.value)"/>
-    Tone<input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_azul.png" data-sprites="9"
-               value="5" min="0" max="9" title="Tone" id="TONE3" onchange="setPitch(Clap1)"/>
+    level <input type="range" class="input-knob" data-diameter="40" data-src="./images/Casio_Multicolour.png" value="0"
+                 MIN="0" MAX="100" data-sprites="99" title="clap1Volume" id="LEVEL3" oninput="inputEventHandlerClap1Level(this)"
+                 onchange="changeEventHandlerClap1Level(this)"/>
+<!--    onchange="setLevel3(this)"-->
+    Tone<input type="range" class="input-knob" data-diameter="40" data-src="./images/Casio_Multicolour.png"  data-sprites="99"
+               value="0" min="-24" max="24" title="Tone" id="TONE3"  oninput="inputEventHandlerClap1Pitch(this)"
+               onchange="changeEventHandlerClap1Pitch(this)"/>
+<!--    onchange="setPitch(Clap1)"-->
     dist <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_rosa.png" data-sprites="9"
-                value="5" min="0" max="9" title="Distortion" id="Clap1Distortion" onchange="setDistortion(Clap1)"/>
+                value="0" min="0" max="9" title="Distortion" id="clap1Distortion" onchange="changeEventHandlerClap1Distortion(this)"
+                oninput="inputEventHandlerClap1Distortion(this)"/>
+<!--    onchange="setDistortion(this)"-->
 
 </div>
 <div class="container">clap2
@@ -464,12 +530,19 @@
         </button>
     </div>
     <span>
-    Level<input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_amarillo.png" value="5"
-                MIN="0" MAX="9" data-sprites="9" title="clap2Volume" id="LEVEL4" onchange="setLevel4(this.value)"/>
-    Tone<input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_azul.png" data-sprites="9"
-               value="5" min="0" max="9" title="Tone" id="TONE4" onchange="setPitch(Clap2)"/>
+    Level<input type="range" class="input-knob" data-diameter="40" data-src="./images/Casio_Multicolour.png" value="0"
+                MIN="0" MAX="100" data-sprites="99" title="clap2Volume" id="LEVEL4" oninput="inputEventHandlerClap2Level(this)"
+                onchange="changeEventHandlerClap2Level(this)"/>
+<!--         onchange="setLevel4(this)"-->
+    Tone<input type="range" class="input-knob" data-diameter="40" data-src="./images/Casio_Multicolour.png" data-sprites="99"
+               value="0" min="-24" max="24" title="Tone" id="TONE4"  oninput="inputEventHandlerClap2Pitch(this)"
+               onchange="changeEventHandlerClap2Pitch(this)"/>
+<!--         onchange="setPitch(Clap2)"-->
     dist <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_rosa.png" data-sprites="9"
-                value="5" min="0" max="9" title="Distortion" id="Clap2Distortion" onchange="setDistortion(Clap2)"/>
+                value="0" min="0" max="9" title="Distortion" id="clap2Distortion"  onchange="changeEventHandlerClap2Distortion(this)"
+                oninput="inputEventHandlerClap2Distortion(this)"/>
+
+<!--onchange="setDistortion(this)"-->
     </span>
 </div>
 <div class="container">clap3
@@ -506,7 +579,7 @@
             <div class="light"></div>
         </button>
         <button>
-            <div class="light"></div>
+            <div class="light active"></div>
         </button>
         <button>
             <div class="light"></div>
@@ -524,18 +597,24 @@
             <div class="light"></div>
         </button>
     </div>
-    Level<input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_amarillo.png" value="5"
-                MIN="0" MAX="9" data-sprites="9" title="clap3Volume" id="LEVEL5" onchange="setLevel5(this.value)"/>
-    Tone<input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_azul.png" data-sprites="9"
-               value="5" min="0" max="9" title="Tone" id="TONE5" onchange="setPitch(Clap3)"/>
+    Level<input type="range" class="input-knob" data-diameter="40" data-src="./images/Casio_Multicolour.png" value="0"
+                MIN="0" MAX="100" data-sprites="99" title="clap3Volume" id="LEVEL5"  oninput="inputEventHandlerClap3Level(this)"
+                onchange="changeEventHandlerClap3Level(this)"/>
+<!--    onchange="setLevel5(this)"-->
+    Tone<input type="range" class="input-knob" data-diameter="40" data-src="./images/Casio_Multicolour.png"  data-sprites="99"
+               value="0" min="-24" max="24" title="Tone" id="TONE5"  oninput="inputEventHandlerClap3Pitch(this)"
+               onchange="changeEventHandlerClap3Pitch(this)"/>
+<!--    onchange="setPitch(Clap3)"-->
     dist <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_rosa.png" data-sprites="9"
-                value="5" min="0" max="9" title="Distortion" id="Clap3Distortion" onchange="setDistortion(Clap3)"/>
+                value="0" min="0" max="9" title="Distortion" id="clap3Distortion" onchange="changeEventHandlerClap3Distortion(this)"
+                oninput="inputEventHandlerClap3Distortion(this)"/>
+<!--    onchange="setDistortion(this)"-->
 </div>
 <div class="container">hihat
 
     <div class="step-sequencer" data-sampleName="hihat">
         <button>
-            <div class="light"></div>
+            <div class="light active"></div>
         </button>
         <button>
             <div class="light"></div>
@@ -547,7 +626,7 @@
             <div class="light"></div>
         </button>
         <button>
-            <div class="light"></div>
+            <div class="light active"></div>
         </button>
         <button>
             <div class="light"></div>
@@ -559,7 +638,7 @@
             <div class="light"></div>
         </button>
         <button>
-            <div class="light"></div>
+            <div class="light active"></div>
         </button>
         <button>
             <div class="light"></div>
@@ -571,7 +650,7 @@
             <div class="light"></div>
         </button>
         <button>
-            <div class="light"></div>
+            <div class="light active"></div>
         </button>
         <button>
             <div class="light"></div>
@@ -584,12 +663,18 @@
         </button>
     </div>
 
-    Level<input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_amarillo.png" value="5"
-                MIN="0" MAX="9" data-sprites="9" title="hihatVolume" id="LEVEL6" onchange="setLevel6(this.value)"/>
-    Tone<input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_azul.png" data-sprites="9"
-               value="5" min="0" max="9" title="Tone" id="TONE6" onchange="setPitch(Hihat)"/>
+    Level<input type="range" class="input-knob" data-diameter="40" data-src="./images/Casio_Multicolour.png" value="0"
+                MIN="0" MAX="100" data-sprites="99" title="hihatVolume" id="LEVEL6" oninput="inputEventHandlerHihatLevel(this)"
+                onchange="changeEventHandlerHihatLevel(this)"/>
+<!--    onchange="setLevel6(this)"-->
+    Tone<input type="range" class="input-knob" data-diameter="40" data-src="./images/Casio_Multicolour.png"  data-sprites="99"
+               value="0" min="-24" max="24" title="Tone" id="TONE6"  oninput="inputEventHandlerHihatPitch(this)"
+               onchange="changeEventHandlerHihatPitch(this)"/>
+<!--    onchange="setPitch(Hihat)"-->
     dist <input type="range" class="input-knob" data-diameter="40" data-src="./images/knob_rosa.png" data-sprites="9"
-                value="5" min="0" max="9" title="Distortion" id="HihatDistortion" onchange="setDistortion(Hihat)"/>
+                value="0" min="0" max="9" title="Distortion" id="hihatDistortion" oninput="inputEventHandlerHihatDistortion(this)"
+                onchange="changeEventHandlerHihatDistortion(this)"/>
+<!--    onchange="setDistortion(this)"-->
 </div>
 <!--</div>-->
 <!--<br>-->
@@ -702,39 +787,87 @@
 </div>
 
 <div class="container">
-    <div class="step-sequencer" data-sampleName="kick">
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E4');"/>
+    <div class="step-sequencer" data-sampleName="as1">
+        <button>
+            <div class="light"></div> <!-- onclick="createSynth('E4');" -->
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+<!--        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"-->
+<!--               data-sprites="2" onclick="createSynth('E4');"/>-->
+<!--        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"-->
+<!--               data-sprites="2" onclick="createSynth('E4');"/>-->
+<!--        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"-->
+<!--               data-sprites="2" onclick="createSynth('E4');"/>-->
+<!--        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"-->
+<!--               data-sprites="2" onclick="createSynth('E4');"/>-->
+<!--        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"-->
+<!--               data-sprites="2" onclick="createSynth('E4');"/>-->
+<!--        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"-->
+<!--               data-sprites="2" onclick="createSynth('E4');"/>-->
+<!--        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"-->
+<!--               data-sprites="2" onclick="createSynth('E4');"/>-->
+<!--        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"-->
+<!--               data-sprites="2" onclick="createSynth('E4');"/>-->
+<!--        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"-->
+<!--               data-sprites="2" onclick="createSynth('E4');"/>-->
+<!--        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"-->
+<!--               data-sprites="2" onclick="createSynth('E4');"/>-->
+<!--        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"-->
+<!--               data-sprites="2" onclick="createSynth('E4');"/>-->
+<!--        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"-->
+<!--               data-sprites="2" onclick="createSynth('E4');"/>-->
+<!--        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"-->
+<!--               data-sprites="2" onclick="createSynth('E4');"/>-->
+<!--        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"-->
+<!--               data-sprites="2" onclick="createSynth('E4');"/>-->
+<!--        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"-->
+<!--               data-sprites="2" onclick="createSynth('E4');"/>-->
+<!--        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"-->
+<!--               data-sprites="2" onclick="createSynth('E4');"/>-->
 
     </div>
     <!--	        <div class="col">-->
@@ -749,39 +882,55 @@
     <!--        </div>-->
 </div>
 <div class="container">
-    <div class="step-sequencer" data-sampleName="kick">
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D4');"/>
+    <div class="step-sequencer" data-sampleName="a1">
+        <button>
+            <div class="light"></div> <!-- onclick="createSynth('E4');" -->
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
     </div>
     <!--	        <div class="col">-->
     <!--            <span>-->
@@ -795,39 +944,55 @@
     <!--        </div>-->
 </div>
 <div class="container">
-    <div class="step-sequencer" data-sampleName="kick">
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C4');"/>
+    <div class="step-sequencer" data-sampleName="a2">
+        <button>
+            <div class="light"></div> <!-- onclick="createSynth('E4');" -->
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
     </div>
     <!--	        <div class="col">-->
     <!--            <span>-->
@@ -841,39 +1006,55 @@
     <!--        </div>-->
 </div>
 <div class="container">
-    <div class="step-sequencer" data-sampleName="kick">
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('B4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('B4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('B4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('B4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('B4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('B4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('B4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('B4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('B4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('B4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('B4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('B4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('B4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('B4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('B4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('B4');"/>
+    <div class="step-sequencer" data-sampleName="gs1">
+        <button>
+            <div class="light"></div> <!-- onclick="createSynth('E4');" -->
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
     </div>
     <!--	        <div class="col">-->
     <!--            <span>-->
@@ -887,39 +1068,55 @@
     <!--        </div>-->
 </div>
 <div class="container">
-    <div class="step-sequencer" data-sampleName="kick">
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('A4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('A4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('A4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('A4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('A4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('A4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('A4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('A4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('A4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('A4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('A4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('A4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('A4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('A4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('A4');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('A4');"/>
+    <div class="step-sequencer" data-sampleName="f1">
+        <button>
+            <div class="light"></div> <!-- onclick="createSynth('E4');" -->
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
     </div>
     <!--	        <div class="col">-->
     <!--            <span>-->
@@ -934,39 +1131,55 @@
 </div>
 
 <div class="container">
-    <div class="step-sequencer" data-sampleName="kick">
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G3');"/>
+    <div class="step-sequencer" data-sampleName="e1">
+        <button>
+            <div class="light"></div> <!-- onclick="createSynth('E4');" -->
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
     </div>
     <!--	        <div class="col">-->
     <!--            <span>-->
@@ -980,39 +1193,55 @@
     <!--        </div>-->
 </div>
 <div class="container">
-    <div class="step-sequencer" data-sampleName="kick">
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('F3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('F3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('F3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('F3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('F3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('F3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('F3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('F3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('F3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('F3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('F3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('F3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('F3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('F3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('F3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('F3');"/>
+    <div class="step-sequencer" data-sampleName="d1">
+        <button>
+            <div class="light"></div> <!-- onclick="createSynth('E4');" -->
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
     </div>
     <!--	        <div class="col">-->
     <!--            <span>-->
@@ -1026,39 +1255,55 @@
     <!--        </div>-->
 </div>
 <div class="container">
-    <div class="step-sequencer" data-sampleName="kick">
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('E3');"/>
+    <div class="step-sequencer" data-sampleName="c1">
+        <button>
+            <div class="light"></div> <!-- onclick="createSynth('E4');" -->
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
     </div>
     <!--	        <div class="col">-->
     <!--            <span>-->
@@ -1072,39 +1317,55 @@
     <!--        </div>-->
 </div>
 <div class="container">
-    <div class="step-sequencer" data-sampleName="kick">
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('D3');"/>
+    <div class="step-sequencer" data-sampleName="a2">
+        <button>
+            <div class="light"></div> <!-- onclick="createSynth('E4');" -->
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
     </div>
     <!--	        <div class="col">-->
     <!--            <span>-->
@@ -1119,40 +1380,56 @@
 </div>
 <div class="container">
 
-    <div class="step-sequencer" data-sampleName="kick">
+    <div class="step-sequencer" data-sampleName="as1">
 
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C3');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('C3');"/>
+        <button>
+            <div class="light"></div> <!-- onclick="createSynth('E4');" -->
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
     </div>
     <!--        <div class="col">-->
     <!--            <span>-->
@@ -1167,39 +1444,55 @@
 </div>
 <div class="container">
 
-    <div class="step-sequencer" data-sampleName="kick">
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G2');" id="synthX"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G2');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G2');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G2');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G2');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G2');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G2');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G2');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G2');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G2');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G2');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G2');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G2');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G2');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G2');"/>
-        <input type="checkbox" class="input-switch" data-diameter="55" data-src="./images/Pro53sw_light.png"
-               data-sprites="2" onclick="createSynth('G2');"/>
+    <div class="step-sequencer" data-sampleName="a1">
+        <button>
+            <div class="light"></div> <!-- onclick="createSynth('E4');" -->
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
+        <button>
+            <div class="light"></div>
+        </button>
     </div>
 </div>
 <span>
@@ -1216,7 +1509,11 @@
         crossorigin="anonymous">
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@tonaljs/tonal/browser/tonal.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.js"
+        integrity="sha512-VyI1QFJ5vvwgy/FPf+XWs64XHBFUEMRZNzrhQiXdOFEyDuNO6H8hp/Of4jfo7NG4UEJOnxjP5cwj1P9nqLkTYg=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.40/Tone.min.js"
 integrity="sha512-EAIf5pTV4uiP7DCNsEvvQI8J9KvBuvbcgzwat4vAW08v37jEa8gQLPLBu+8eeOSkm5L3+yHhjvUxuolLacZ/rw=="
 crossorigin="anonymous" referrerpolicy="no-referrer"></script>
