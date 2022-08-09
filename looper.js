@@ -1,104 +1,97 @@
-const Kick = new Tone.Player("samples/kick.WAV").toDestination();
-Kick.volume.value = 40;
-// Kick.reverse = true;
-kick= Kick.toString();
-kickSample = "samples/kick.WAV";
-// console.log(kickSample);
- const Clap1 = new Tone.Player("samples/Clap01.wav").toDestination();
-Clap1.volume.value = 10;
-clap1= Clap1.toString();
-clap1Sample = "samples/Clap01.wav";
-const Clap2 = new Tone.Player("samples/Clap02.wav").toDestination();
-Clap2.volume.value = 10;
-clap2= Clap2.toString();
-clap2Sample = "samples/Clap03.wav";
-const Clap3 = new Tone.Player("samples/Clap03.wav").toDestination();
-Clap3.volume.value = 10;
-clap3= Clap3.toString();
-clap3Sample = "samples/Clap03.wav";
-const Snare = new Tone.Player("samples/snare.WAV").toDestination();
-Snare.volume.value = 20;
-snare= Snare.toString();
-snareSample = "samples/snare.WAV";
-const Hihat = new Tone.Player("samples/hihat.WAV").toDestination();
-Hihat.volume.value = 30;
-hihat= Hihat.toString();
-hihatSample= "samples/hihat.WAV";
-
+// starting now with empty keys object.
 const keys = new Tone.Players({
-    urls: {
-        // The code started like this..
-        // kick:       "samples/kick.WAV",
-        // clap1:      "samples/Clap01.wav",
-        // clap2:      "samples/Clap02.wav",
-        // snare:      "samples/snare.WAV",
-        // hihat:      "samples/hihat.WAV",
-        // This works too.. Kick and kickSample are
-        // now coming from a completely different object..
-        // This also means that i can control individual
-        // sequencer channels beter like plugging a volume knob into
-        // the actual separate drum chanels separately, so next will
-        // be distortion. The way it now sounds on my computer is like
-        // my old nintendo is trying to emulate a distortion effect...
-        // this will have to go through some form of measure certain
-        // peaks and let application deal with reacting to incoming signals
-        // a computer tends to respond faster than a human, or so I've heard..
-        kick:       kickSample,
-        clap1:      clap1Sample,
-        clap2:      clap2Sample,
-        clap3:      clap3Sample,
-        snare:      snareSample,
-        hihat:      hihatSample,
-        a1:         "samples/Casio_a1.mp3",
-        a2:         "samples/Casio_a2.mp3",
-        as1:         "samples/casio_As1.mp3",
-        b1:         "samples/Casio_B1.mp3",
-        c2:         "samples/Casio_C2.mp3",
-        cs2:         "samples/Casio_Cs2.mp3",
-        d2:         "samples/Casio_D2.mp3",
-        ds2:         "samples/Casio_Ds2.mp3",
-        e2:         "samples/Casio_E2.mp3",
-        f2:         "samples/Casio_F2.mp3",
-        fs2:         "samples/Casio_Fs2.mp3",
-        g2:         "samples/Casio_G2.mp3",
-        gs1:         "samples/Casio_Gs1.mp3"
-    }
+    urls: {},
 }).toDestination();
-// keys.instrument
-//player.autostart = true;
-// player.playbackRate = 0.25;
-// player.loop = true;
-// player.reverse = true;
+
+const vol = new Tone.Volume(-12).toDestination()
+
+// creating audio buffer first.
+const bufferkICK = new Tone.ToneAudioBuffer("samples/kick.WAV", () => {
+    console.log('Kick Buffer!');
+});
+const buffersNARE = new Tone.ToneAudioBuffer("samples/snare.WAV", () => {
+    console.log('Snare buffer');
+});
+
+const bufferhIHAT = new Tone.ToneAudioBuffer("samples/hihat.WAV", () => {
+    console.log('Hihat buffer');
+});
+
+const bufferClap1 = new Tone.ToneAudioBuffer("samples/Clap01.WAV", () => {
+    console.log('Clap1 buffer');
+});
+
+const bufferClap2 = new Tone.ToneAudioBuffer("samples/Clap02.WAV", () => {
+    console.log('Clap2 buffer');
+});
+
+const bufferClap3 = new Tone.ToneAudioBuffer("samples/Clap03.WAV", () => {
+    console.log('Clap3 buffer');
+});
+
+//separate player for each sample
+// const vol= new Tone.Volume(-12).toDestination()
+const kick = new Tone.Player(bufferkICK).toDestination();
+kick.connect(vol).toDestination()
+kick.autoplay = true;
+
+const snare = new Tone.Player(buffersNARE).toDestination();
+snare.connect(vol).toDestination()
+snare.autoplay = true;
+// snare.reverse=true;
+
+const hihat = new Tone.Player(bufferhIHAT).toDestination()
+hihat.connect(vol).toDestination()
+hihat.autoplay = true;
+
+const Clap1 = new Tone.Player(bufferClap1).toDestination()
+Clap1.connect(vol).toDestination()
+Clap1.autoplay = true;
+
+const Clap2 = new Tone.Player(bufferClap2).toDestination()
+Clap2.connect(vol).toDestination()
+Clap2.autoplay = true;
+
+const Clap3 = new Tone.Player(bufferClap3).toDestination()
+Clap3.connect(vol).toDestination()
+Clap3.autoplay = true;
 
 
+PlayerKick = keys.add('kick', bufferkICK);
+PlayerKick.volume.value = 15;
+PlayerSnare = keys.add('snare', buffersNARE);
+PlayerSnare.volume.value = 0;
+PlayerHihat = keys.add('hihat', bufferhIHAT);
+PlayerHihat.volume.value = 0;
+PlayerClap1 = keys.add('clap1', bufferClap1);
+PlayerClap1.volume.value = 0;
+PlayerClap2 = keys.add('clap2', bufferClap2);
+PlayerClap2.volume.value = 0;
+PlayerClap3 = keys.add('clap3', bufferClap3);
+PlayerClap3.volume.value = 0;
 
 
-
-
-
-
-// keys.volume.value = 25;
 // This is an object of sequence arrays, keeping track of each of the on/off positions of all the steps for each sample
 const sequences = {
-     kick:      [true, false, false, false, true, false, false, false, true, false, false, false, true, false, false, false],
-    snare:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
-    clap1:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
-    clap2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
-    clap3:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
-    hihat:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
-       a1:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
-       a2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
-      as1:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
-       b1:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
-       c2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
-      cs2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
-       d2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
-      ds2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
-       e2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
-       f2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
-      fs2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
-       g2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
-      gs1:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false]
+     kick:      [true, false, false, true, false, true, false, false, true, false, true, false, true, false, false, false],
+    snare:      [false, false, false, false, false, false, true, false, false, false, false, false, false, false, true, false],
+    clap1:      [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    clap2:      [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    clap3:      [false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false],
+    hihat:      [true, false, false, false, true, false, false, false, true, false, false, false, true, false, false, false],
+    // a1:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
+    //    a2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
+    //   as1:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
+    //    b1:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
+    //    c2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
+    //   cs2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
+    //    d2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
+    //   ds2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
+    //    e2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
+    //    f2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
+    //   fs2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
+    //    g2:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false],
+    //   gs1:      [false, false, false, false, false, false, false, false, false, false, false, false,false, false, false, false]
 }
 // keys.players.add('testAdd', "samples/Clap01.wav");
 // console.log(keys)
@@ -112,7 +105,8 @@ document.querySelectorAll(".step-sequencer").forEach((sampleSequencerElement) =>
 
     // Loop over each step for a sample, and wire a click event listener
     sampleSequencerElement.querySelectorAll("button").forEach((stepElement, step) => {
-        stepElement.addEventListener("click", ( ev ) => {
+        // stepElement.addEventListener("click", ( ev ) => {
+        stepElement.addEventListener("click", function () {
             console.log("click", step, sampleName);
 
             // Toggle the element class to change the red light indicator
@@ -122,7 +116,7 @@ document.querySelectorAll(".step-sequencer").forEach((sampleSequencerElement) =>
             sequences[sampleName][step] = !sequences[sampleName][step];
             // console.log(sequences[sampleName][step]);
 
-        }, {passive: true});
+        }); //, {passive: true}
     })
 })
 
@@ -130,12 +124,13 @@ document.querySelectorAll(".step-sequencer").forEach((sampleSequencerElement) =>
 document.querySelector(".play").addEventListener('click', function (){
     Tone.Transport.start();
     Tone.start();
-}, {passive: true});
+    console.log('context started');
+}); //, {passive: true}
 
 // Stop button click handler
 document.querySelector(".stop").addEventListener('click', function (){
     Tone.Transport.stop();
-}, {passive: true});
+}); //, {passive: true}
 
 // This thing just ticks away at equal intervals,
 // allowing us to step in and program the samples to play at each one of those intervals
@@ -144,15 +139,9 @@ new Tone.Sequence((time, step) => {
         // console.log(sequences[instrument]);
         // sequences[instrument][step] && kick.start();
         if (sequences[instrument][step]){
-            // kick.start();
-            // clap1.start();
-            // clap2.start();
-            // clap3.start();
-            // snare.start();
-            // hihat.start();
-            // this is now controlling
-            keys.player(instrument).start()
-        }
+            // this is now controlling taking in consideration time..
+            keys.player(instrument).start(time);
+        }//, 0);
 
         // .player.start()
     }
@@ -223,18 +212,14 @@ new Tone.Sequence((time, step) => {
     //         break;
     // }
 
-}, [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]).start(0);
+}, [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]).start();
 
 
 Tone.Transport.bpm.value = 140;
 // Tone.Transport.volume()
 
-function VolumeDrums(){
-    Tone.kick.player.start();
-    // console.log(kick.start);
-    // clap1.player.start();
-    // clap2.player.start();
-    // clap3.player.start();
-    // snare.player.start();
-    // hihat.player.start();
-}
+
+// Volume channel
+level = document.getElementById('level').value;
+let channel = new Tone.Channel(0).toDestination();
+keys.connect(channel);
