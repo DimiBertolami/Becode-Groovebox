@@ -1,12 +1,13 @@
 *{
-    background-color: fuchsia;
+    background-color: darkslategrey;
+    opacity: 1;
 
 }
 .container,span,controls {
     display: flex;
     justify-content: center;
     font-size: small;
-    background-color: black;
+    background-color: darkslategrey;
     color: greenyellow;
     /*box-shadow: 3px #1aff8c;*/
 }
@@ -20,29 +21,41 @@
     height: 35px;
     width: 35px;
     border: 1px solid black;
+    border-radius: 4px;
     /*border: 1px solid orangered;*/
     justify-content: start;
-    align-items: last;
+    align-items: normal;
     font-size: xx-small;
     font-style: oblique;
     color: pink;
     /*background-color: green;*/
-    background-image: linear-gradient(orangered, darkorange, greenyellow);
+    background-image: linear-gradient(purple, deeppink, rebeccapurple, mediumpurple, white);
 }
 
 .step-sequencer button .light {
     margin-top: 5px;
-    width: 12px;
     height: 10px;
-    background-color: black;
-    /*border-radius: 50%;*/
-}
+    border: 0.3px solid gold;
+    background-color: dimgrey;
+    border-radius: 4px;
+    width: 26px;
+
 
 .step-sequencer button .active {
     background-color: blue;
+    transform: scale(0.98);
+    /* Scaling button to 0.98 to its original size */
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+    /* Lowering the shadow */
 }
+.step-sequencer button:hover{
+    cursor: pointer;
+    animation: float 0.5s;
+    inset: auto;
+}
+
 .row{
-    background-color: black;
+    background-color: darkslategrey;
 }
 
 .play{

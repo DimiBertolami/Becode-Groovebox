@@ -178,8 +178,9 @@ function changeEventHandlerKickLevel(e) {
 }
 
 function inputEventHandlerSnareLevel(e) {
-    console.log(`snare level: ${e.value}`);
-    PlayerSnare.volume.value = e.value;
+    console.log(`kick level: ${e.value}`);
+    PlayerKick.autoplay = true;/**/
+    PlayerKick.volume.value = e.value;
 }
 
 function changeEventHandlerSnareLevel(e) {
@@ -200,6 +201,7 @@ function changeEventHandlerHihatLevel(e) {
 }
 function inputEventHandlerClap1Level(e) {
     console.log(`clap 1 level: ${e.value}`);
+    PlayerClap1.autoplay = true;/**/
     PlayerClap1.volume.value = e.value;
 }
 
@@ -210,6 +212,7 @@ function changeEventHandlerClap1Level(e) {
 }
 function inputEventHandlerClap2Level(e) {
     console.log(`clap 2 level: ${e.value}`);
+    PlayerClap2.autoplay = true;/**/
     PlayerClap2.volume.value = e.value;
 }
 
@@ -220,6 +223,7 @@ function changeEventHandlerClap2Level(e) {
 }
 function inputEventHandlerClap3Level(e) {
     console.log(`clap 3 level: ${e.value}`);
+    PlayerClap3.autoplay = true;/**/
     PlayerClap3.volume.value = e.value;
 }
 
@@ -229,9 +233,7 @@ function changeEventHandlerClap3Level(e) {
     PlayerClap3.volume.value = e.value;
 }
 
-// const distortion = new Pizzicato.Effects.Distortion({
-//     gain: 0.4
-// });
+
 function quadrafuzzer(e){
     // const quadrafuzz = new Pizzicato.Effects.Quadrafuzz({
     //     lowGain: 0.6,
@@ -283,14 +285,15 @@ function changeEventHandlerClap3Pitch(){
 
 }
 function inputEventHandlerHihatDistortion(e){
-    console.log('Distortion', e.value);
+    console.log('hihat distortion', e.value);
+    hdist.distortion = e.value;
+    // hihat.connect(hdist);
 
-    // i believe I read somewhere there are 5 filters
-    let filter = new Tone.AutoFilter(4).start();
+    // let filter = new Tone.AutoFilter(4).start();
 
     // the second parameter is the oversample..  can be “none”, “2x” or “4x”...
-    let dist = new Tone.Distortion(e.value, "4x").toDestination();
-    keys.chain(filter, dist, Tone.Destination);
+    // let dist = new Tone.Distortion(e.value).toDestination();
+    // hihat.chain(filter, dist, Tone.Destination);
 
     // let distortion = new Pizzicato.Effects.Distortion({
     //     gain: e.value // 0.4
@@ -300,14 +303,16 @@ function inputEventHandlerHihatDistortion(e){
     // Sound.play();
 }
 function changeEventHandlerHihatDistortion(e){
-    console.log('Distortion', e.value);
+    console.log('hihat distortion:', e.value);
     // i believe I read somewhere there are 5 filters
-    let filter = new Tone.AutoFilter(2).start();
-    let dist = new Tone.Distortion(e.value).toDestination();
-    // hihat.connect(dist);
+    // let filter = new Tone.AutoFilter(4).start();
+    // let dist = new Tone.Distortion(e.value).toDestination();
+    hdist.distortion = e.value;
+    // console.log('dist value', dist.distortion)
+    // hihat.connect(hdist);
     // hihat.connect(filter);
 
-    keys.chain(filter, dist, Tone.Destination);
+    // hihat.chain(filter, dist, Tone.Destination);
 }
 
 function inputEventHandlerKickDistortion(e){

@@ -18,6 +18,7 @@
   "homepage": "https://github.com/DimiBertolami/Becode-Groovebox#readme",
   "dependencies": {
     "http-server": "^14.1.1",
+    "scribbletune": "^5.0.0-alpha.2",
     "tunajs": "^1.0.15"
   },
   "devDependencies": {

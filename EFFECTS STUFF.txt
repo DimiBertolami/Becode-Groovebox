@@ -1,0 +1,57 @@
+// the effect is connected directly to the speakers(= toDestination)
+
+switch (effect) {
+	case 'volume':
+		// Volume is a simple volume node, useful for creating a volume fader.
+		const volume = new Tone.Volume().toDestination();
+		setup(volume);
+		break;
+	case 'pitchshift':
+		/*
+		PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by 
+		speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
+		*/
+		const pitchShift = new Tone.PitchShift(0.5).toDestination();
+		setup(pitchshift);
+		break;
+	case 'distortion':
+		//The parameter that is passed to the constructor is the amount of distortion (nominal range of 0-1)
+		const distortion = new Tone.Distortion(0.5).toDestination();
+		setup(distortion);
+		break;
+	case 'phazer':
+		/* 
+		The electronic phasing effect is created by splitting an audio signal into two paths. 
+		One path treats the signal with an all-pass filter, which preserves the amplitude of 
+		the original signal and alters the phase. The amount of change in phase depends on the 
+		frequency. When signals from the two paths are mixed, the frequencies that are out of 
+		phase will cancel each other out, creating the phaser's characteristic notches. 
+		Changing the mix ratio changes the depth of the notches
+		*/
+		const phaser = new Tone.Phaser({frequency: 15,octaves: 5,baseFrequency: 1000}).toDestination();
+		setup(phazer);
+		break;
+	case 'flanger':
+		/* 
+		The flanger effect is basically a phaser except for the filter in the all-pass section 
+		which is replaced by a delay line. 
+		*/
+		const phaser = new Tone.Phaser({frequency: 15,octaves: 5,baseFrequency: 1000}).toDestination();
+		setup(flanger);		
+		break;
+	case 'reverb':
+		/* 
+		Simple convolution created with a decaying noise. Convolution uses impulse responses to record 
+		the reverberation of physical spaces and recreate them digitally. 
+		The amount of time it will reverberate for.
+		*/
+		const reverb = new Tone.Reverb (decay?:Seconds).toDestination();
+		setup(reverb);
+		break;
+	default:
+		break;
+}
+function setup(effect){
+	//the output of the instrument is connected to the inut of the effect
+	player = new Tone.Player(baseURL + "Rhythmics/60+bpm/Ping+Pong+Ping.mp3").connect(effect);
+}
