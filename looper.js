@@ -1,3 +1,4 @@
+// const {Effect} = require("tone/Tone/effect/Effect");
 let context = new Tone.Context()
 // import * as Tone from 'tone'
 // import {getContext} from "tone";
@@ -5,18 +6,18 @@ let context = new Tone.Context()
 // let ToneAudioContext = new AudioContext();
 // let Pizzicatocontext = Pizzicato.context;
 // alert(getContext(ToneAudioContext))
-let SwitchCounter=0;
+let SwitchCounter = 0;
 let counter = 0;
 
-let bkick   = new BufferFirst(  'samples/kick.mp3'  );
-let bsnare  = new BufferFirst(  'samples/snare.mp3' );
-let bhihat  = new BufferFirst(  'samples/hihat.mp3' );
-let bclap   = new BufferFirst(  'samples/clap.mp3'  );
-let bcrash  = new BufferFirst(  'samples/crash.mp3' );
-let bshaker = new BufferFirst('samples/shaker.mp3'  );
-let btom1   = new BufferFirst(  'samples/tom1.mp3'  );
-let btom2   = new BufferFirst(  'samples/tom2.mp3'  );
-let btom3   = new BufferFirst(  'samples/tom3.mp3'  );
+let bkick = new BufferFirst('samples/kick.mp3');
+let bsnare = new BufferFirst('samples/snare.mp3');
+let bhihat = new BufferFirst('samples/hihat.mp3');
+let bclap = new BufferFirst('samples/clap.mp3');
+let bcrash = new BufferFirst('samples/crash.mp3');
+let bshaker = new BufferFirst('samples/shaker.mp3');
+let btom1 = new BufferFirst('samples/tom1.mp3');
+let btom2 = new BufferFirst('samples/tom2.mp3');
+let btom3 = new BufferFirst('samples/tom3.mp3');
 
 //This is still the original keys player. I just separated the instruments so that I can connect them to their own channel.
 const keys = new Tone.Players({
@@ -32,6 +33,7 @@ const keys = new Tone.Players({
         tom3: btom3
     },
 }).toDestination();
+
 //Synth/piano notes
 const bufferA1v16 = new Tone.ToneAudioBuffer("samples/piano/A1v16.mp3", () => {
     console.log('test');
@@ -136,7 +138,7 @@ const bufferFs6v16 = new Tone.ToneAudioBuffer("samples/piano/Fs6v16.mp3", () => 
 const bufferFs7v16 = new Tone.ToneAudioBuffer("samples/piano/Fs7v16.mp3", () => {
     console.log('test');
 });
-bufferFs7v16.autoplay=true;
+bufferFs7v16.autoplay = true;
 
 keys.add('A1v16', bufferA1v16);
 keys.add('A2v16', bufferA2v16);
@@ -171,29 +173,44 @@ GUI_Builder()
 
 // This is an object of sequence arrays, keeping track of each of the on/off positions of all the steps for each sample
 const sequences = {
-       kick:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-      snare:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-      hihat:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-      crash:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-     shaker:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-       tom1:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-       tom2:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-       tom3:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-bufferA1v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-bufferA2v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-bufferA3v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-bufferA4v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-bufferA5v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-bufferA6v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-bufferA7v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-bufferC1v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-bufferC2v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-bufferC3v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-bufferC4v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-bufferC5v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-bufferC6v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-bufferC7v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-bufferC8v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+           kick: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          snare: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          hihat: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+           clap: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          crash: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+         shaker: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+           tom1: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+           tom2: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+           tom3: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferA1v16: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferA2v16: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferA3v16: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferA4v16: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferA5v16: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferA6v16: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferA7v16: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferC1v16: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferC2v16: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferC3v16: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferC4v16: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferC5v16: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferC6v16: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferC7v16: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferC8v16: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferDs1v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferDs2v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferDs3v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferDs4v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferDs5v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferDs6v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferDs7v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferFs1v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferFs2v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferFs3v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferFs4v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferFs5v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferFs6v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    bufferFs7v16:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
 }
 
 // Loops over all step sequencer rows ( each row represents a sample, indicated by its `data-sampleName` property
@@ -217,39 +234,36 @@ document.querySelectorAll(".step-sequencer").forEach((sampleSequencerElement) =>
 
 // Play button click handler
 document.querySelector(".play").addEventListener('click', function () {
+    clock = new Tone.Clock(function(time){
+        console.log(`%ctime %c${time*SixTeenth_Note_Length} %c${time}`,
+            "color: blue; font-style: italic; font-size: large; background-color: yellow;padding: 2px; border: 4mm ridge rgba(111, 220, 50, .6);",
+            "color: yellow; font-style: italic; font-size: large; background-color: blue;padding: 2px; border: 4mm ridge rgba(11, 220, 50, .6);",
+            "color: yellow; font-style: italic; font-size: large; background-color: fuchsia;padding: 2px; border: 4mm ridge rgba(211, 220, 50, .6);",
+            );
+    }, 8);
+    clock.start(0)
     Tone.Transport.start();
+    console.time("hasPlayed")
     Tone.start(0);
 });
 
 // Stop button click handler
-document.querySelector(".stop").addEventListener('click', () =>{Tone.Transport.stop()});
+document.querySelector(".stop").addEventListener('click', () => {
+    Tone.Transport.stop()
+    clock.stop()
+    console.timeEnd("hasPlayed")
+});
 
 // This thing just ticks away at equal intervals, allowing us to step in and program the samples to play at each one of those intervals
 new Tone.Sequence((time, step) => {
     for (const instrument in sequences) {
         sequences[instrument][step] && keys.player(instrument).start()
     }
-}, [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]).start(0);
+}, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]).start(0);
 
 // Beats per minute
 Tone.Transport.bpm.value = 120;
-
-let nextNoteTime = context.currentTime;
-
-function scheduler() {
-//  This function counts in seconds. SetTimeout is just too inconsistent for web audio purposes...
-//  So this logic is pretty straightforward. This function crawls up by increments of 0.1 second to see if the next
-//  note should come up. It does so by checking if the next Note Time is same as the current timestamp that comes from
-//  the web audio context, then the next note should play..
-    if (nextNoteTime < context.currentTime + 0.1) {
-        let secondsPerBeat = 60 / Tone.Transport.bpm.value;             // 0.5 seconds per beat by default. (60 / 120)
-        let SixTeenth_Note_Length = secondsPerBeat / 4;  // this the length in seconds of a 16th note (0.125 second by default)
-        nextNoteTime += SixTeenth_Note_Length;
-        console.log(`Next Beat in ${SixTeenth_Note_Length} seconds`);
-    }
-}
-//scheduler()
-window.setInterval(scheduler(), 100);
+SixTeenth_Note_Length = 0.25 * 60 / Tone.Transport.bpm.value;
 
 
 // Volume channel
@@ -268,7 +282,7 @@ keys.connect(channel);
 // in techno and trance they played a trick with the sample of a crash cymbal which sounded really great
 // tonejs can actually easily just take a buffer and flip it around.. You can't do this with a tone.player
 // (or I haven't figured that part out just yet)
-function BufferFirst(someMP3){
+function BufferFirst(someMP3) {
     //here's the buffer
     const buffer = new Tone.Buffer(someMP3);
 
@@ -282,15 +296,15 @@ function BufferFirst(someMP3){
     return buffer
 }
 
-function createKnob(value, counter=0, SwitchCounter=0) {
+function createKnob(value) {
 
     let knob = document.createElement('input');
     knob.type = 'range';
     knob.className = 'input-knob';
 
-    if (value==='vol'){
-        knob.title=`volume${counter}`; //id
-        knob.id=`volume${counter}`; //id
+    if (value === 'vol') {
+        knob.title = `volume${counter}`; //id
+        knob.id = `volume${counter}`; //id
         knob.setAttribute('data-diameter', '40');
         knob.value = '8';
         knob.min = '0';
@@ -298,10 +312,10 @@ function createKnob(value, counter=0, SwitchCounter=0) {
         knob.step = '0.1';
     }
 
-    if (value==='pitchC'){
+    if (value === 'pitchC') {
         knob.setAttribute('data-diameter', '40');
-        knob.title=`pitchC${counter}`; //id
-        knob.id=`pitchC${counter}`; //id
+        knob.title = `pitchC${counter}`; //id
+        knob.id = `pitchC${counter}`; //id
         knob.value = '0';
         knob.min = '-24';
         knob.max = '24';
@@ -309,10 +323,10 @@ function createKnob(value, counter=0, SwitchCounter=0) {
 
     }
 
-    if (value==='pan'){
+    if (value === 'pan') {
         knob.setAttribute('data-diameter', '40');
-        knob.title=`pan${counter}`; //id
-        knob.id=`pan${counter}`; //id
+        knob.title = `pan${counter}`; //id
+        knob.id = `pan${counter}`; //id
         knob.value = '0';
         knob.min = '-10';
         knob.max = '10';
@@ -320,44 +334,44 @@ function createKnob(value, counter=0, SwitchCounter=0) {
 
     }
 
-    if (value==='volume') {
+    if (value === 'volume') {
         knob.setAttribute('data-diameter', '130');
         knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
         knob.setAttribute('data-sprites', '99')
-        knob.title=`GRAND MASTER VOLUME`; //id
-        knob.id=`masterVolume`; //id
+        knob.title = `GRAND MASTER VOLUME`; //id
+        knob.id = `masterVolume`; //id
         knob.value = '99';
         knob.min = '-60';
         knob.max = '0';
         knob.step = '0.01';
     }
 
-    if (value==='tempo') {
+    if (value === 'tempo') {
         knob.setAttribute('data-diameter', '130');
         // knob.setAttribute('data-src', "./images/knob_70_white.png");
         knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
         knob.setAttribute('data-sprites', '99');
-        knob.title=`tempo`; //id
-        knob.id=`tempo`; //id
+        knob.title = `tempo`; //id
+        knob.id = `tempo`; //id
         knob.value = '120';
         knob.min = '40';
         knob.max = '215';
         knob.step = '1';
     }
 
-    if (value==='distortion') {
+    if (value === 'distortion') {
         knob.setAttribute('data-diameter', '130');
         knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
         knob.setAttribute('data-sprites', '99')
-        knob.title=`distortion`; //id
-        knob.id=`distortion`; //id
+        knob.title = `distortion`; //id
+        knob.id = `distortion`; //id
         knob.step = '0.01';
         knob.value = '0.8';
         knob.min = '0';
         knob.max = '1';
     }
 
-    if (value==='phazer') {
+    if (value === 'phazer') {
         knob.setAttribute('data-diameter', '130');
         knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
         knob.setAttribute('data-sprites', '99')
@@ -366,7 +380,7 @@ function createKnob(value, counter=0, SwitchCounter=0) {
         knob.max = '200';
     }
 
-    if (value==='flanger') {
+    if (value === 'flanger') {
         knob.setAttribute('data-diameter', '130');
         knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
         knob.setAttribute('data-sprites', '99')
@@ -374,7 +388,7 @@ function createKnob(value, counter=0, SwitchCounter=0) {
         knob.min = '40';
         knob.max = '200';
     }
-    if (value==='reverb') {
+    if (value === 'reverb') {
         knob.setAttribute('data-diameter', '130');
         knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
         knob.setAttribute('data-sprites', '99')
@@ -382,7 +396,7 @@ function createKnob(value, counter=0, SwitchCounter=0) {
         knob.min = '40';
         knob.max = '200';
     }
-    if (value==='cut/off') {
+    if (value === 'cut/off') {
         knob.setAttribute('data-diameter', '130');
         knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
         knob.setAttribute('data-sprites', '99')
@@ -390,7 +404,7 @@ function createKnob(value, counter=0, SwitchCounter=0) {
         knob.min = '0';
         knob.max = '100';
     }
-    if (value==='resonance') {
+    if (value === 'resonance') {
         knob.setAttribute('data-diameter', '130');
         knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
         knob.setAttribute('data-sprites', '99')
@@ -399,7 +413,7 @@ function createKnob(value, counter=0, SwitchCounter=0) {
         knob.min = '0';
         knob.max = '101';
     }
-    if (value==='envelope/mod') {
+    if (value === 'envelope/mod') {
         knob.setAttribute('data-diameter', '130');
         knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
         knob.setAttribute('data-sprites', '99')
@@ -407,7 +421,7 @@ function createKnob(value, counter=0, SwitchCounter=0) {
         knob.min = '40';
         knob.max = '200';
     }
-    if (value==='decay') {
+    if (value === 'decay') {
         knob.setAttribute('data-diameter', '130');
         knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
         knob.setAttribute('data-sprites', '99')
@@ -415,7 +429,7 @@ function createKnob(value, counter=0, SwitchCounter=0) {
         knob.min = '40';
         knob.max = '200';
     }
-    if (value==='accent') {
+    if (value === 'accent') {
         knob.setAttribute('data-diameter', '130');
         knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
         knob.setAttribute('data-sprites', '99')
@@ -424,7 +438,7 @@ function createKnob(value, counter=0, SwitchCounter=0) {
         knob.max = '200';
     }
 
-    if (value==='pitch') {
+    if (value === 'pitch') {
         knob.setAttribute('data-diameter', '130');
         knob.setAttribute('data-src', "./images/808_Voulme_Knob.png");
         knob.setAttribute('data-sprites', '99')
@@ -433,7 +447,7 @@ function createKnob(value, counter=0, SwitchCounter=0) {
         knob.max = '23';
         knob.step = '0.01'
     }
-    if (value==='switch'){
+    if (value === 'switch') {
         knob.setAttribute('data-diameter', '130');
         knob.type = 'radio';
         knob.value = '0';
@@ -444,7 +458,7 @@ function createKnob(value, counter=0, SwitchCounter=0) {
         knob.className = 'input-switch';
         knob.setAttribute('data-src', '/images/switch_offon.png');
     }
-    if (value==='switchX'){
+    if (value === 'switchX') {
         knob.setAttribute('data-diameter', '130');
         knob.type = 'radio';
         knob.value = '1';
@@ -456,24 +470,24 @@ function createKnob(value, counter=0, SwitchCounter=0) {
         knob.setAttribute('data-src', '/images/switch_offon.png');
     }
 
-    knob.oninput = function (){
-        console.log(`%cCheck %cthis %cout %c${this.value}`,
+    knob.oninput = function (id) {
+        console.log(`%cyou are %cturning me %c(${this.id}) %con`,
             "color: yellow; font-style: italic; background-color: purple;padding: 2px",
             "color: yellow; font-style: italic; background-color: red;padding: 2px",
-            "color:yellow; font-style: italic; background-color: orange;padding: 2px",
-            "color: yellow; font-style: italic; background-color: blue;padding: 2px",
-            `${this.id}`);
+            "color:blue; font-style: italic; background-color: orange;padding: 2px",
+            "color: blue; font-style: italic; background-color: yellow;padding: 2px",
+            `like the colors? let me know..`);
         setup(this.value, this.id)
     }
 
-    knob.onchange = function (id){
-        // console.log(knob.id)
-        console.log(`%cCheck %cthis %cout %c${this.value}`,
-            "color: purple; font-style: italic; background-color: yellow;padding: 2px",
-            "color: red; font-style: italic; background-color: yellow;padding: 2px",
-            "color:orange; font-style: italic; background-color: yellow;padding: 2px",
-            "color: yellow; font-style: italic; background-color: blue;padding: 2px",
-            `${this.id}`);
+    knob.onchange = function (id) {
+        console.dir(id, this)
+        console.log(`%cvalue for ${this.id} %c${this.value}`,
+            "color: blue; font-style: italic; background-color: yellow;padding: 2px",
+            // "color: red; font-style: italic; background-color: yellow;padding: 2px",
+            // "color:orange; font-style: italic; background-color: yellow;padding: 2px",
+            "color: yellow; font-style: italic; font-size: large; background-color: blue;padding: 2px",
+            `Don't like me? bring a tear to my eye`);
         setup(this.value, this.id)
     }
 
@@ -483,7 +497,7 @@ function createKnob(value, counter=0, SwitchCounter=0) {
     return knob;
 }
 
-function ButtonGenerator(){
+function ButtonGenerator() {
     let button = document.createElement('button')
     let buttonchild = document.createElement('div')
     buttonchild.setAttribute('class', 'light')
@@ -491,21 +505,23 @@ function ButtonGenerator(){
     return button
 }
 
-function DrawGui(Name){
+function DrawGui(Name) {
     let div1 = document.createElement('div')
     let div2 = document.createElement('div')
     div1.setAttribute('class', 'container')
     div2.setAttribute('class', 'step-sequencer')
     div2.setAttribute('data-sampleName', Name)
 
-    for (let i = 0; i < 16 ; i++) {div2.appendChild(ButtonGenerator())}
+    for (let i = 0; i < 16; i++) {
+        div2.appendChild(ButtonGenerator())
+    }
     div1.appendChild(div2);
     div1.appendChild(channelStrip(`${Name}`))
 
     document.body.appendChild(div1);
 }
 
-function drawMasterSection(){
+function drawMasterSection() {
     let containerM = document.createElement('div');
     containerM.className = 'container';
     containerM.id = 'mastering';
@@ -518,16 +534,17 @@ function drawMasterSection(){
     document.body.appendChild(containerM);
 }
 
-function  drawButton(name){
-    let x= document.createElement('div');
-    x.className="container"
+function drawButton(name) {
+    let x = document.createElement('div');
+    x.className = "container"
     let btn = document.createElement('button')
-    btn.className=name
-    btn.textContent=name
+    btn.className = name
+    btn.textContent = name
     x.appendChild(btn)
     document.body.appendChild(x)
 }
-function checkoutMyFancyLogger(){
+
+function checkoutMyFancyLogger() {
     console.log("This is %cMy stylish message", "color: yellow; font-style: italic; background-color: blue;padding: 2px");
     console.log("Multiple styles: %cred %corange", "color: red", "color: orange", "Additional unformatted message");
 }
@@ -594,12 +611,16 @@ function createPlayer(value) {
     return container1;
 
 }
+
 //effect, elementID
-function setup(val, elementID){
+function setup(val, elementID) {
     // !  the effect connects directly to the speakers ( toDestination )
     switch (elementID) {
         case 'volume':
-            Tone.volume.value = val;
+            // const vol= new Tone.Volume(0).toDestination();
+            let voos = val.volume.value
+            channel.volume = new Tone.Volume(val).toDestination();;
+            // Tone.volume.value = val;
             break;
         case 'tempo':
             // Beats per minute
@@ -611,8 +632,8 @@ function setup(val, elementID){
             PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
             speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
             */
-            // const pitchShift = new Tone.PitchShift(0.5).toDestination();
-            // effect=pitchShift
+            const pitchShift = new Tone.PitchShift(0.5).toDestination();
+            keys.chain(Effect, pitchShift, Tone.toDestination())
             break;
         case 'distortion':
             //The parameter that is passed to the constructor is the amount of distortion (nominal range of 0-1)
@@ -655,7 +676,7 @@ function setup(val, elementID){
 
 }
 
-function drawDrumSection(){
+function drawDrumSection() {
     let containerD = document.createElement('div');
     containerD.id = 'drumz';
     DrawGui('kick')
@@ -669,7 +690,7 @@ function drawDrumSection(){
     DrawGui('tom3')
 }
 
-function channelStrip(value){
+function channelStrip(value) {
     let containerC = document.createElement('div');
     containerC.id = `Channelstrip ${value}`;
     containerC.title = `Channelstrip ${value}`;
@@ -679,7 +700,8 @@ function channelStrip(value){
     containerC.appendChild(createKnob(`pan`))
     return containerC;
 }
-function drawSynthControls(){
+
+function drawSynthControls() {
     let containerS = document.createElement('div');
     containerS.id = 'Synth-controls';
     containerS.className = 'container';
@@ -692,7 +714,7 @@ function drawSynthControls(){
     document.body.appendChild(containerS);
 }
 
-function drawPianoSampler(){
+function drawPianoSampler() {
     let containerP = document.createElement('div');
     containerP.id = 'piano-samples';
     containerP.appendChild(createPlayer(value = "A1v16"));
@@ -728,7 +750,7 @@ function drawPianoSampler(){
     // keys.connect
 }
 
-function GUI_Builder(){
+function GUI_Builder() {
     drawButton('play')
     drawButton('stop')
     drawMasterSection()
