@@ -1,5 +1,11 @@
 const context = new AudioContext(Tone.context)
 const target = document.getElementById('target')
+
+const play = (p) => p.start('+0.1').stop(+4);
+const stop = (p) => p.stop(0);
+const volumeUp = (p) => ++keys.player(p).volume.value;
+const volumeDown = (p) => --p.volume.value;
+
 let counter = 0;
 let reverse = true;
 
@@ -68,15 +74,17 @@ const rCrash= new Tone.Player('samples/crash.mp3')
 const keys = new Tone.Players({
     urls: {}
 });
+console.log(keys)
 keys.add("kick", kick.buffer)
 keys.add("snare", snare.buffer)
-keys.add("hihat", hihat.buffer)
-keys.add("clap", clap.buffer)
-keys.add("crash", crash.buffer)
-keys.add("rCrash", rCrash.buffer)
-keys.add("shaker", shaker.buffer)
-keys.add("tom1", tom1.buffer)
-keys.add("tom2", tom2.buffer)
+keys.add('hihat', hihat.buffer)
+keys.add('clap', clap.buffer)
+keys.add('crash', crash.buffer)
+keys.add('rCrash', rCrash.buffer)
+keys.add('shaker', shaker.buffer)
+keys.add('tom1', tom1.buffer)
+keys.add('tom2', tom2.buffer)
+keys.add("tom3", tom3.buffer)
 
 // rCrash.start(+0.1)
 // connect drum players to effects (effects are already connected to destination)
@@ -108,29 +116,23 @@ function routeAudio (p, bReverse = false) {
     // }
 }
 
-const microphoneMeter = new Tone.Meter();
-const totalVolumeMeter = new Tone.Meter();
-const mic = new Tone.UserMedia();
-mic.open();
+// const microphoneMeter = new Tone.Meter();
+// const totalVolumeMeter = new Tone.Meter();
+// const mic = new Tone.UserMedia();
+// mic.open();
 // connect mic to the meter
-mic.connect(microphoneMeter);
-keys.connect(totalVolumeMeter)
+// mic.connect(microphoneMeter);
+// keys.connect(totalVolumeMeter)
 // target.appendChild(microphoneMeter)
 // target.appendChild(totalVolumeMeter)
 
-keys.add("tom3", tom3.buffer)
 
-const play = (p) => p.start('+0.1').stop(+4);
-const stop = (p) => p.stop(0);
-const volumeUp = (p) => ++keys.player(p).volume.value;
-const volumeDown = (p) => --p.volume.value;
 showSomeHelpInConsole()
 
 Tone.Transport.bpm.value = 120;
 const SixTeenth_Note_Length = () => 0.25 * 60 / Tone.Transport.bpm.value
 
 GUI_Builder()
-
 
 // This is an object of sequence arrays, keeping track of each of the on/off positions of all the steps for each sample
 const sequences = {
@@ -199,7 +201,7 @@ new Tone.Sequence((time, step) => {
 // Volume channel
 let channel = new Tone.Channel(10).toDestination();
 keys.connect(channel);
-// console.log('keys', keys)
+console.log('keys', keys)
 
 function GUI_Builder() {
     drawButton('play')
@@ -244,7 +246,7 @@ function drawMasterSection() {
 }
 
 function drawButton(name) {
-    let x = document.createElement('div');
+    let x = document.createElement('span');
     x.className = "container"
     let btn = document.createElement('button')
     btn.className = name
@@ -303,7 +305,7 @@ function setup(val, elementID) {
             //The parameter that is passed to the constructor is the amount of distortion (nominal range of 0-1)
             // console.log(this)
             keys.connect(distortion)
-            keys.distortion.distortion = val;
+            distortion.distortion = val;
             // distortion.distortion = val;
             // console.log('distortion level', distortion.distortion)
             break;
@@ -593,10 +595,10 @@ function createKnob(value) {
             knob.max = '1';
             knob.step = '1';
             knob.oninput = () => {
-                keys.player("kick").mute = !knob.checked;
+                keys.player("kick").mute = knob.checked;
             }
             knob.onchange = () => {
-                keys.player("kick").mute = !knob.checked;
+                keys.player("kick").mute = knob.checked;
             }
             return label
         case 'solo':
@@ -624,10 +626,10 @@ function createKnob(value) {
             knob.setAttribute("type", "range");
             knob.setAttribute("data-fgcolor", "#00ff00");
             knob.setAttribute('class', "input-knob");
-            knob.value = '-40';
-            knob.min = '-40';
-            knob.max = '30';
-            knob.step = '0.1';
+            knob.value = '-60';
+            knob.min = '-60';
+            knob.max = '40';
+            knob.step = '1';
             break;
         case 'dist':
             knob.title = `distortion${counter}`;
@@ -640,7 +642,6 @@ function createKnob(value) {
             knob.min = '0';
             knob.max = '1';
             knob.step = '0.1';
-
             break;
         case 'pitchC':
             knob.setAttribute('data-diameter', '40');
@@ -653,7 +654,6 @@ function createKnob(value) {
             knob.min = '-22';
             knob.max = '22';
             knob.step = '1';
-
             break;
         case 'pan':
             knob.setAttribute('data-diameter', '40');
@@ -680,9 +680,7 @@ function createKnob(value) {
             knob.min = '-60';
             knob.max = '0';
             knob.step = '0.01';
-
             break;
-
         case 'tempo':
             knob.setAttribute('data-diameter', '130');
             // knob.setAttribute('data-src', "./images/knob_70_white.png");
@@ -697,7 +695,6 @@ function createKnob(value) {
             knob.max = '320';
             knob.step = '1';
             break;
-
         case 'distortion':
             knob.setAttribute('data-diameter', '130');
             knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
@@ -706,12 +703,11 @@ function createKnob(value) {
             knob.setAttribute('class', "input-knob");
             knob.title = `distortion`; //id
             knob.id = `distortion`; //id
-            knob.step = '0.1';
+            knob.step = '0.01';
             knob.value = '0';
             knob.min = '0';
             knob.max = '1';
             break;
-
         case 'phazer':
             knob.title = `phazer`; //id
             knob.id = `phazer`; //id
@@ -723,8 +719,8 @@ function createKnob(value) {
             knob.value = '0';
             knob.min = '0';
             knob.max = '1';
+            knob.step = '0.01'
             break;
-
         case 'chorus':
             knob.title = `chorus`; //id
             knob.id = `chorus`; //id
@@ -733,11 +729,11 @@ function createKnob(value) {
             knob.setAttribute('data-sprites', '99')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
+            knob.step = '0.01'
             knob.value = '0.7';
             knob.min = '0';
             knob.max = '1';
             break;
-
         case 'reverb':
             knob.title = `reverb`; //id
             knob.id = `reverb`; //id
@@ -746,11 +742,11 @@ function createKnob(value) {
             knob.setAttribute('data-sprites', '99')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
+            knob.step = '0.01'
             knob.value = '0';
             knob.min = '0';
             knob.max = '1';
             break;
-
         case 'cut/off':
             knob.setAttribute('data-diameter', '130');
             knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
@@ -760,7 +756,7 @@ function createKnob(value) {
             knob.value = '0';
             knob.min = '0';
             knob.max = '1';
-
+            knob.step = '0.01'
             break;
         case 'resonance':
             knob.setAttribute('data-diameter', '130');
@@ -772,7 +768,7 @@ function createKnob(value) {
             knob.value = '0';
             knob.min = '0';
             knob.max = '1';
-
+            knob.step = '0.01'
             break;
         case 'envelope/mod':
             knob.setAttribute('data-diameter', '130');
@@ -784,7 +780,7 @@ function createKnob(value) {
             knob.step = '0.01'
             knob.min = '0';
             knob.max = '1';
-
+            knob.step = '0.01'
             break;
         case 'decay':
             knob.setAttribute('data-diameter', '130');
@@ -796,7 +792,7 @@ function createKnob(value) {
             knob.step= "1"
             knob.min = '0';
             knob.max = '1';
-
+            knob.step = '0.01'
             break;
         case 'accent':
             knob.setAttribute('data-diameter', '130');
@@ -808,7 +804,7 @@ function createKnob(value) {
             knob.step = '0.01'
             knob.min = '0';
             knob.max = '1';
-
+            knob.step = '0.01'
             break;
         case 'pitch':
             knob.title = `pitch shift controller`; //id
@@ -822,7 +818,6 @@ function createKnob(value) {
             knob.min = '-23';
             knob.max = '23';
             knob.step = '0.1';
-
             break;
         case 'switch':
             knob.setAttribute('data-diameter', '130');
@@ -832,11 +827,11 @@ function createKnob(value) {
             knob.value = '0';
             knob.min = '0';
             knob.max = '1';
+            knob.step = '0.01'
             knob.setAttribute('data-sprites', '2');
             knob.setAttribute('data-diameter', '35');
             knob.className = 'input-switch';
             knob.setAttribute('data-src', '/images/switch_offon.png');
-
             break;
         case 'switchX':
             knob.setAttribute('data-diameter', '130');
@@ -844,12 +839,12 @@ function createKnob(value) {
             knob.value = '1';
             knob.min = '0';
             knob.max = '1';
+            knob.step = '0.01'
             knob.setAttribute('data-sprites', '2');
             knob.setAttribute('data-diameter', '35');
             knob.className = 'input-switch';
             knob.setAttribute('data-src', '/images/switch_offon.png');
             knob.setAttribute("type", "radio");
-
             break;
     }
 
@@ -863,7 +858,7 @@ function createKnob(value) {
         setup(this.value, this.id)
     }
 
-    knob.onchange = function () {
+    knob.onchange = function (ev) {
         console.log(`%cvalue for %c${this.id} %c${this.value}`,
             "color: blue; font-style: italic; background-color: yellow;padding: 2px",
             "color: red; font-style: italic; background-color: yellow;padding: 2px",
@@ -959,6 +954,3 @@ function drawPianoSampler() {
     return containerP
     // keys.connect
 }
-
-
-//htmlElement.addEventListener("input", (ev) => { releaseTime = parseInt(ev.target.value, 10) }, false);
