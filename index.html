@@ -10,13 +10,18 @@
 </head>
 <body style="background-image: radial-gradient(#40c9ff, #e81cff);">
 <div id="target"></div>
-<input id="gainSlider" type="range" min="0" max="1" step="0.05" value="0.5"/>
+<div id="sequencer" class="container sequencer">
+</div>
+
+<input id="gainSlider" type="range" min="0" max="1" step="0.05" value="0.5" onchange="changeVol(this)"/>
+<button class="play">Test Go</button>
 <!--<script src="Tone.js">-->
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.7/Tone.js"></script>-->
 <script src="https://unpkg.com/tone@next"></script>
-<script src="require.js"></script>
+<!--<script src="require.js"></script>-->
 <script src="input-knobs.js"></script>
-<script src="createPiano.js"></script>
+<!--<script src="createPiano.js"></script>-->
+<!--<script src="DimsAudio.js"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/@tonaljs/tonal/browser/tonal.min.js"></script>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.js"-->
 <!--        integrity="sha512-VyI1QFJ5vvwgy/FPf+XWs64XHBFUEMRZNzrhQiXdOFEyDuNO6H8hp/Of4jfo7NG4UEJOnxjP5cwj1P9nqLkTYg=="-->
