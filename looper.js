@@ -1,43 +1,11 @@
-// var synth = new Tone.MonoSynth();
-
-// synth.portamento = 20;
-// synth.setNote('c3')
-// synth.triggerAttackRelease('c3', "4n", 1)
-
 const context = new AudioContext(Tone.context)
-// const Tctx = new Tone.setContext({ latencyHint : "interactive" })
-// console.log(Tctx)
-// "interactive" "playback" or "balanced"
-// Tone.setContext(new Tone.Context({ latencyHint : "interactive" }))
+const target = document.getElementById('target')
 let counter = 0;
-let pcount = 0;
 let reverse = true;
-let bufferLoader;
-let BUFFERS = {};
-let VolumeMain = {};
-let dry1, dry2, dry3;
-let wet1, wet2, wet3;
-let mainDry;
-let mainWet;
-let source1, source2, source3;
-let lowpassFilter;
-let waveShaper;
-let panner;
-let LowPFilter = {FREQ_MUL: 7000, QUAL_MUL: 30};
 
-// source players
-// const kick = new Tone.Player('samples/kick.mp3')
-// const snare = new Tone.Player('samples/snare.mp3')
-// const hihat = new Tone.Player('samples/hihat.mp3')
-// const clap = new Tone.Player('samples/clap.mp3')
-// const crash = new Tone.Player('samples/crash.mp3')
-// const rCrash = new Tone.Player('samples/crash.mp3')
-// const shaker = new Tone.Player('samples/shaker.mp3')
-// const tom1 = new Tone.Player('samples/tom1.mp3')
-// const tom2 = new Tone.Player('samples/tom2.mp3')
-// const tom3 = new Tone.Player('samples/tom3.mp3')
 
-// final compressor
+// ==============================================================================================
+// compressor is the only node connnecting to the speakers
 const compressor = new Tone.Compressor({
     ratio: 12,
     threshold: -24,
@@ -46,27 +14,25 @@ const compressor = new Tone.Compressor({
     knee: 30
 }).toDestination();
 
-//effects implemented
+// all other effects connect to the compressor
 const distortion = new Tone.Distortion({
     distortion: 0.9,
     oversample: "4x"
-}) //.connect(compressor)
-
+}).connect(compressor)
 const pitchShift = new Tone.PitchShift({
     pitch: 0,
     windowSize: 0.1,
     delayTime: 0,
     feedback: 0
 }).connect(compressor);
-
 const chorus = new Tone.Chorus({
     frequency: 1.5,
-    delayTime: 3.5,
-    depth: 0.7,
-    type: "sine",
-    spread: 180
+    delayTime: 200,
+    depth: 0.9,
+    type: "square",
+    spread: 360,
+    wet: 1,
 }).connect(compressor);
-
 const phaser = new Tone.Phaser({
     frequency: 0.5,
     octaves: 3,
@@ -74,98 +40,34 @@ const phaser = new Tone.Phaser({
     Q: 10,
     baseFrequency: 350
 }).connect(compressor);
-
 const reverb = new Tone.Reverb({
     decay: 1.5,
     preDelay: 0.01
 }).connect(compressor);
-
 const feedbackDelay = new Tone.FeedbackDelay({
     delayTime: 0.25,
     maxDelay: 1
 }).connect(compressor);
-
-distortion.toDestination()
+const pingPong = new Tone.PingPongDelay("4n", 0.6);
+const soloChannel = new Tone.Solo();
+soloChannel.connect(compressor)
 
 //separate players
 const kick  = new Tone.Player('samples/kick.mp3')
-
-connect0r = (fx)=>{
-    kick.connect(distortion.toDestination())
-}
-kick.connect(distortion.toDestination())
 const snare = new Tone.Player('samples/snare.mp3')
-// snare.connect(distortion.toDestination())
 const hihat = new Tone.Player('samples/hihat.mp3')
-// hihat.connect(distortion.toDestination())
 const clap  = new Tone.Player('samples/clap.mp3')
-// clap.connect(distortion.toDestination())
 const crash = new Tone.Player('samples/crash.mp3')
-// crash.connect(distortion.toDestination())
-const rCrash =new Tone.Player('samples/crash.mp3')
-// rCrash.connect(distortion.toDestination())
-const shaker =new Tone.Player('samples/shaker.mp3')
-// shaker.connect(distortion.toDestination())
+const shaker= new Tone.Player('samples/shaker.mp3')
 const tom1  = new Tone.Player('samples/tom1.mp3')
-// tom1.connect(distortion.toDestination())
 const tom2  = new Tone.Player('samples/tom2.mp3')
-// tom2.connect(distortion.toDestination())
 const tom3  = new Tone.Player('samples/tom3.mp3')
-// tom3.connect(distortion.toDestination())
-
-// rCrash.start(+0.1)
-// connect drum players to effects (effects are already connected to destination)
-connectFX(kick)
-connectFX(snare)
-connectFX(hihat)
-connectFX(clap)
-connectFX(crash)
-connectFX(shaker)
-connectFX(tom1)
-connectFX(tom2)
-connectFX(tom3)
-connectFX(rCrash) //, true
-
-function connectFX (p, bReverse) {
-        if (bReverse) {p.reverse = true}
-        p.connect(distortion)
-        distortion.connect(Tone.Destination)
-        // p.connect(pitchShift)
-        // p.connect(chorus)
-        // p.connect(phaser)
-        // p.connect(reverb)
-        // p.connect(feedbackDelay)
-        return p
-    // }
-}
-
-// }
-
-const target = document.getElementById('target')
-
-const play = (p) => p.start('+0.1').stop(+4);
-const stop = (p) => p.stop(0);
-const volumeUp = (p) => ++keys.player(p).volume.value;
-const volumeDown = (p) => --p.volume.value;
-const ToneAudioBuffer = (url) => {
-    AudioFactory.TAudioB(url)
-}
-
-// play and stop are self explanatory i suppose.. they start/stop a given player
-//volumeUp with a player as parameter will increase the volume by 1
-//volumeDown with a player as parameter will decrease the volume by 1
-//create and merge distortion(or any other fx) on the specified player
-
-Tone.Transport.bpm.value = 120;
-const SixTeenth_Note_Length = () => 0.25 * 60 / Tone.Transport.bpm.value
-
+const rCrash= new Tone.Player('samples/crash.mp3')
 
 //This is still the original keys player. I just separated the instruments so that I can connect them to their own channel/gainNode.
 const keys = new Tone.Players({
-    urls: {
-    }
+    urls: {}
 });
-
 keys.add("kick", kick.buffer)
 keys.add("snare", snare.buffer)
 keys.add("hihat", hihat.buffer)
@@ -175,8 +77,58 @@ keys.add("rCrash", rCrash.buffer)
 keys.add("shaker", shaker.buffer)
 keys.add("tom1", tom1.buffer)
 keys.add("tom2", tom2.buffer)
+
+// rCrash.start(+0.1)
+// connect drum players to effects (effects are already connected to destination)
+routeAudio(rCrash, true)
+routeAudio(kick)
+routeAudio(snare)
+routeAudio(hihat)
+routeAudio(clap)
+routeAudio(crash)
+routeAudio(shaker)
+routeAudio(tom1)
+routeAudio(tom2)
+routeAudio(tom3)
+// ==============================================================================================
+
+
+function routeAudio (p, bReverse = false) {
+    if (bReverse) {
+        console.log(p.reverse)
+        p.reverse = true
+    }
+    p.connect(distortion)
+    p.connect(chorus)
+    p.connect(phaser)
+    p.connect(reverb)
+    p.connect(pitchShift)
+    p.connect(feedbackDelay)
+    return p
+    // }
+}
+
+const microphoneMeter = new Tone.Meter();
+const totalVolumeMeter = new Tone.Meter();
+const mic = new Tone.UserMedia();
+mic.open();
+// connect mic to the meter
+mic.connect(microphoneMeter);
+keys.connect(totalVolumeMeter)
+// target.appendChild(microphoneMeter)
+// target.appendChild(totalVolumeMeter)
+
 keys.add("tom3", tom3.buffer)
-// console.log("keys", keys)
+
+const play = (p) => p.start('+0.1').stop(+4);
+const stop = (p) => p.stop(0);
+const volumeUp = (p) => ++keys.player(p).volume.value;
+const volumeDown = (p) => --p.volume.value;
+showSomeHelpInConsole()
+
+Tone.Transport.bpm.value = 120;
+const SixTeenth_Note_Length = () => 0.25 * 60 / Tone.Transport.bpm.value
+
 GUI_Builder()
 
 
@@ -202,7 +154,7 @@ document.querySelectorAll(".step-sequencer").forEach((sampleSequencerElement) =>
     // Loop over each step for a sample, and wire a click event listener
     sampleSequencerElement.querySelectorAll("button").forEach((stepElement, step) => {
         stepElement.addEventListener("click", () => {
-            console.log("click", step, sampleName)
+            // console.log("click", step, sampleName)
             showSomeHelpInConsole(sampleName, sampleName, stepElement)
             // Toggle the element class to change the red light indicator
             stepElement.querySelector('.light').classList.toggle('active');
@@ -213,8 +165,6 @@ document.querySelectorAll(".step-sequencer").forEach((sampleSequencerElement) =>
     })
 })
 
-
-
 function showSomeHelpInConsole(sampleName, player) {
     fancylog('get', `${sampleName}`, `${player}.get()`)
     fancylog('play', `${sampleName}`, `play(${player})`)
@@ -224,11 +174,10 @@ function showSomeHelpInConsole(sampleName, player) {
     fancylog('volumeDown', `${sampleName}`, `volumeDown(${player})`)
 }
 
-
 // Play button click handler
 document.querySelector(".play").addEventListener('click', () => {
-    Tone.Transport.start()
-    Tone.Transport.schedule((time) => {kick.start(time)}, 0);
+    Tone.Transport.start(+0.1)
+    Tone.Transport.schedule((time) => {kick.start(time)}, +0.1);
     // Tone.start(+0.1);
 
 });
@@ -255,11 +204,11 @@ keys.connect(channel);
 function GUI_Builder() {
     drawButton('play')
     drawButton('stop')
-    target.appendChild(drawMasterSection())
-    target.appendChild(document.createElement('hr'));
-    target.appendChild(drawDrumSection())
-    target.appendChild(drawSynthControls())
-    target.appendChild(drawPianoSampler())
+    drawMasterSection()
+    document.createElement('hr');
+    drawDrumSection()
+    drawSynthControls()
+    drawPianoSampler()
 }
 
 function fancylog(msg1, msg2, msg3) {
@@ -289,7 +238,8 @@ function drawMasterSection() {
     containerM.appendChild(createKnob('phazer'));
     containerM.appendChild(createKnob('chorus'));
     containerM.appendChild(createKnob('reverb'));
-    return containerM;
+    target.appendChild(containerM)
+    // return containerM;
     // document.body.appendChild(containerM);
 }
 
@@ -309,11 +259,11 @@ function setup(val, elementID) {
     switch (elementID) {
         case 'masterVolume':
             keys.volume.value = val;
-            console.log(keys.volume.value)
+            // console.log(keys.volume.value)
             // console.log(`Mainchannel ${elementID} volume:`, MainGainNode.volume.value)
             break;
         case 'volume0':
-            console.log('for kick', kick, val)
+            // console.log('for kick', kick, val)
             keys.player("kick").volume.value = val;
                 // .volume.value = val;
             break;
@@ -341,13 +291,20 @@ function setup(val, elementID) {
         case 'volume8':
             keys.player("tom3").volume.value = val;
             break;
+        case 'volume9':
+            keys.player("rCrash").volume.value = val;
+            keys.player("rCrash").reverse
+            break;
         case 'tempo':
             // Beats per minute
             Tone.Transport.bpm.value = val;
             break;
         case 'distortion':
             //The parameter that is passed to the constructor is the amount of distortion (nominal range of 0-1)
-            distortion.distortion = val;
+            // console.log(this)
+            keys.connect(distortion)
+            keys.distortion.distortion = val;
+            // distortion.distortion = val;
             // console.log('distortion level', distortion.distortion)
             break;
         case 'phazer':
@@ -359,11 +316,21 @@ function setup(val, elementID) {
             phase will cancel each other out, creating the phaser's characteristic notches.
             Changing the mix ratio changes the depth of the notches
             */
+            kick.connect(phaser.toDestination())
+            keys.player('kick').set({
+                frequency: val,
+                octaves: val/3,
+                baseFrequency: 1000
+            });
             break;
         case 'chorus':
             /*
             */
-            const chorus = new Tone.Chorus(4, 2.5, 0.5);
+            chorus.set({
+                delayTime: 200,
+                depth: 0.3
+            })
+            keys.player('kick').connect(chorus.toDestination())
             // console.log('chorus settings', chorus.get())
 
             break;
@@ -386,6 +353,8 @@ function setup(val, elementID) {
             */
             keys.connect(pitchShift.toDestination())
             pitchShift.pitch = val;
+            pitchShift.delayTime = 2;
+            pitchShift.feedback = .6;
             // console.log('pitch', pitchShift.pitch);
             break;
         case 'pitchC0':
@@ -394,20 +363,141 @@ function setup(val, elementID) {
             speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
             */
             keys.player('kick').connect(pitchShift.toDestination())
+            // delayTime : Time
+            // feedback : NormalRange
+            // pitch : Interval
+            // wet : NormalRange
+            // windowSize : Seconds
+            pitchShift.delayTime = val/30
             pitchShift.pitch = val;
             // console.log('pitch', pitchShift.pitch);
             break;
-        case 'mute':
+        case 'pitchC1':
             /*
             PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
             speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
             */
-            kick.mute(true) ||kick.mute(false)
-            // Mainchannel.receive(reverb)
-            // const pitchShift = new Tone.PitchShift();
-            // keys.connect(pitchShift);
-            // pitchShift.pitch = val;
+            keys.player('snare').connect(pitchShift.toDestination())
+            // delayTime : Time
+            // feedback : NormalRange
+            // pitch : Interval
+            // wet : NormalRange
+            // windowSize : Seconds
+            pitchShift.delayTime = val/30
+            pitchShift.pitch = val;
             // console.log('pitch', pitchShift.pitch);
+            break;
+        case 'pitchC2':
+            /*
+            PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
+            speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
+            */
+            keys.player('hihat').connect(pitchShift.toDestination())
+            // delayTime : Time
+            // feedback : NormalRange
+            // pitch : Interval
+            // wet : NormalRange
+            // windowSize : Seconds
+            pitchShift.delayTime = val/30
+            pitchShift.pitch = val;
+            // console.log('pitch', pitchShift.pitch);
+            break;
+        case 'pitchC3':
+            /*
+            PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
+            speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
+            */
+            keys.player('clap').connect(pitchShift.toDestination())
+            // delayTime : Time
+            // feedback : NormalRange
+            // pitch : Interval
+            // wet : NormalRange
+            // windowSize : Seconds
+            pitchShift.delayTime = val/30
+            pitchShift.pitch = val;
+            // console.log('pitch', pitchShift.pitch);
+            break;
+        case 'pitchC4':
+            /*
+            PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
+            speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
+            */
+            keys.player('crash').connect(pitchShift.toDestination())
+            // delayTime : Time
+            // feedback : NormalRange
+            // pitch : Interval
+            // wet : NormalRange
+            // windowSize : Seconds
+            pitchShift.delayTime = val/30
+            pitchShift.pitch = val;
+            // console.log('pitch', pitchShift.pitch);
+            break;
+        case 'pitchC5':
+            /*
+            PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
+            speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
+            */
+            keys.player('shaker').connect(pitchShift.toDestination())
+            // delayTime : Time
+            // feedback : NormalRange
+            // pitch : Interval
+            // wet : NormalRange
+            // windowSize : Seconds
+            pitchShift.delayTime = val/30
+            pitchShift.pitch = val;
+            // console.log('pitch', pitchShift.pitch);
+            break;
+        case 'pitchC6':
+            /*
+            PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
+            speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
+            */
+            keys.player('tom1').connect(pitchShift.toDestination())
+            // delayTime : Time
+            // feedback : NormalRange
+            // pitch : Interval
+            // wet : NormalRange
+            // windowSize : Seconds
+            pitchShift.delayTime = val/30
+            pitchShift.pitch = val;
+            // console.log('pitch', pitchShift.pitch);
+            break;
+        case 'pitchC7':
+            /*
+            PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
+            speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
+            */
+            keys.player('tom2').connect(pitchShift.toDestination())
+            // delayTime : Time
+            // feedback : NormalRange
+            // pitch : Interval
+            // wet : NormalRange
+            // windowSize : Seconds
+            pitchShift.delayTime = val/30
+            pitchShift.pitch = val;
+            // console.log('pitch', pitchShift.pitch);
+            break;
+        case 'pitchC8':
+            keys.player('tom3').connect(pitchShift.toDestination())
+            pitchShift.delayTime = val/30
+            pitchShift.pitch = val;
+            break;
+        case 'pitchC9':
+            keys.player('rCrash').connect(pitchShift.toDestination())
+            pitchShift.delayTime = val/30
+            pitchShift.pitch = val;
+            break;
+        case 'mute':
+            if (document.getElementById('mute0').checked) {keys.player('kick').mute = true}
+            if (document.getElementById('mute1').checked) {keys.player('snare').mute = true}
+            if (document.getElementById('mute2').checked) {keys.player('hihat').mute = true}
+            if (document.getElementById('mute3').checked) {keys.player('clap').mute = true}
+            if (document.getElementById('mute4').checked) {keys.player('crash').mute = true}
+            if (document.getElementById('mute5').checked) {keys.player('shaker').mute = true}
+            if (document.getElementById('mute6').checked) {keys.player('tom1').mute = true}
+            if (document.getElementById('mute7').checked) {keys.player('tom2').mute = true}
+            if (document.getElementById('mute8').checked) {keys.player('tom3').mute = true}
+            if (document.getElementById('mute9').checked) {keys.player('rCrash').mute = true}
             break;
         case 'solo':
 
@@ -434,35 +524,36 @@ function drawDrumSection() {
     containerD.appendChild(DrawGui('tom3'))
     containerD.appendChild(DrawGui('rCrash'))
     // document.body.appendChild(containerD);
-    return containerD
+    target.appendChild(containerD)
+    // return containerD
 }
 
 function DrawGui(Name) {
 
     let div1 = document.createElement('div')
     let div2 = document.createElement('div')
-    // let audioEl = document.createElement('audio')
-    // let aSrc = document.createElement('source')
-    // aSrc.setAttribute('src', `samples/${Name}.mp3`)
-    // aSrc.setAttribute('type', 'audio/mpeg')
-    // aSrc.setAttribute('id', `SRC${Name}`)
-    // audioEl.setAttribute('controls', '')
-    // audioEl.setAttribute('autoplay', false)
-    // audioEl.appendChild(aSrc)
     div1.setAttribute('class', 'container')
     div2.setAttribute('class', 'step-sequencer')
     div2.setAttribute('data-sampleName', Name)
-    // div2.appendChild(audioEl)
-
     div1.textContent = Name;
     div1.value = Name;
 
     for (let i = 0; i < 16; i++) {
         div2.appendChild(ButtonGenerator())
     }
+    let audioEl = document.createElement('audio')
+    let aSrc = document.createElement('source')
+    aSrc.setAttribute('src', `samples/${Name}.mp3`)
+    aSrc.setAttribute('type', 'audio/mpeg')
+    aSrc.setAttribute('id', `SRC${Name}`)
+    audioEl.setAttribute('controls', '')
+    audioEl.setAttribute('autoplay', false)
+    audioEl.setAttribute('hidden', '')
+    audioEl.appendChild(aSrc)
+    div1.appendChild(audioEl)
     div1.appendChild(div2);
     div1.appendChild(channelStrip(`${Name}`))
-    target.appendChild(div1)
+    // target.appendChild(div1)
     return div1;
 }
 
@@ -484,7 +575,10 @@ function channelStrip(value) {
 
 function createKnob(value) {
     // console.log(keys._buffers._buffers, source)
+    let label = document.createElement('label')
+    label.innerHTML = value
     let knob = document.createElement('input');
+    label.appendChild(knob)
     switch (value) {
         case 'mute':
             knob.title = `mute ${counter}`; //id
@@ -498,14 +592,13 @@ function createKnob(value) {
             knob.min = '0';
             knob.max = '1';
             knob.step = '1';
-            knob.onclick = ()=>{
-                if(keys.player("kick").mute(true)){return keys.player("kick").mute(false)} else {
-                    keys.player("kick").mute(true)
-                }
-                // return keys.player("kick").mute(true) || return keys.player("kick").mute(false)
+            knob.oninput = () => {
+                keys.player("kick").mute = !knob.checked;
             }
-                return knob
-            break;
+            knob.onchange = () => {
+                keys.player("kick").mute = !knob.checked;
+            }
+            return label
         case 'solo':
             knob.title = `solo ${counter}`; //id
             knob.id = `solo${counter}`;
@@ -518,11 +611,12 @@ function createKnob(value) {
             knob.min = '0';
             knob.max = '1';
             knob.step = '1';
-            knob.onclick = function (){keys.player("kick").solo(true) || keys.player("kick").solo(false)}
-            return knob
-
-            return knob
-            break;
+            // soloChannel.solo = true;
+            keys.player('kick').connect(soloChannel.toDestination())
+            // knob.checked = () =>{
+            //     keys.player("kick").solo(true)
+            // }
+            return label
         case 'vol':
             knob.title = `volume${counter}`; //id
             knob.id = `volume${counter}`;
@@ -530,7 +624,7 @@ function createKnob(value) {
             knob.setAttribute("type", "range");
             knob.setAttribute("data-fgcolor", "#00ff00");
             knob.setAttribute('class', "input-knob");
-            knob.value = '10';
+            knob.value = '-40';
             knob.min = '-40';
             knob.max = '30';
             knob.step = '0.1';
@@ -544,8 +638,8 @@ function createKnob(value) {
             knob.setAttribute('class', "input-knob");
             knob.value = '0';
             knob.min = '0';
-            knob.max = '100';
-            knob.step = '1';
+            knob.max = '1';
+            knob.step = '0.1';
 
             break;
         case 'pitchC':
@@ -556,8 +650,8 @@ function createKnob(value) {
             knob.title = `pitchC${counter}`; //id
             knob.id = `pitchC${counter}`; //id
             knob.value = '0';
-            knob.min = '-48';
-            knob.max = '48';
+            knob.min = '-22';
+            knob.max = '22';
             knob.step = '1';
 
             break;
@@ -582,10 +676,11 @@ function createKnob(value) {
             knob.title = `GRAND MASTER VOLUME`; //id
             knob.id = `masterVolume`; //id
             // knob.textContent = 'Volume';
-            knob.value = '99';
+            knob.value = '0';
             knob.min = '-60';
             knob.max = '0';
             knob.step = '0.01';
+
             break;
 
         case 'tempo':
@@ -597,8 +692,8 @@ function createKnob(value) {
             knob.setAttribute('class', "input-knob");
             knob.title = `tempo`; //id
             knob.id = `tempo`; //id
-            knob.value = '120';
-            knob.min = '40';
+            knob.value = '160';
+            knob.min = '0';
             knob.max = '320';
             knob.step = '1';
             break;
@@ -627,7 +722,7 @@ function createKnob(value) {
             knob.setAttribute('class', "input-knob");
             knob.value = '0';
             knob.min = '0';
-            knob.max = '100';
+            knob.max = '1';
             break;
 
         case 'chorus':
@@ -638,9 +733,9 @@ function createKnob(value) {
             knob.setAttribute('data-sprites', '99')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
-            knob.value = '0';
+            knob.value = '0.7';
             knob.min = '0';
-            knob.max = '100';
+            knob.max = '1';
             break;
 
         case 'reverb':
@@ -653,7 +748,7 @@ function createKnob(value) {
             knob.setAttribute('class', "input-knob");
             knob.value = '0';
             knob.min = '0';
-            knob.max = '100';
+            knob.max = '1';
             break;
 
         case 'cut/off':
@@ -664,7 +759,7 @@ function createKnob(value) {
             knob.setAttribute('class', "input-knob");
             knob.value = '0';
             knob.min = '0';
-            knob.max = '100';
+            knob.max = '1';
 
             break;
         case 'resonance':
@@ -676,7 +771,7 @@ function createKnob(value) {
             knob.step = 1;
             knob.value = '0';
             knob.min = '0';
-            knob.max = '101';
+            knob.max = '1';
 
             break;
         case 'envelope/mod':
@@ -685,9 +780,10 @@ function createKnob(value) {
             knob.setAttribute('data-sprites', '99')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
-            knob.value = '85';
-            knob.min = '40';
-            knob.max = '200';
+            knob.value = '0';
+            knob.step = '0.01'
+            knob.min = '0';
+            knob.max = '1';
 
             break;
         case 'decay':
@@ -696,9 +792,10 @@ function createKnob(value) {
             knob.setAttribute('data-sprites', '99')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
-            knob.value = '85';
-            knob.min = '40';
-            knob.max = '200';
+            knob.value = '0';
+            knob.step= "1"
+            knob.min = '0';
+            knob.max = '1';
 
             break;
         case 'accent':
@@ -707,9 +804,10 @@ function createKnob(value) {
             knob.setAttribute('data-sprites', '99')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
-            knob.value = '85';
-            knob.min = '40';
-            knob.max = '200';
+            knob.value = '0';
+            knob.step = '0.01'
+            knob.min = '0';
+            knob.max = '1';
 
             break;
         case 'pitch':
@@ -723,7 +821,7 @@ function createKnob(value) {
             knob.value = '0';
             knob.min = '-23';
             knob.max = '23';
-            knob.step = '0.5';
+            knob.step = '0.1';
 
             break;
         case 'switch':
@@ -775,9 +873,11 @@ function createKnob(value) {
         setup(this.value, this.id)
     }
 
+
     // document.body.appendChild(knob);
 
-    return knob;
+    target.appendChild(label)
+    return label;
 }
 
 function drawSynthControls() {
@@ -790,7 +890,8 @@ function drawSynthControls() {
     containerS.appendChild(createKnob('envelope/mod'));
     containerS.appendChild(createKnob('decay'));
     containerS.appendChild(createKnob('accent'));
-    return containerS;
+    target.appendChild(containerS)
+    // return containerS;
     // document.body.appendChild(containerS);
 
 }
@@ -818,7 +919,8 @@ function createPlayer(value) {
     }
 
     container1.appendChild(container2);
-    return container1;
+    target.appendChild(container1)
+    // return container1;
 }
 
 function drawPianoSampler() {
