@@ -70,6 +70,16 @@ const tom2  = new Tone.Player('samples/tom2.mp3')
 const tom3  = new Tone.Player('samples/tom3.mp3')
 const rCrash= new Tone.Player('samples/crash.mp3')
 
+kick.name = 'kick'
+snare.name = 'snare'
+hihat.name = 'hihat'
+clap.name = 'clap'
+crash.name = 'crash'
+shaker.name = 'shaker'
+tom1.name = 'tom1'
+tom2.name = 'tom2'
+tom3.name = 'tom3'
+rCrash.name = 'rCrash'
 //This is still the original keys player. I just separated the instruments so that I can connect them to their own channel/gainNode.
 const keys = new Tone.Players({
     urls: {}
@@ -102,6 +112,7 @@ routeAudio(tom3)
 
 
 function routeAudio (p, bReverse = false) {
+    // this is where i reverse the Crash buffer (or any other you like)
     if (bReverse) {
         console.log(p.reverse)
         p.reverse = true
@@ -112,6 +123,7 @@ function routeAudio (p, bReverse = false) {
     p.connect(reverb)
     p.connect(pitchShift)
     p.connect(feedbackDelay)
+    // console.log('player', p)
     return p
     // }
 }
@@ -127,7 +139,7 @@ function routeAudio (p, bReverse = false) {
 // target.appendChild(totalVolumeMeter)
 
 
-showSomeHelpInConsole()
+
 
 Tone.Transport.bpm.value = 120;
 const SixTeenth_Note_Length = () => 0.25 * 60 / Tone.Transport.bpm.value
@@ -157,7 +169,7 @@ document.querySelectorAll(".step-sequencer").forEach((sampleSequencerElement) =>
     sampleSequencerElement.querySelectorAll("button").forEach((stepElement, step) => {
         stepElement.addEventListener("click", () => {
             // console.log("click", step, sampleName)
-            showSomeHelpInConsole(sampleName, sampleName, stepElement)
+            // showSomeHelpInConsole(sampleName, sampleName, stepElement)
             // Toggle the element class to change the red light indicator
             stepElement.querySelector('.light').classList.toggle('active');
 
@@ -295,7 +307,7 @@ function setup(val, elementID) {
             break;
         case 'volume9':
             keys.player("rCrash").volume.value = val;
-            keys.player("rCrash").reverse
+            // keys.player("rCrash").reverse
             break;
         case 'tempo':
             // Beats per minute
@@ -303,11 +315,52 @@ function setup(val, elementID) {
             break;
         case 'distortion':
             //The parameter that is passed to the constructor is the amount of distortion (nominal range of 0-1)
-            // console.log(this)
             keys.connect(distortion)
             distortion.distortion = val;
-            // distortion.distortion = val;
-            // console.log('distortion level', distortion.distortion)
+            break;
+        case 'distortion0':
+            //The parameter that is passed to the constructor is the amount of distortion (nominal range of 0-1)
+            keys.player('kick').connect(distortion)
+            keys.player('kick').distortion.distortion = val;
+            break;
+        case 'distortion1':
+            //The parameter that is passed to the constructor is the amount of distortion (nominal range of 0-1)
+            keys.player('snare').connect(distortion)
+            keys.player('snare').distortion.distortion = val;
+            break;
+        case 'distortion2':
+            //The parameter that is passed to the constructor is the amount of distortion (nominal range of 0-1)
+            keys.player('hihat').connect(distortion)
+            keys.player('hihat').distortion.distortion = val;
+            break;
+        case 'distortion3':
+            //The parameter that is passed to the constructor is the amount of distortion (nominal range of 0-1)
+            keys.player('clap').connect(distortion)
+            keys.player('clap').distortion.distortion = val;
+            break;
+        case 'distortion4':
+            keys.player('crash').connect(distortion)
+            keys.player('crash').distortion.distortion = val;
+            break;
+        case 'distortion5':
+            keys.player('shaker').connect(distortion)
+            keys.player('shaker').distortion.distortion = val;
+            break;
+        case 'distortion6':
+            keys.player('tom1').connect(distortion)
+            keys.player('tom1').distortion.distortion = val;
+            break;
+        case 'distortion7':
+            keys.player('tom2').connect(distortion)
+            keys.player('tom2').distortion.distortion = val;
+            break;
+        case 'distortion8':
+            keys.player('tom3').connect(distortion)
+            keys.player('tom3').distortion.distortion = val;
+            break;
+        case 'distortion9':
+            keys.player('rCrash').connect(distortion)
+            keys.player('rCrash').distortion.distortion = val;
             break;
         case 'phazer':
             /*
@@ -355,15 +408,11 @@ function setup(val, elementID) {
             */
             keys.connect(pitchShift.toDestination())
             pitchShift.pitch = val;
-            pitchShift.delayTime = 2;
-            pitchShift.feedback = .6;
+            pitchShift.delayTime = .5;
+            pitchShift.feedback = .8;
             // console.log('pitch', pitchShift.pitch);
             break;
         case 'pitchC0':
-            /*
-            PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
-            speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
-            */
             keys.player('kick').connect(pitchShift.toDestination())
             // delayTime : Time
             // feedback : NormalRange
@@ -375,106 +424,43 @@ function setup(val, elementID) {
             // console.log('pitch', pitchShift.pitch);
             break;
         case 'pitchC1':
-            /*
-            PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
-            speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
-            */
             keys.player('snare').connect(pitchShift.toDestination())
-            // delayTime : Time
-            // feedback : NormalRange
-            // pitch : Interval
-            // wet : NormalRange
-            // windowSize : Seconds
             pitchShift.delayTime = val/30
             pitchShift.pitch = val;
             // console.log('pitch', pitchShift.pitch);
             break;
         case 'pitchC2':
-            /*
-            PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
-            speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
-            */
             keys.player('hihat').connect(pitchShift.toDestination())
-            // delayTime : Time
-            // feedback : NormalRange
-            // pitch : Interval
-            // wet : NormalRange
-            // windowSize : Seconds
             pitchShift.delayTime = val/30
             pitchShift.pitch = val;
             // console.log('pitch', pitchShift.pitch);
             break;
         case 'pitchC3':
-            /*
-            PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
-            speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
-            */
             keys.player('clap').connect(pitchShift.toDestination())
-            // delayTime : Time
-            // feedback : NormalRange
-            // pitch : Interval
-            // wet : NormalRange
-            // windowSize : Seconds
             pitchShift.delayTime = val/30
             pitchShift.pitch = val;
             // console.log('pitch', pitchShift.pitch);
             break;
         case 'pitchC4':
-            /*
-            PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
-            speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
-            */
             keys.player('crash').connect(pitchShift.toDestination())
-            // delayTime : Time
-            // feedback : NormalRange
-            // pitch : Interval
-            // wet : NormalRange
-            // windowSize : Seconds
             pitchShift.delayTime = val/30
             pitchShift.pitch = val;
             // console.log('pitch', pitchShift.pitch);
             break;
         case 'pitchC5':
-            /*
-            PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
-            speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
-            */
             keys.player('shaker').connect(pitchShift.toDestination())
-            // delayTime : Time
-            // feedback : NormalRange
-            // pitch : Interval
-            // wet : NormalRange
-            // windowSize : Seconds
             pitchShift.delayTime = val/30
             pitchShift.pitch = val;
             // console.log('pitch', pitchShift.pitch);
             break;
         case 'pitchC6':
-            /*
-            PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
-            speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
-            */
             keys.player('tom1').connect(pitchShift.toDestination())
-            // delayTime : Time
-            // feedback : NormalRange
-            // pitch : Interval
-            // wet : NormalRange
-            // windowSize : Seconds
             pitchShift.delayTime = val/30
             pitchShift.pitch = val;
             // console.log('pitch', pitchShift.pitch);
             break;
         case 'pitchC7':
-            /*
-            PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
-            speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
-            */
             keys.player('tom2').connect(pitchShift.toDestination())
-            // delayTime : Time
-            // feedback : NormalRange
-            // pitch : Interval
-            // wet : NormalRange
-            // windowSize : Seconds
             pitchShift.delayTime = val/30
             pitchShift.pitch = val;
             // console.log('pitch', pitchShift.pitch);
@@ -502,8 +488,17 @@ function setup(val, elementID) {
             if (document.getElementById('mute9').checked) {keys.player('rCrash').mute = true}
             break;
         case 'solo':
-
-            Mainchannel.solo(true);
+            if (document.getElementById('solo0').checked) {keys.player('kick').solo = true}
+            if (document.getElementById('solo1').checked) {keys.player('snare').solo = true}
+            if (document.getElementById('solo2').checked) {keys.player('hihat').solo = true}
+            if (document.getElementById('solo3').checked) {keys.player('clap').solo = true}
+            if (document.getElementById('solo4').checked) {keys.player('crash').solo = true}
+            if (document.getElementById('solo5').checked) {keys.player('shaker').solo = true}
+            if (document.getElementById('solo6').checked) {keys.player('tom1').solo = true}
+            if (document.getElementById('solo7').checked) {keys.player('tom2').solo = true}
+            if (document.getElementById('solo8').checked) {keys.player('tom3').solo = true}
+            if (document.getElementById('solo9').checked) {keys.player('rCrash').solo = true}
+            // Mainchannel.solo(true);
             break;
 
         default:
@@ -585,15 +580,17 @@ function createKnob(value) {
         case 'mute':
             knob.title = `mute ${counter}`; //id
             knob.id = `mute${counter}`;
+            knob.value = `mute${counter}`;
             knob.setAttribute('data-diameter', '40');
             knob.setAttribute("type", "checkbox");
             knob.setAttribute("data-fgcolor", "#00ff00");
             knob.setAttribute("data-bgcolor", "#660000");
             knob.setAttribute('class', "input-switch");
-            knob.value = '0';
-            knob.min = '0';
-            knob.max = '1';
-            knob.step = '1';
+            knob.checked = false
+            // knob.value = '0';
+            // knob.min = '0';
+            // knob.max = '1';
+            // knob.step = '1';
             knob.oninput = () => {
                 keys.player("kick").mute = knob.checked;
             }
@@ -604,15 +601,17 @@ function createKnob(value) {
         case 'solo':
             knob.title = `solo ${counter}`; //id
             knob.id = `solo${counter}`;
+            knob.value = `solo${counter}`;
             knob.setAttribute('data-diameter', '40');
             knob.setAttribute("type", "checkbox");
             knob.setAttribute("data-fgcolor", "#00ff00");
             knob.setAttribute("data-bgcolor", "#2040c0");
             knob.setAttribute('class', "input-switch");
-            knob.value = '0';
-            knob.min = '0';
-            knob.max = '1';
-            knob.step = '1';
+            // knob.value = '0';
+            // knob.min = '0';
+            // knob.max = '1';
+            // knob.step = '1';
+            knob.checked = false
             // soloChannel.solo = true;
             keys.player('kick').connect(soloChannel.toDestination())
             // knob.checked = () =>{
@@ -628,8 +627,8 @@ function createKnob(value) {
             knob.setAttribute('class', "input-knob");
             knob.value = '-60';
             knob.min = '-60';
-            knob.max = '40';
-            knob.step = '1';
+            knob.max = '30';
+            knob.step = '0.1';
             break;
         case 'dist':
             knob.title = `distortion${counter}`;
@@ -748,6 +747,8 @@ function createKnob(value) {
             knob.max = '1';
             break;
         case 'cut/off':
+            knob.title = `cutoff`; //id
+            knob.id = `cutoff`; //id
             knob.setAttribute('data-diameter', '130');
             knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
             knob.setAttribute('data-sprites', '99')
@@ -759,6 +760,8 @@ function createKnob(value) {
             knob.step = '0.01'
             break;
         case 'resonance':
+            knob.title = `resonance`; //id
+            knob.id = `resonance`; //id
             knob.setAttribute('data-diameter', '130');
             knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
             knob.setAttribute('data-sprites', '99')
@@ -771,6 +774,8 @@ function createKnob(value) {
             knob.step = '0.01'
             break;
         case 'envelope/mod':
+            knob.title = 'envelope'
+            knob.id = 'envelope'
             knob.setAttribute('data-diameter', '130');
             knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
             knob.setAttribute('data-sprites', '99')
@@ -783,6 +788,8 @@ function createKnob(value) {
             knob.step = '0.01'
             break;
         case 'decay':
+            knob.id = 'decay'
+            knob.title = 'decay'
             knob.setAttribute('data-diameter', '130');
             knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
             knob.setAttribute('data-sprites', '99')
@@ -795,6 +802,8 @@ function createKnob(value) {
             knob.step = '0.01'
             break;
         case 'accent':
+            knob.id = 'accent'
+            knob.title = 'accent'
             knob.setAttribute('data-diameter', '130');
             knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
             knob.setAttribute('data-sprites', '99')
@@ -848,13 +857,12 @@ function createKnob(value) {
             break;
     }
 
-    knob.oninput = (ev) => {
+    knob.oninput = function (ev) {
         console.log(`%cvalue for %c${this.id} %c${this.value}`,
             "color: blue; font-style: italic; background-color: yellow;padding: 2px",
             "color: red; font-style: italic; background-color: yellow;padding: 2px",
             // "color:orange; font-style: italic; background-color: yellow;padding: 2px",
-            "color: yellow; font-style: italic; font-size: large; background-color: blue;padding: 2px; border: 3px solid yellow",
-            `CSS in my console..${ev}`);
+            "color: yellow; font-style: italic; font-size: large; background-color: blue;padding: 2px; border: 3px solid yellow");
         setup(this.value, this.id)
     }
 
@@ -863,8 +871,7 @@ function createKnob(value) {
             "color: blue; font-style: italic; background-color: yellow;padding: 2px",
             "color: red; font-style: italic; background-color: yellow;padding: 2px",
             // "color:orange; font-style: italic; background-color: yellow;padding: 2px",
-            "color: yellow; font-style: italic; font-size: large; background-color: blue;padding: 2px; border: 3px solid yellow",
-            `CSS in my console..`);
+            "color: yellow; font-style: italic; font-size: large; background-color: blue;padding: 2px; border: 3px solid yellow");
         setup(this.value, this.id)
     }
 
