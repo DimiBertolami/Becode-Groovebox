@@ -1,5 +1,11 @@
 # Becode-Groovebox
-## about my last code.. I'm sorry for what I wrote when I was hungry!
+another update guys.. I color coded what is currently working, so i have a better picture of what needs to be done.. there's alot of knobs still not connected properly but that will start working soon i hope. So general volume is connected, distortion also but i have to configure it to be more saturated to give it alot more space inside the sound if that even makes sense. to me it certainly does. Tempo was working all along because there it's simply setting a property (the rest are not just simply numbers that you have to provide, most of the times it's signals like you can imagine an 'sine' oscillator to be a sinusoid type of signal if you remember these from math class). General pitch is working, each channels volume is also working individually now, plus the pitch shifter for each separate channel already allowing me to create some groovy sounds.. but it's a work in progress. Better 'git kraken then' is what my mentor would say to me now! 
+![afbeelding](https://user-images.githubusercontent.com/77209365/191276319-343763a1-8791-45ac-99b3-d31232bac93d.png)
+
+in case you haven't found my deployed version on github pages here's the link
+https://dimibertolami.github.io/Becode-Groovebox/
+
+##Old updates below this point.
 ![image](https://user-images.githubusercontent.com/77209365/182308272-ac8c48cf-44c5-4706-b2dc-e97eda751f95.png)
 So I figured out why it was so difficult to plug in something as simple as a volume control to one of the channels.. it's probably possible to do it inside the giant godObject keys (tone players) but I can't seem to find it in the documentation how to exactly do it. so I separated all the drum channels and added them back into this god object so I don't lose functionality. Soon this will be working, code is ready to start working on decent effects because the distortion that my computer made sounded a little like my old nintendo would sound like when emulating distortion.. 
 
