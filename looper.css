@@ -8,9 +8,9 @@
     display: flex;
     justify-content: center;
     font-size: small;
-    background-color: darkslategrey;
+    background-color: silver;
     /*background-image: radial-gradient(#40c9ff, #e81cff);*/
-    color: greenyellow;
+    color: darkorchid;
     /*box-shadow: 3px #1aff8c;*/
 }
 .step-sequencer {
@@ -29,6 +29,7 @@
     justify-content: start;
     align-items: normal;
     font-size: xx-small;
+    font-weight: bolder;
     font-style: oblique;
     color: pink;
     /*background-color: green;*/
