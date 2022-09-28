@@ -1,6 +1,6 @@
 // const context = new AudioContext(Tone.context)
 const target = document.getElementById('target')
-const { Note, Key } = window.Tonal;
+// const { Note, Key } = window.Tonal;
 const play = (p) => p.start('+0.1').stop(+4);
 const stop = (p) => p.stop(0);
 const volumeUp = (p) => ++keys.player(p).volume.value;
@@ -69,77 +69,87 @@ new Tone.Sequence((time, step) => {
     }
 }, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]).start(0);
 
-const synth = new Tone.AMSynth().toDestination();
+const AMSynth = new Tone.AMSynth().toDestination();
+const duoSynth = new Tone.DuoSynth().toDestination();
+const MonoSynth = new Tone.MonoSynth({
+    oscillator: {
+        type: "square"
+    },
+    envelope: {
+        attack: 0.1
+    }
+}).toDestination();
+const plucky = new Tone.PluckSynth().toDestination();
+
 document.addEventListener('keydown', (event) => {
     var name = event.key;
     switch (name){
         case 'a':
-            console.log(Tonal.Scale.get("C major").notes)
-            synth.triggerAttackRelease("C2", "4n");
+            console.log(Tonal.Chord.get("Cmin"))
+            for (let i = 0; i < Tonal.Chord.get("Cmin").notes.length; i++) { console.log(Tonal.Chord.get("Cmin").notes[i]) }
             break;
         case 'w':
-            console.log(Tonal.Scale.get("C# major").notes)
-            synth.triggerAttackRelease("C#2", "4n");
+            console.log(Tonal.Chord.get("C#min"))
             break;
         case 's':
-            console.log(Tonal.Scale.get("D major").notes)
-            synth.triggerAttackRelease("D2", "4n");
+            console.log(Tonal.Chord.get("Dmin"))
+            // console.log(Tonal.Scale.get("D minor").notes)
             break;
         case 'e':
-            console.log(Tonal.Scale.get("D# major").notes)
-            synth.triggerAttackRelease("D#2", "4n");
+            console.log(Tonal.Chord.get("D#min"))
+            // console.log(Tonal.Scale.get("D# minor").notes)
             break;
         case 'd':
-            console.log(Tonal.Scale.get("E major").notes)
-            synth.triggerAttackRelease("E2", "4n");
+            console.log(Tonal.Chord.get("Emin"))
+            // console.log(Tonal.Scale.get("E minor").notes)
             break;
         case 'f':
-            console.log(Tonal.Scale.get("F major").notes)
-            synth.triggerAttackRelease("F2", "4n");
+            console.log(Tonal.Chord.get("Fmin"))
+            // console.log(Tonal.Scale.get("F minor").notes)
             break;
         case 't':
-            console.log(Tonal.Scale.get("F# major").notes)
-            synth.triggerAttackRelease("F#2", "4n");
+            console.log(Tonal.Chord.get("F#min"))
+            // console.log(Tonal.Scale.get("F# minor").notes)
             break;
         case 'g':
-            console.log(Tonal.Scale.get("G major").notes)
-            synth.triggerAttackRelease("G2", "4n");
+            console.log(Tonal.Chord.get("Gmin"))
+            // console.log(Tonal.Scale.get("G minor").notes)
             break;
         case 'y':
-            console.log(Tonal.Scale.get("G# major").notes)
-            synth.triggerAttackRelease("G#2", "4n");
+            console.log(Tonal.Chord.get("G#min"))
+            // console.log(Tonal.Scale.get("G# minor").notes)
             break;
         case 'h':
-            console.log(Tonal.Scale.get("A major").notes)
-            synth.triggerAttackRelease("A3", "4n");
+            console.log(Tonal.Chord.get("Amin"))
+            // console.log(Tonal.Scale.get("A minor").notes)
             break;
         case 'u':
-            console.log(Tonal.Scale.get("A# major").notes)
-            synth.triggerAttackRelease("A#3", "4n");
+            console.log(Tonal.Chord.get("A#min"))
+            // console.log(Tonal.Scale.get("A# minor").notes)
             break;
         case 'j':
-            console.log(Tonal.Scale.get("B major").notes)
-            synth.triggerAttackRelease("B3", "4n");
+            console.log(Tonal.Chord.get("Bmin"))
+            // console.log(Tonal.Scale.get("B minor").notes)
             break;
         case 'k':
-            console.log(Tonal.Scale.get("C major").notes)
-            synth.triggerAttackRelease("C3", "4n");
+            console.log(Tonal.Chord.get("Cmin"))
+            // console.log(Tonal.Scale.get("C minor").notes)
             break;
         case 'o':
-            console.log(Tonal.Scale.get("C# major").notes)
-            synth.triggerAttackRelease("C#3", "4n");
+            console.log(Tonal.Chord.get("C#min"))
+            // console.log(Tonal.Scale.get("C# minor").notes)
             break;
         case 'l':
-            console.log(Tonal.Scale.get("D major").notes)
-            synth.triggerAttackRelease("D3", "4n");
+            console.log(Tonal.Chord.get("Dmin"))
+            // console.log(Tonal.Scale.get("D minor").notes)
             break;
         case 'p':
-            console.log(Tonal.Scale.get("D# major").notes)
-            synth.triggerAttackRelease("D#3", "4n");
+            console.log(Tonal.Chord.get("D#min"))
+            // console.log(Tonal.Scale.get("D# minor").notes)
             break;
         case ';':
-            console.log(Tonal.Scale.get("E major").notes)
-            synth.triggerAttackRelease("E3", "4n");
+            console.log(Tonal.Chord.get("Emin"))
+            // console.log(Tonal.Scale.get("E minor").notes)
             break;
     }
 }, false);
