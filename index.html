@@ -20,7 +20,53 @@
          knee<input id="knee" type="range" min="0" max="40" step="0.1" value="0"/><br>
         ratio<input id="ratio" type="range" min="1" max="20" step="0.01" value="1"/><br>
       release<input id="release" type="range" min="0" max="1" step="0.01" value="0"/><br>
-    threshold<input id="threshold" type="range" min="-100" max="0" step="0.01" value="-100"/><br>
+    threshold<input id="threshold" type="range" min="-100" max="0" step="0.01" value="-100"/>
+</div>
+
+<label for="distortionControl" hidden>Distortion</label>
+<div id='distortionControl' style="border: 1px solid gold;width: fit-content;" hidden>
+    oversample<select name="oversample" id="oversample"><br>
+        <option value="none">none</option>
+        <option value="2x">2x</option>
+        <option value="4x">4x</option>
+    </select>
+    wet <input id="distortionWet" type="range" min="0" max="1" step="0.01" value="0"/>
+</div>
+
+<label for="phaserControl" hidden>phaserControl</label>
+<div id="phaserControl" style="border: 1px solid gold;width: fit-content;" hidden>
+    Q<input id="phaserQ" type="range" min="0" max="100" step="1" value="0"/>
+    baseFrequency<input id="phaserFreq" type="range" min="0" max="100" step="0.1" value="0.5"/>
+    octaves<input id="phaserOct" type="range" min="0" max="7" step="1" value="3"/>
+    stages<input id="phaserStages" type="range" min="1" max="100" step="1" value="10"/>
+    wet<input id="phaserWet" type="range" min="0" max="1" step="0.01" value="1"/>
+</div>
+<label for="chorusControl" hidden>chorusControl</label>
+<div id="chorusControl" style="border: 1px solid gold;width: fit-content;" hidden>
+    delayTime<input id="chorusDelayTime" type="range" min="0" max="100" step="1" value="0"/>
+    feedback<input id="chorusFeedback" type="range" min="0" max="100" step="1" value="0"/>
+    frequency<input id="chorusDelayTime" type="range" min="0" max="100" step="1" value="0"/>
+    spread<input id="chorusDelayTime" type="range" min="0" max="360" step="1" value="360"/>
+    type <select name="chorusType" id="chorusType">
+            <option value="square">square</option>
+            <option value="square2">square2</option>
+            <option value="square4">square4</option>
+            <option value="square8">square8</option>
+            <option value="sine">sine</option>
+            <option value="sine2">sine2</option>
+            <option value="sine4">sine4</option>
+            <option value="sine8">sine8</option>
+            <option value="sawtooth">sawtooth</option>
+            <option value="sawtooth2">sawtooth2</option>
+            <option value="sawtooth4">sawtooth4</option>
+            <option value="sawtooth8">sawtooth8</option>
+            <option value="sawtooth16">sawtooth16</option>
+            <option value="triangle">triangle</option>
+            <option value="triangle2">triangle2</option>
+            <option value="triangle4">triangle4</option>
+            <option value="triangle8">triangle8</option>
+        </select>
+    wet<input id="chorusDelayTime" type="range" min="0" max="1" step="0.01" value="1"/>
 </div>
 
 <!--<script src="Tone.js">-->

@@ -162,6 +162,7 @@ setPlayer(tom1)
 setPlayer(tom2)
 setPlayer(tom3)
 
+//compressor
 document.getElementById('attack').oninput = function () {
     compressor.set({attack: document.getElementById('attack').value})
 }
@@ -192,6 +193,7 @@ document.getElementById('release').onchange = function () {
 document.getElementById('threshold').onchange = function () {
     compressor.set({threshold: document.getElementById('threshold').value})
 }
+
 
 // =======================================  end audio routing =======================================================
 
@@ -540,26 +542,13 @@ function setup(val, elementID) {
             Changing the mix ratio changes the depth of the notches
             */
             document.getElementById('Phaserdisplay').textContent = val;
-            phaser.set({
-                frequency: val,
-                octaves: 3,
-                baseFrequency: val * 200,
-                stages: 40,
-                Q: 100,
-            });
+            phaser.set({ frequency: val });
             break;
         case 'chorus':
             /*
             */
             document.getElementById('Chorusdisplay').textContent = val;
-            chorus.set({
-                delayTime: val * 350,
-                depth: val,
-                type: "square",
-                spread: 360,
-                wet: 1,
-                frequency: val / 2
-            })
+            chorus.set({ depth: val })
             // keys.player('kick').connect(chorus.toDestination())
             // console.log('chorus settings', chorus.get())
 
