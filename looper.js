@@ -80,76 +80,88 @@ const MonoSynth = new Tone.MonoSynth({
     }
 }).toDestination();
 const plucky = new Tone.PluckSynth().toDestination();
+// create a new cheby
+const cheby = new Tone.Chebyshev(50).toDestination();
+// create a monosynth connected to our cheby
+const synth = new Tone.MonoSynth().connect(cheby);
 
 document.addEventListener('keydown', (event) => {
-    var name = event.key;
+    let name = event.key;
+    let code = event.code;
     switch (name){
         case 'a':
             console.log(Tonal.Chord.get("Cmin"))
-            for (let i = 0; i < Tonal.Chord.get("Cmin").notes.length; i++) { console.log(Tonal.Chord.get("Cmin").notes[i]) }
+            for (let i = 0; i < Tonal.Chord.get("Cmin").notes.length; i++) {
+                // console.log(Tonal.Chord.get("Cmin").notes[i])
+                let note = `${Tonal.Chord.get("Cmin").notes[i]}3`
+                console.log(note)
+                synth.triggerAttackRelease(`${note}`, 0.4);
+                // plucky.triggerAttack(`${note}`, "1n");
+            }
             break;
         case 'w':
             console.log(Tonal.Chord.get("C#min"))
+            for (let i = 0; i < Tonal.Chord.get("C#min").notes.length; i++) { console.log(Tonal.Chord.get("C#min").notes[i]) }
             break;
         case 's':
             console.log(Tonal.Chord.get("Dmin"))
-            // console.log(Tonal.Scale.get("D minor").notes)
+            for (let i = 0; i < Tonal.Chord.get("Dmin").notes.length; i++) { console.log(Tonal.Chord.get("Dmin").notes[i]) }
             break;
         case 'e':
             console.log(Tonal.Chord.get("D#min"))
-            // console.log(Tonal.Scale.get("D# minor").notes)
+            for (let i = 0; i < Tonal.Chord.get("D#min").notes.length; i++) { console.log(Tonal.Chord.get("D#min").notes[i]) }
             break;
         case 'd':
             console.log(Tonal.Chord.get("Emin"))
-            // console.log(Tonal.Scale.get("E minor").notes)
+            for (let i = 0; i < Tonal.Chord.get("Emin").notes.length; i++) { console.log(Tonal.Chord.get("Emin").notes[i]) }
             break;
         case 'f':
             console.log(Tonal.Chord.get("Fmin"))
-            // console.log(Tonal.Scale.get("F minor").notes)
+            for (let i = 0; i < Tonal.Chord.get("Fmin").notes.length; i++) { console.log(Tonal.Chord.get("Fmin").notes[i]) }
             break;
         case 't':
             console.log(Tonal.Chord.get("F#min"))
-            // console.log(Tonal.Scale.get("F# minor").notes)
+            for (let i = 0; i < Tonal.Chord.get("F#min").notes.length; i++) { console.log(Tonal.Chord.get("F#min").notes[i]) }
             break;
         case 'g':
             console.log(Tonal.Chord.get("Gmin"))
-            // console.log(Tonal.Scale.get("G minor").notes)
+            for (let i = 0; i < Tonal.Chord.get("Gmin").notes.length; i++) { console.log(Tonal.Chord.get("Gmin").notes[i]) }
             break;
         case 'y':
             console.log(Tonal.Chord.get("G#min"))
-            // console.log(Tonal.Scale.get("G# minor").notes)
+            for (let i = 0; i < Tonal.Chord.get("G#min").notes.length; i++) { console.log(Tonal.Chord.get("G#min").notes[i]) }
             break;
         case 'h':
             console.log(Tonal.Chord.get("Amin"))
-            // console.log(Tonal.Scale.get("A minor").notes)
+            for (let i = 0; i < Tonal.Chord.get("Amin").notes.length; i++) { console.log(Tonal.Chord.get("Amin").notes[i]) }
             break;
         case 'u':
             console.log(Tonal.Chord.get("A#min"))
-            // console.log(Tonal.Scale.get("A# minor").notes)
+            for (let i = 0; i < Tonal.Chord.get("A#min").notes.length; i++) { console.log(Tonal.Chord.get("A#min").notes[i]) }
             break;
         case 'j':
             console.log(Tonal.Chord.get("Bmin"))
-            // console.log(Tonal.Scale.get("B minor").notes)
+            for (let i = 0; i < Tonal.Chord.get("Bmin").notes.length; i++) { console.log(Tonal.Chord.get("Bmin").notes[i]) }
             break;
         case 'k':
             console.log(Tonal.Chord.get("Cmin"))
-            // console.log(Tonal.Scale.get("C minor").notes)
+            for (let i = 0; i < Tonal.Chord.get("Cmin").notes.length; i++) { console.log(Tonal.Chord.get("Cmin").notes[i]) }
             break;
         case 'o':
             console.log(Tonal.Chord.get("C#min"))
-            // console.log(Tonal.Scale.get("C# minor").notes)
+            for (let i = 0; i < Tonal.Chord.get("C#min").notes.length; i++) { console.log(Tonal.Chord.get("C#min").notes[i]) }
             break;
         case 'l':
             console.log(Tonal.Chord.get("Dmin"))
-            // console.log(Tonal.Scale.get("D minor").notes)
+            for (let i = 0; i < Tonal.Chord.get("Dmin").notes.length; i++) { console.log(Tonal.Chord.get("Dmin").notes[i]) }
             break;
         case 'p':
             console.log(Tonal.Chord.get("D#min"))
-            // console.log(Tonal.Scale.get("D# minor").notes)
+            for (let i = 0; i < Tonal.Chord.get("D#min").notes.length; i++) { console.log(Tonal.Chord.get("D#min").notes[i]) }
             break;
         case ';':
             console.log(Tonal.Chord.get("Emin"))
-            // console.log(Tonal.Scale.get("E minor").notes)
+            for (let i = 0; i < Tonal.Chord.get("Emin").notes.length; i++) { console.log(Tonal.Chord.get("Emin").notes[i]) }
             break;
     }
 }, false);
@@ -161,3 +173,18 @@ document.addEventListener('keydown', (event) => {
 //     // Alert the key name and key code on keydown
 //     console.log(`Key pressed ${name} \r\n Note: ${Note}  `);
 // }, false);
+document.getElementById('phaserQ').addEventListener('input', function (){
+    phaser.q.value = document.getElementById('phaserQ').value;
+})
+document.getElementById('phaserFreq').addEventListener('input', function (){
+    phaser.frequency.value = document.getElementById('phaserFreq').value;
+})
+document.getElementById('phaserOct').addEventListener('input', function (){
+    phaser.octaves = document.getElementById('phaserOct').value;
+})
+document.getElementById('phaserStages').addEventListener('input', function (){
+    phaser.stages = document.getElementById('phaserStages').value;
+})
+document.getElementById('phaserWet').addEventListener('input', function (){
+    phaser.wet.value = document.getElementById('phaserWet').value;
+})

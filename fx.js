@@ -564,6 +564,7 @@ function setup(val, elementID) {
             */
             // console.log('Reverb Settings', reverb.get())
             document.getElementById('Reverbdisplay').textContent = val;
+            reverb.get()
             reverb.set({
                 decay: val * 2,
                 preDelay: val / 5,
@@ -816,10 +817,10 @@ function createKnob(value) {
             knob.setAttribute('data-sprites', '100')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
-            knob.step = '0.01'
-            knob.value = '0';
-            knob.min = '0';
-            knob.max = '1';
+            knob.step = '10'
+            knob.value = '0.001';
+            knob.min = '0.001';
+            knob.max = '1000';
             // led display
             let Reverbdisplay = document.createElement('div')
             Reverbdisplay.setAttribute('id', 'Reverbdisplay')
@@ -841,7 +842,7 @@ function createKnob(value) {
             knob.value = '0';
             knob.min = '0';
             knob.max = '1';
-            knob.step = '0.1';
+            knob.step = '0.01';
             break;
         case 'tune':
             knob.setAttribute('data-diameter', '40');
@@ -851,8 +852,8 @@ function createKnob(value) {
             knob.title = `pitch${counter}`; //id
             knob.id = `pitch${counter}`; //id
             knob.value = '0';
-            knob.min = '-22';
-            knob.max = '22';
+            knob.min = '-50';
+            knob.max = '50';
             knob.step = '1';
             break;
         case 'pan':
