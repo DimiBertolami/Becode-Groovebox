@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/codeMonkeysBe/bertosequence#readme",
   "dependencies": {
+    "@tonaljs/tonal": "^4.6.5",
     "http-server": "^14.1.1",
     "pizzicato": "^0.6.4",
     "require": "^2.4.20",

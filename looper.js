@@ -1,6 +1,6 @@
 // const context = new AudioContext(Tone.context)
 const target = document.getElementById('target')
-
+const { Note, Key } = window.Tonal;
 const play = (p) => p.start('+0.1').stop(+4);
 const stop = (p) => p.stop(0);
 const volumeUp = (p) => ++keys.player(p).volume.value;
@@ -69,3 +69,85 @@ new Tone.Sequence((time, step) => {
     }
 }, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]).start(0);
 
+const synth = new Tone.AMSynth().toDestination();
+document.addEventListener('keydown', (event) => {
+    var name = event.key;
+    switch (name){
+        case 'a':
+            console.log(Tonal.Scale.get("C major").notes)
+            synth.triggerAttackRelease("C2", "4n");
+            break;
+        case 'w':
+            console.log(Tonal.Scale.get("C# major").notes)
+            synth.triggerAttackRelease("C#2", "4n");
+            break;
+        case 's':
+            console.log(Tonal.Scale.get("D major").notes)
+            synth.triggerAttackRelease("D2", "4n");
+            break;
+        case 'e':
+            console.log(Tonal.Scale.get("D# major").notes)
+            synth.triggerAttackRelease("D#2", "4n");
+            break;
+        case 'd':
+            console.log(Tonal.Scale.get("E major").notes)
+            synth.triggerAttackRelease("E2", "4n");
+            break;
+        case 'f':
+            console.log(Tonal.Scale.get("F major").notes)
+            synth.triggerAttackRelease("F2", "4n");
+            break;
+        case 't':
+            console.log(Tonal.Scale.get("F# major").notes)
+            synth.triggerAttackRelease("F#2", "4n");
+            break;
+        case 'g':
+            console.log(Tonal.Scale.get("G major").notes)
+            synth.triggerAttackRelease("G2", "4n");
+            break;
+        case 'y':
+            console.log(Tonal.Scale.get("G# major").notes)
+            synth.triggerAttackRelease("G#2", "4n");
+            break;
+        case 'h':
+            console.log(Tonal.Scale.get("A major").notes)
+            synth.triggerAttackRelease("A3", "4n");
+            break;
+        case 'u':
+            console.log(Tonal.Scale.get("A# major").notes)
+            synth.triggerAttackRelease("A#3", "4n");
+            break;
+        case 'j':
+            console.log(Tonal.Scale.get("B major").notes)
+            synth.triggerAttackRelease("B3", "4n");
+            break;
+        case 'k':
+            console.log(Tonal.Scale.get("C major").notes)
+            synth.triggerAttackRelease("C3", "4n");
+            break;
+        case 'o':
+            console.log(Tonal.Scale.get("C# major").notes)
+            synth.triggerAttackRelease("C#3", "4n");
+            break;
+        case 'l':
+            console.log(Tonal.Scale.get("D major").notes)
+            synth.triggerAttackRelease("D3", "4n");
+            break;
+        case 'p':
+            console.log(Tonal.Scale.get("D# major").notes)
+            synth.triggerAttackRelease("D#3", "4n");
+            break;
+        case ';':
+            console.log(Tonal.Scale.get("E major").notes)
+            synth.triggerAttackRelease("E3", "4n");
+            break;
+    }
+}, false);
+
+// Add event listener on keypress
+// document.addEventListener('keypress', (event) => {
+//     var name = event.key;
+//     var code = event.code;
+//     // Alert the key name and key code on keydown
+//     console.log(`Key pressed ${name} \r\n Note: ${Note}  `);
+// }, false);
