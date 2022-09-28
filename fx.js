@@ -503,34 +503,34 @@ function setup(val, elementID) {
             chan_rCrash.solo = !!document.getElementById('solo9').checked;
             break;
         case 'pan0':
-            chann_kick.pan = val
+            chan_kick.pan = val
             break;
         case 'pan1':
-            chann_snare.pan = val
+            chan_snare.pan = val
             break;
         case 'pan2':
-            chann_hihat.pan = val
+            chan_hihat.pan = val
             break;
         case 'pan3':
-            chann_clap.pan = val
+            chan_clap.pan = val
             break;
         case 'pan4':
-            chann_crash.pan = val
+            chan_crash.pan = val
             break;
         case 'pan5':
-            chann_shaker.pan = val
+            chan_shaker.pan = val
             break;
         case 'pan6':
-            chann_tom1.pan = val
+            chan_tom1.pan = val
             break;
         case 'pan7':
-            chann_tom2.pan = val
+            chan_tom2.pan = val
             break;
         case 'pan8':
-            chann_tom3.pan = val
+            chan_tom3.pan = val
             break;
         case 'pan9':
-            chann_rCrash.pan = val
+            chan_rCrash.pan = val
             break;
         case 'phaser':
             /*
