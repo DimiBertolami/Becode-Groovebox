@@ -36,7 +36,7 @@ document.querySelectorAll(".step-sequencer").forEach((sampleSequencerElement) =>
     // Loop over each step for a sample, and wire a click event listener
     sampleSequencerElement.querySelectorAll("button").forEach((stepElement, step) => {
         stepElement.addEventListener("click", () => {
-            // console.log("click", step, sampleName)
+            console.log("click", step, sampleName)
             // Toggle the element class to change the red light indicator
             stepElement.querySelector('.light').classList.toggle('active');
 
@@ -62,97 +62,10 @@ new Tone.Sequence((time, step) => {
         if(sequences[instrument][step]){
             if (instrument=== 'rCrash') {
                 keys.player(instrument).start(time, 0.01);
-                // instrument.start(time,  0.01)
             } else {
                 keys.player(instrument).start(time, 0.01, '4n');
-                // instrument.start(time, 0.01, '4n')
             }
-        } //&& instrument.start(time, 0.1, '4n');
+        }
     }
 }, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]).start(0);
-
-// console.log('keys', keys)
-
-
-setListener('mute0', 'mute','change', 'kick')
-setListener('mute0','mute', 'input', 'kick')
-
-setListener('mute1', 'mute', 'change', 'snare')
-setListener('mute1', 'mute', 'input', 'snare')
-
-setListener('mute2', 'mute', 'change', 'hihat')
-setListener('mute2', 'mute', 'input', 'hihat')
-
-setListener('mute3', 'mute', 'change', 'clap')
-setListener('mute3', 'mute', 'input', 'clap')
-
-setListener('mute4', 'mute', 'change', 'crash')
-setListener('mute4', 'mute', 'input', 'crash')
-
-setListener('mute5', 'mute', 'change', 'shaker')
-setListener('mute5', 'mute', 'input', 'shaker')
-
-setListener('mute6', 'mute', 'change', 'tom1')
-setListener('mute6', 'mute', 'input', 'tom1')
-
-setListener('mute7', 'mute', 'change', 'tom2')
-setListener('mute7', 'mute', 'input', 'tom2')
-
-setListener('mute8', 'mute', 'change', 'tom3')
-setListener('mute8', 'mute', 'input', 'tom3')
-
-setListener('mute9', 'mute', 'change', 'rCrash')
-setListener('mute9', 'mute', 'input', 'rCrash')
-
-
-setListener('solo0', 'solo','change', 'kick')
-setListener('solo0','solo', 'input', 'kick')
-
-setListener('solo1', 'solo', 'change', 'snare')
-setListener('solo1', 'solo', 'input', 'snare')
-
-setListener('solo2', 'solo', 'change', 'hihat')
-setListener('solo2', 'solo', 'input', 'hihat')
-
-setListener('solo3', 'solo', 'change', 'clap')
-setListener('solo3', 'solo', 'input', 'clap')
-
-setListener('solo4', 'solo', 'change', 'crash')
-setListener('solo4', 'solo', 'input', 'crash')
-
-setListener('solo5', 'solo', 'change', 'shaker')
-setListener('solo5', 'solo', 'input', 'shaker')
-
-setListener('solo6', 'solo', 'change', 'tom1')
-setListener('solo6', 'solo', 'input', 'tom1')
-
-setListener('solo7', 'solo', 'change', 'tom2')
-setListener('solo7', 'solo', 'input', 'tom2')
-
-setListener('solo8', 'solo', 'change', 'tom3')
-setListener('solo8', 'solo', 'input', 'tom3')
-
-setListener('solo9', 'solo', 'change', 'rCrash')
-setListener('solo9', 'solo', 'input', 'rCrash')
-
-// document.getElementById('mute0').addEventListener('change', ()=>{
-//     if(document.getElementById('mute0').checked){
-//         console.log('kick muted')
-//         keys.player('kick').muted=true
-//     } else {
-//         keys.player('kick').muted=false
-//         console.log('kick unmuted')
-    // }
-// })
-// document.getElementById('mute0').addEventListener('input', ()=>{
-//     if(document.getElementById('mute0').checked){
-//         console.log('kick muted')
-        // keys.player('kick').muted=true
-    // } else {
-    //     keys.player('kick').muted=false
-    //     console.log('kick unmuted')
-    // }
-// })
-
-createEventlisteners()
 

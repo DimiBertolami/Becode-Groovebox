@@ -1,33 +1,20 @@
 // ========================================= Here begins the routing of the audio =====================================================
 // Volume channel goes to speakers
 let channel = new Tone.Channel().toDestination();
+const compressor = new Tone.Compressor().connect(channel);
+const mainDistortion = new Tone.Distortion({distortion: 0.9, oversample: "4x"})
+mainDistortion.connect(compressor)
 
-// compressor is the only node connnecting to the main channel
-const compressor = new Tone.Compressor({
-    attack: 0,
-    context: Tone.context,
-    knee: 40,
-    ratio: 15,
-    release: 0.3,
-    threshold: -100,
-}).connect(channel);
-
-// all other effects connect to the compressor
-const distortion = () => new Tone.Distortion({ distortion: 0.9, oversample: "4x"}).connect(compressor)
-const mainDistortion = new Tone.Distortion({ distortion: 0.9, oversample: "4x"}).connect(compressor)
-// mainDistortion.connect(compressor)
-
-const pitchtuner = () => new Tone.PitchShift({ pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0 }).connect(mainDistortion);
-const pitchShift = new Tone.PitchShift({ pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0 }).connect(mainDistortion);
-const chorus = new Tone.Chorus({ frequency: 1.5, delayTime: 200, depth: 0.9, type: "square", spread: 360, wet: 1 }).connect(mainDistortion);
-const phaser = new Tone.Phaser({ frequency: 0.5, octaves: 3, stages: 10, Q: 10, baseFrequency: 350 }).connect(mainDistortion);
-const reverb = new Tone.Reverb({context: Tone.context, decay: 1.5, preDelay: 0.01, wet: 1 }).connect(mainDistortion);
-const feedbackDelay = new Tone.FeedbackDelay({ delayTime: 0.25, maxDelay: 1 }).connect(mainDistortion);
+const pitchShift = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0}).connect(mainDistortion);
+const chorus = new Tone.Chorus().connect(mainDistortion);
+const phaser = new Tone.Phaser().connect(mainDistortion);
+const reverb = new Tone.Reverb().connect(mainDistortion);
+const feedbackDelay = new Tone.FeedbackDelay().connect(mainDistortion);
 // const pingPong = new Tone.PingPongDelay("4n", 0.6);
 // const soloChannel = new Tone.Solo();
 // soloChannel.connect(compressor)
 
-function setPlayer (p, bReverse = false) {
+function setPlayer(p, bReverse = false) {
     if (bReverse) {
         p.reverse = true
         p.playbackRate = .5
@@ -48,40 +35,41 @@ const keys = new Tone.Players({
     urls: {}
 });
 
-//separate distortion
-const  distk  = new Tone.Distortion({ distortion: 0.3, oversample: "none"}).connect(compressor)
-const distsn  = new Tone.Distortion({ distortion: 0.3, oversample: "none"}).connect(compressor)
-const disthh  = new Tone.Distortion({ distortion: 0.3, oversample: "none"}).connect(compressor)
-const distcl  = new Tone.Distortion({ distortion: 0.3, oversample: "none"}).connect(compressor)
-const distcr  = new Tone.Distortion({ distortion: 0.3, oversample: "none"}).connect(compressor)
-const distsh  = new Tone.Distortion({ distortion: 0.3, oversample: "none"}).connect(compressor)
-const distt1  = new Tone.Distortion({ distortion: 0.3, oversample: "none"}).connect(compressor)
-const distt2  = new Tone.Distortion({ distortion: 0.3, oversample: "none"}).connect(compressor)
-const distt3  = new Tone.Distortion({ distortion: 0.3, oversample: "none"}).connect(compressor)
-const distrc  = new Tone.Distortion({ distortion: 0.3, oversample: "none"}).connect(compressor)
-
 //separate pitchTuners
-const  pitchk  = new Tone.PitchShift({ pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0 }).connect(mainDistortion);
-const pitchsn  = new Tone.PitchShift({ pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0 }).connect(mainDistortion);
-const pitchhh  = new Tone.PitchShift({ pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0 }).connect(mainDistortion);
-const pitchcl  = new Tone.PitchShift({ pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0 }).connect(mainDistortion);
-const pitchcr  = new Tone.PitchShift({ pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0 }).connect(mainDistortion);
-const pitchsh  = new Tone.PitchShift({ pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0 }).connect(mainDistortion);
-const pitcht1  = new Tone.PitchShift({ pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0 }).connect(mainDistortion);
-const pitcht2  = new Tone.PitchShift({ pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0 }).connect(mainDistortion);
-const pitcht3  = new Tone.PitchShift({ pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0 }).connect(mainDistortion);
-const pitchrc  = new Tone.PitchShift({ pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0 }).connect(mainDistortion);
+const pitchk = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
+const pitchsn = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
+const pitchhh = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
+const pitchcl = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
+const pitchcr = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
+const pitchsh = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
+const pitcht1 = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
+const pitcht2 = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
+const pitcht3 = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
+const pitchrc = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
+
+//separate distortion
+const distk = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitchk)
+const distsn = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitchsn)
+const disthh = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitchhh)
+const distcl = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitchcl)
+const distcr = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitchcr)
+const distsh = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitchsh)
+const distt1 = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitcht1)
+const distt2 = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitcht2)
+const distt3 = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitcht3)
+const distrc = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitchrc)
+
 //separate players
-const kick  = new Tone.Player('samples/kick.mp3')
+const kick = new Tone.Player('samples/kick.mp3')
 const snare = new Tone.Player('samples/snare.mp3')
 const hihat = new Tone.Player('samples/hihat.mp3')
-const clap  = new Tone.Player('samples/clap.mp3')
+const clap = new Tone.Player('samples/clap.mp3')
 const crash = new Tone.Player('samples/crash.mp3')
-const shaker= new Tone.Player('samples/shaker.mp3')
-const tom1  = new Tone.Player('samples/tom1.mp3')
-const tom2  = new Tone.Player('samples/tom2.mp3')
-const tom3  = new Tone.Player('samples/tom3.mp3')
-const rCrash= new Tone.Player('samples/crash.mp3')
+const shaker = new Tone.Player('samples/shaker.mp3')
+const tom1 = new Tone.Player('samples/tom1.mp3')
+const tom2 = new Tone.Player('samples/tom2.mp3')
+const tom3 = new Tone.Player('samples/tom3.mp3')
+const rCrash = new Tone.Player('samples/crash.mp3')
 
 
 kick.name = 'kick'
@@ -96,27 +84,16 @@ tom3.name = 'tom3'
 rCrash.name = 'rCrash'
 
 
-kick.connect(distk)
-snare.connect(distsn)
-hihat.connect(disthh)
-clap.connect(distcl)
-crash.connect(distcr)
-shaker.connect(distsh)
-tom1.connect(distt1)
-tom2.connect(distt2)
-tom3.connect(distt3)
-rCrash.connect(distrc)
-
-kick.connect(pitchk)
-snare.connect(pitchsn)
-hihat.connect(pitchhh)
-clap.connect(pitchcl)
-crash.connect(pitchcr)
-shaker.connect(pitchsh)
-tom1.connect(pitcht1)
-tom2.connect(pitcht2)
-tom3.connect(pitcht3)
-rCrash.connect(pitchrc)
+// distk.connect(pitchk)
+// distsn.connect(pitchsn)
+// disthh.connect(pitchhh)
+// distcl.connect(pitchcl)
+// distcr.connect(pitchcr)
+// shaker.connect(pitchsh)
+// distt1.connect(pitcht1)
+// distt2.connect(pitcht2)
+// distt3.connect(pitcht3)
+// distrc.connect(pitchrc)
 
 // console.log(keys)
 keys.add(kick.name, kick.buffer)
@@ -130,37 +107,48 @@ keys.add(tom1.name, tom1.buffer)
 keys.add(tom2.name, tom2.buffer)
 keys.add(tom3.name, tom3.buffer)
 
+keys.player('kick').connect(distk)
+keys.player('snare').connect(distsn)
+keys.player('hihat').connect(disthh)
+keys.player('clap').connect(distcl)
+keys.player('crash').connect(distcr)
+keys.player('shaker').connect(distsh)
+keys.player('tom1').connect(distt1)
+keys.player('tom2').connect(distt2)
+keys.player('tom3').connect(distt3)
+keys.player('rCrash').connect(distrc)
+
 //separate channels
-const chan_kick  = new Tone.Channel()
-const chan_snare = new Tone.Channel()
-const chan_hihat = new Tone.Channel()
-const chan_clap  = new Tone.Channel()
-const chan_crash = new Tone.Channel()
-const chan_shaker= new Tone.Channel()
-const chan_tom1  = new Tone.Channel()
-const chan_tom2  = new Tone.Channel()
-const chan_tom3  = new Tone.Channel()
-const chan_rCrash= new Tone.Channel()
+const chan_kick = new Tone.Channel().connect(compressor)
+const chan_snare = new Tone.Channel().connect(compressor)
+const chan_hihat = new Tone.Channel().connect(compressor)
+const chan_clap = new Tone.Channel().connect(compressor)
+const chan_crash = new Tone.Channel().connect(compressor)
+const chan_shaker = new Tone.Channel().connect(compressor)
+const chan_tom1 = new Tone.Channel().connect(compressor)
+const chan_tom2 = new Tone.Channel().connect(compressor)
+const chan_tom3 = new Tone.Channel().connect(compressor)
+const chan_rCrash = new Tone.Channel().connect(compressor)
 
-kick.connect(chan_kick)
-snare.connect(chan_snare)
-hihat.connect(chan_hihat)
-clap.connect(chan_clap)
-crash.connect(chan_crash)
-shaker.connect(chan_shaker)
-tom1.connect(chan_tom1)
-tom2.connect(chan_tom2)
-tom3.connect(chan_tom3)
-rCrash.connect(chan_rCrash)
+pitchk.connect(chan_kick)
+pitchsn.connect(chan_snare)
+pitchhh.connect(chan_hihat)
+pitchcl.connect(chan_clap)
+pitchcr.connect(chan_crash)
+pitchsh.connect(chan_shaker)
+pitcht1.connect(chan_tom1)
+pitcht2.connect(chan_tom2)
+pitcht3.connect(chan_tom3)
+pitchrc.connect(chan_rCrash)
 
-keys.connect(pitchShift)
+// pitchShift.connect(mainDistortion)
+// mainDistortion.connect(chorus)
+chorus.connect(phaser)
+phaser.connect(reverb)
+reverb.connect(pitchShift)
 keys.connect(chorus)
-keys.connect(phaser)
-keys.connect(reverb)
 
-pitchShift.connect(mainDistortion)
-chorus.connect(mainDistortion)
-phaser.connect(mainDistortion)
+
 reverb.connect(mainDistortion)
 
 setPlayer(rCrash, true)
@@ -173,54 +161,39 @@ setPlayer(shaker)
 setPlayer(tom1)
 setPlayer(tom2)
 setPlayer(tom3)
-// =======================================  end audio routing =======================================================
 
-let mute0 = document.getElementById('mute0')
-let mute1 = document.getElementById('mute1')
-let mute2 = document.getElementById('mute2')
-let mute3 = document.getElementById('mute3')
-let mute4 = document.getElementById('mute4')
-let mute5 = document.getElementById('mute5')
-let mute6 = document.getElementById('mute6')
-let mute7 = document.getElementById('mute7')
-let mute8 = document.getElementById('mute8')
-let mute9 = document.getElementById('mute9')
-let solo0 = document.getElementById('solo0')
-let solo1 = document.getElementById('solo1')
-let solo2 = document.getElementById('solo2')
-let solo3 = document.getElementById('solo3')
-let solo4 = document.getElementById('solo4')
-let solo5 = document.getElementById('solo5')
-let solo6 = document.getElementById('solo6')
-let solo7 = document.getElementById('solo7')
-let solo8 = document.getElementById('solo8')
-let solo9 = document.getElementById('solo9')
-let pan0 =  document.getElementById('pan0')
-let pan1 =  document.getElementById('pan1')
-let pan2 =  document.getElementById('pan2')
-let pan3 =  document.getElementById('pan3')
-let pan4 =  document.getElementById('pan4')
-let pan5 =  document.getElementById('pan5')
-let pan6 =  document.getElementById('pan6')
-let pan7 =  document.getElementById('pan7')
-let pan8 =  document.getElementById('pan8')
-let pan9 =  document.getElementById('pan9')
-
-
-
-function setListener(elementID, method, type, instrument){
-    document.getElementById(elementID).addEventListener(type, ()=>{
-        if(document.getElementById(elementID).checked){
-            console.log(`${instrument} ${method}`)
-            instrument.method=true
-            // keys.player(`${instrument}`).method=true
-        } else {
-            console.log(`${instrument} un${method}`)
-            instrument.method=false
-            // keys.player(`${instrument}`).method=false
-        }
-    })
+document.getElementById('attack').oninput = function () {
+    compressor.set({attack: document.getElementById('attack').value})
 }
+document.getElementById('knee').oninput = function () {
+    compressor.set({knee: document.getElementById('knee').value})
+}
+document.getElementById('ratio').oninput = function () {
+    compressor.set({ratio: document.getElementById('ratio').value})
+}
+document.getElementById('release').oninput = function () {
+    compressor.set({release: document.getElementById('release').value})
+}
+document.getElementById('threshold').oninput = function () {
+    compressor.set({threshold: document.getElementById('threshold').value})
+}
+document.getElementById('attack').onchange = function () {
+    compressor.set({attack: document.getElementById('attack').value})
+}
+document.getElementById('knee').onchange = function () {
+    compressor.set({knee: document.getElementById('knee').value})
+}
+document.getElementById('ratio').onchange = function () {
+    compressor.set({ratio: document.getElementById('ratio').value})
+}
+document.getElementById('release').onchange = function () {
+    compressor.set({release: document.getElementById('release').value})
+}
+document.getElementById('threshold').onchange = function () {
+    compressor.set({threshold: document.getElementById('threshold').value})
+}
+
+// =======================================  end audio routing =======================================================
 
 function showSomeHelpInConsole(sampleName, player) {
     fancylog('get', `${sampleName}`, `${player}.get()`)
@@ -231,8 +204,6 @@ function showSomeHelpInConsole(sampleName, player) {
     fancylog('volumeDown', `${sampleName}`, `volumeDown(${player})`)
 }
 
-
-
 function fancylog(msg1, msg2, msg3) {
     console.log(`%c${msg1}%c${msg2}%c${msg3}`,
         "color: blue; font-style: italic; background-color: yellow",
@@ -241,17 +212,15 @@ function fancylog(msg1, msg2, msg3) {
         `...`);
 }
 
-
 function GUI_Builder() {
-     drawButton('play')
-     drawButton('stop')
-     drawMasterSection()
-     // document.createElement('hr');
-     drawDrumSection()
-     drawSynthControls()
+    drawButton('play')
+    drawButton('stop')
+    drawMasterSection()
+    // document.createElement('hr');
+    drawDrumSection()
+    drawSynthControls()
 
 }
-
 
 function ButtonGenerator() {
     let button = document.createElement('button')
@@ -260,7 +229,6 @@ function ButtonGenerator() {
     button.appendChild(buttonchild)
     return button
 }
-
 
 function drawMasterSection() {
 
@@ -296,7 +264,7 @@ function setup(val, elementID) {
         case 'masterVolume':
             document.getElementById('VolumeDisplay').textContent = val;
             document.getElementById('VolumeDisplay').title = 'grand volume (in decibel)'
-            keys.volume.value = val;
+            channel.volume.value = val;
             // console.log(`Mainchannel ${elementID} volume:`, MainGainNode.volume.value)
             break;
         case 'tempo':
@@ -351,66 +319,65 @@ function setup(val, elementID) {
             mainDistortion.oversample = 'none'
             mainDistortion.wet = 1
             console.log('main distortion level', mainDistortion.distortion)
-
             break;
         case 'distortion0':
             distk.distortion = val;
             distk.oversample = '4x';
-            distk.wet.value = '1';
+            distk.wet = '1';
             console.log('distortion kick', distk.distortion)
             break;
         case 'distortion1':
             distsn.distortion = val;
             distsn.oversample = '4x';
-            distsn.wet.value = '1';
+            distsn.wet = '1';
             console.log('distortion snare', distsn.distortion)
             break;
         case 'distortion2':
             disthh.distortion = val;
             disthh.oversample = '4x';
-            disthh.wet.value = '1';
+            disthh.wet = '1';
             console.log('distortion hihat', disthh.distortion)
             break;
         case 'distortion3':
             distcl.distortion = val;
             distcl.oversample = '4x';
-            distcl.wet.value = '1';
+            distcl.wet = '1';
             console.log('distortion clap', distcl.distortion)
             break;
         case 'distortion4':
             distcr.distortion = val;
             distcr.oversample = '4x';
-            distcr.wet.value = '1';
+            distcr.wet = '1';
             console.log('distortion crash', distcr.distortion)
             break;
         case 'distortion5':
             distsh.distortion = val;
             distsh.oversample = '4x';
-            distsh.wet.value = '1';
+            distsh.wet = '1';
             console.log('distortion shaker', distsh.distortion)
             break;
         case 'distortion6':
             distt1.distortion = val;
             distt1.oversample = '4x';
-            distt1.wet.value = '1';
+            distt1.wet = '1';
             console.log('distortion tom1', distt1.distortion)
             break;
         case 'distortion7':
             distt2.distortion = val;
             distt2.oversample = '4x';
-            distt2.wet.value = '1';
+            distt2.wet = '1';
             console.log('distortion tom2', distt2.distortion)
             break;
         case 'distortion8':
             distt3.distortion = val;
             distt3.oversample = '4x';
-            distt3.wet.value = '1';
+            distt3.wet = '1';
             console.log('distortion tom3', distt3.distortion)
             break;
         case 'distortion9':
             distrc.distortion = val;
             distrc.oversample = '4x';
-            distrc.wet.value = '1';
+            distrc.wet = '1';
             console.log('distortion reverse crash', distrc.distortion)
             break;
         case 'pitch':
@@ -419,59 +386,59 @@ function setup(val, elementID) {
             speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
             */
             pitchShift.pitch = val;
-            pitchShift.delayTime = val/12;
-            pitchShift.feedback = val/40;
+            // pitchShift.delayTime = val/12;
+            // pitchShift.feedback = val/40;
             break;
         case 'pitch0':
             pitchk.pitch = val;
-            pitchk.delayTime = val/12;
-            pitchk.feedback = val/40;
+            // pitchk.delayTime = .6;
+            // pitchk.feedback = .9;
             break;
         case 'pitch1':
             pitchsn.pitch = val;
-            pitchsn.delayTime = val/12
-            pitchsn.pitch = val/40;
+            // pitchsn.delayTime = .6
+            // pitchsn.feedback = .9;
             break;
         case 'pitch2':
             pitchhh.pitch = val;
-            pitchhh.delayTime = val/12
-            pitchhh.pitch = val/40;
+            // pitchhh.delayTime = .6
+            // pitchhh.feedback = .9;
             break;
         case 'pitch3':
             pitchcl.pitch = val;
-            pitchcl.delayTime = val/12
-            pitchcl.pitch = val/40;
+            // pitchcl.delayTime = .6
+            // pitchcl.feedback = .9;
             break;
         case 'pitch4':
             pitchcr.pitch = val;
-            pitchcr.delayTime = val/12
-            pitchcr.pitch = val/40;
+            // pitchcr.delayTime = .6
+            // pitchcr.feedback = .9;
             break;
         case 'pitch5':
             pitchsh.pitch = val;
-            pitchsh.delayTime = val/12
-            pitchsh.pitch = val/40;
+            // pitchsh.delayTime = .6
+            // pitchsh.feedback = .9;
             break;
         case 'pitch6':
             pitcht1.pitch = val;
-            pitcht1.delayTime = val/12
-            pitcht1.pitch = val/40;
+            // pitcht1.delayTime = .6
+            // pitcht1.feedback =.9;
             break;
         case 'pitch7':
             pitcht2.pitch = val;
-            pitcht2.delayTime = val/12
-            pitcht2.pitch = val/40;
+            // pitcht2.delayTime = .6
+            // pitcht2.feedback = .9;
             // console.log('pitch', pitchShift.pitch);
             break;
         case 'pitch8':
             pitcht3.pitch = val;
-            pitcht3.delayTime = val/12
-            pitcht3.pitch = val/40;
+            // pitcht3.delayTime = .6
+            // pitcht3.feedback = .9;
             break;
         case 'pitch9':
             pitchrc.pitch = val;
-            pitchrc.delayTime = val/12
-            pitchrc.pitch = val/40;
+            // pitchrc.delayTime = .6
+            // pitchrc.feedback = .9;
             break;
         case 'mute0':
             keys.player('kick').mute = !!document.getElementById('mute0').checked;
@@ -504,7 +471,7 @@ function setup(val, elementID) {
             keys.player('rCrash').mute = !!document.getElementById('mute9').checked;
             break;
         case 'solo0':
-            chan_kick.solo = document.getElementById('solo0').value === 'on';
+            chan_kick.solo = !!document.getElementById('solo0').checked;
             break;
         case 'solo1':
             chan_snare.solo = !!document.getElementById('solo1').checked;
@@ -534,34 +501,34 @@ function setup(val, elementID) {
             chan_rCrash.solo = !!document.getElementById('solo9').checked;
             break;
         case 'pan0':
-            channel_kick.pan=val
+            chann_kick.pan = val
             break;
         case 'pan1':
-            channel_snare.pan=val
+            chann_snare.pan = val
             break;
         case 'pan2':
-            channel_hihat.pan=val
+            chann_hihat.pan = val
             break;
         case 'pan3':
-            channel_clap.pan=val
+            chann_clap.pan = val
             break;
         case 'pan4':
-            channel_crash.pan=val
+            chann_crash.pan = val
             break;
         case 'pan5':
-            channel_shaker.pan=val
+            chann_shaker.pan = val
             break;
         case 'pan6':
-            channel_tom1.pan=val
+            chann_tom1.pan = val
             break;
         case 'pan7':
-            channel_tom2.pan=val
+            chann_tom2.pan = val
             break;
         case 'pan8':
-            channel_tom3.pan=val
+            chann_tom3.pan = val
             break;
         case 'pan9':
-            channel_rCrash.pan=val
+            chann_rCrash.pan = val
             break;
         case 'phaser':
             /*
@@ -576,22 +543,22 @@ function setup(val, elementID) {
             phaser.set({
                 frequency: val,
                 octaves: 3,
-                baseFrequency: val*200,
+                baseFrequency: val * 200,
                 stages: 40,
                 Q: 100,
-    });
+            });
             break;
         case 'chorus':
             /*
             */
             document.getElementById('Chorusdisplay').textContent = val;
             chorus.set({
-                delayTime: val*350,
+                delayTime: val * 350,
                 depth: val,
                 type: "square",
                 spread: 360,
                 wet: 1,
-                frequency: val/2
+                frequency: val / 2
             })
             // keys.player('kick').connect(chorus.toDestination())
             // console.log('chorus settings', chorus.get())
@@ -609,9 +576,10 @@ function setup(val, elementID) {
             // console.log('Reverb Settings', reverb.get())
             document.getElementById('Reverbdisplay').textContent = val;
             reverb.set({
-                decay: val *2,
-                preDelay: val/5,
-                wet: 1})
+                decay: val * 2,
+                preDelay: val / 5,
+                wet: 1
+            })
             break;
 
         default:
@@ -667,6 +635,7 @@ function DrawGui(Name) {
     // target.appendChild(div1)
     return div1;
 }
+
 // name as input (kick, snare etc..)
 function channelStrip(value) {
 
@@ -706,7 +675,7 @@ function createKnob(value) {
             knob.max = '5';
             knob.step = '0.1';
             knob.setAttribute('class', "input-switch");
-            knob.style= 'opacity:10%'
+            knob.style = 'opacity:10%'
             break;
         case 'mute':
             knob.title = `mute ${counter}`; //id
@@ -720,16 +689,17 @@ function createKnob(value) {
             // knob.max = '1';
             // knob.step = '1';
             knob.checked = false
-            knob.oninput = function () {
-                console.log(`%cvalue for %c${this.id} %c${this.value}`,
+            target.appendChild(label)
+            knob.onchange = function () {
+                console.log(`%cvalue for %c${this.id} %cchecked ${this.checked}`,
                     "color: blue; font-style: italic; background-color: yellow;padding: 2px",
                     "color: red; font-style: italic; background-color: yellow;padding: 2px",
                     // "color:orange; font-style: italic; background-color: yellow;padding: 2px",
                     "color: yellow; font-style: italic; font-size: large; background-color: blue;padding: 2px; border: 3px solid yellow");
                 setup(this.checked, this.id)
             }
-            knob.onchange = function () {
-                console.log(`%cvalue for %c${this.id} %c${this.value}`,
+            knob.oninput = function () {
+                console.log(`%cvalue for %c${this.id} %cchecked ${this.checked}`,
                     "color: blue; font-style: italic; background-color: yellow;padding: 2px",
                     "color: red; font-style: italic; background-color: yellow;padding: 2px",
                     // "color:orange; font-style: italic; background-color: yellow;padding: 2px",
@@ -750,8 +720,9 @@ function createKnob(value) {
             // knob.max = '1';
             // knob.step = '1';
             knob.checked = false
+            target.appendChild(label)
             knob.oninput = function () {
-                console.log(`%cvalue for %c${this.id} %c${this.value}`,
+                console.log(`%cvalue for %c${this.id} %cchecked ${this.checked}`,
                     "color: blue; font-style: italic; background-color: yellow;padding: 2px",
                     "color: red; font-style: italic; background-color: yellow;padding: 2px",
                     // "color:orange; font-style: italic; background-color: yellow;padding: 2px",
@@ -759,7 +730,7 @@ function createKnob(value) {
                 setup(this.checked, this.id)
             }
             knob.onchange = function () {
-                console.log(`%cvalue for %c${this.id} %c${this.value}`,
+                console.log(`%cvalue for %c${this.id} %cchecked ${this.checked}`,
                     "color: blue; font-style: italic; background-color: yellow;padding: 2px",
                     "color: red; font-style: italic; background-color: yellow;padding: 2px",
                     // "color:orange; font-style: italic; background-color: yellow;padding: 2px",
@@ -794,7 +765,7 @@ function createKnob(value) {
             // led display
             let Disortiondisplay = document.createElement('div')
             Disortiondisplay.setAttribute('id', 'Disortiondisplay')
-            Disortiondisplay.style="background-color: darkblue; " +
+            Disortiondisplay.style = "background-color: darkblue; " +
                 "padding: 3px;border: 1px solid gold; " +
                 "font-size: large; font-weight: bold; " +
                 "font-family: 'The Led Display St', sans-serif; " +
@@ -817,7 +788,7 @@ function createKnob(value) {
             // led display
             let Phaserdisplay = document.createElement('div')
             Phaserdisplay.setAttribute('id', 'Phaserdisplay')
-            Phaserdisplay.style="background-color: darkblue; " +
+            Phaserdisplay.style = "background-color: darkblue; " +
                 "padding: 3px;border: 1px solid gold; " +
                 "font-size: large; font-weight: bold; " +
                 "font-family: 'The Led Display St', sans-serif; " +
@@ -840,7 +811,7 @@ function createKnob(value) {
             // led display
             let Chorusdisplay = document.createElement('div')
             Chorusdisplay.setAttribute('id', 'Chorusdisplay')
-            Chorusdisplay.style="background-color: darkblue; " +
+            Chorusdisplay.style = "background-color: darkblue; " +
                 "padding: 3px;border: 1px solid gold; " +
                 "font-size: large; font-weight: bold; " +
                 "font-family: 'The Led Display St', sans-serif; " +
@@ -863,7 +834,7 @@ function createKnob(value) {
             // led display
             let Reverbdisplay = document.createElement('div')
             Reverbdisplay.setAttribute('id', 'Reverbdisplay')
-            Reverbdisplay.style="background-color: darkblue; " +
+            Reverbdisplay.style = "background-color: darkblue; " +
                 "padding: 3px;border: 1px solid gold; " +
                 "font-size: large; font-weight: bold; " +
                 "font-family: 'The Led Display St', sans-serif; " +
@@ -922,7 +893,7 @@ function createKnob(value) {
             // led display
             let voldisplay = document.createElement('div')
             voldisplay.setAttribute('id', 'VolumeDisplay')
-            voldisplay.style="background-color: darkblue; " +
+            voldisplay.style = "background-color: darkblue; " +
                 "padding: 3px;border: 1px solid gold; " +
                 "font-size: large; font-weight: bold; " +
                 "font-family: 'The Led Display St', sans-serif; " +
@@ -948,11 +919,11 @@ function createKnob(value) {
             // led display
             let BPMdisplay = document.createElement('div')
             BPMdisplay.setAttribute('id', 'BPMDisplay')
-            BPMdisplay.style="background-color: darkblue; " +
-                             "padding: 3px;border: 1px solid gold; " +
-                             "font-size: large; font-weight: bold; " +
-                             "font-family: 'The Led Display St', sans-serif; " +
-                             "color: gold; width: 45px; height: 25px"
+            BPMdisplay.style = "background-color: darkblue; " +
+                "padding: 3px;border: 1px solid gold; " +
+                "font-size: large; font-weight: bold; " +
+                "font-family: 'The Led Display St', sans-serif; " +
+                "color: gold; width: 45px; height: 25px"
             BPMdisplay.textContent = ''
             label.appendChild(BPMdisplay)
             break;
@@ -998,7 +969,7 @@ function createKnob(value) {
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
             knob.value = '0';
-            knob.step= "1"
+            knob.step = "1"
             knob.min = '0';
             knob.max = '1';
             knob.step = '0.01'
@@ -1160,207 +1131,4 @@ function drawPianoSampler() {
     // document.body.appendChild(containerP);
     return containerP
 
-}
-
-
-
-function createEventlisteners(){
-    // mute0.addEventListener('change', ()=>{
-    //     if(document.getElementById('mute0').checked){
-    //         console.log('kick muted')
-    //         keys.player('kick').muted=true
-    //     } else {
-    //         keys.player('kick').muted=false
-    //         console.log('kick unmuted')
-    //     }
-    // })
-    // mute1.addEventListener('change', ()=>{
-    //     if(mute1.checked){
-    //         keys.player('snare').mute=true
-    //         console.log('snare muted')
-    //     } else {
-    //         keys.player('snare').mute=false
-    //         console.log('snare unmuted')
-    //     }
-    //
-    // })
-    // mute2.addEventListener('change', ()=>{
-    //     if(mute2.checked){
-    //         keys.player('hihat').mute=true
-    //         console.log('hihat muted')
-    //     } else {
-    //         keys.player('hihat').mute=false
-    //         console.log('hihat unmuted')
-    //     }
-    //
-    // })
-    // mute3.addEventListener('change', ()=>{
-    //     if(mute3.checked){
-    //         keys.player('clap').mute=true
-    //         console.log('clap muted')
-    //     } else {
-    //         keys.player('clap').mute=false
-    //         console.log('clap unmuted')
-    //     }
-    //
-    // })
-    // mute4.addEventListener('change', ()=>{
-    //     if(mute4.checked){
-    //         keys.player('crash').mute=true
-    //         console.log('crash muted')
-    //     } else {
-    //         keys.player('crash').mute=false
-    //         console.log('crash unmuted')
-    //     }
-    //
-    // })
-    // mute5.addEventListener('change', ()=>{
-    //     if(mute5.checked){
-    //         keys.player('shaker').mute=true
-    //         console.log('shaker muted')
-    //     } else {
-    //         keys.player('shaker').mute=false
-    //         console.log('shaker unmuted')
-    //     }
-    //
-    // })
-    // mute6.addEventListener('change', ()=>{
-    //     if(mute6.checked){
-    //         keys.player('tom1').mute=true
-    //         console.log('tom1 muted')
-    //     } else {
-    //         keys.player('tom1').mute=false
-    //         console.log('tom1 unmuted')
-    //     }
-    //
-    // })
-    // mute7.addEventListener('change', ()=>{
-    //     if(mute7.checked){
-    //         keys.player('tom2').mute=true
-    //         console.log('tom2 muted')
-    //     } else {
-    //         keys.player('tom2').mute=false
-    //         console.log('tom2 unmuted')
-    //     }
-    //
-    // })
-    // mute8.addEventListener('change', ()=>{
-    //     if(mute8.checked){
-    //         keys.player('tom3').mute=true
-    //         console.log('tom3 muted')
-    //     } else {
-    //         keys.player('tom3').mute=false
-    //         console.log('tom3 unmuted')
-    //     }
-    //
-    // })
-    // mute9.addEventListener('change', ()=>{
-    //     if(mute9.checked){
-    //         keys.player('rCrash').mute=true
-    //         console.log('reverse crash muted')
-    //     } else {
-    //         keys.player('rCrash').mute=false
-    //         console.log('reverse crash unmuted')
-    //     }
-    // })
-
-    // document.getElementById('solo0').addEventListener('change', ()=>{
-    //     if(document.getElementById('solo0').checked){
-    //         chan_kick.solo=true
-    //         console.log('kick solo')
-    //     } else {
-    //         chan_kick.solo=false
-    //         console.log('unsolo')
-    //     }
-    // })
-    // solo1.addEventListener('change', ()=>{
-    //     if(solo1.checked){
-    //         keys.player('snare').solo=true
-    //         console.log('snare solo')
-    //     } else {
-    //         keys.player('snare').solo=false
-    //         console.log('snare unsolo')
-    //     }
-    //
-    // })
-    // solo2.addEventListener('change', ()=>{
-    //     if(solo2.checked){
-    //         keys.player('hihat').solo=true
-    //         console.log('hihat solo')
-    //     } else {
-    //         keys.player('hihat').solo=false
-    //         console.log('hihat unsolo')
-    //     }
-    //
-    // })
-    // solo3.addEventListener('change', ()=>{
-    //     if(solo3.checked){
-    //         keys.player('clap').solo=true
-    //         console.log('clap solo')
-    //     } else {
-    //         keys.player('clap').solo=false
-    //         console.log('clap unsolo')
-    //     }
-    //
-    // })
-    // solo4.addEventListener('change', ()=>{
-    //     if(solo4.checked){
-    //         keys.player('crash').solo=true
-    //         console.log('crash solo')
-    //     } else {
-    //         keys.player('crash').solo=false
-    //         console.log('crash unsolo')
-    //     }
-    //
-    // })
-    // solo5.addEventListener('change', ()=>{
-    //     if(solo5.checked){
-    //         keys.player('shaker').solo=true
-    //         console.log('shaker solo')
-    //     } else {
-    //         keys.player('shaker').solo=false
-    //         console.log('shaker unsolo')
-    //     }
-    //
-    // })
-    // solo6.addEventListener('change', ()=>{
-    //     if(solo6.checked){
-    //         keys.player('tom1').solo=true
-    //         console.log('tom1 solo')
-    //     } else {
-    //         keys.player('tom1').solo=false
-    //         console.log('tom1 unsolo')
-    //     }
-    //
-    // })
-    // solo7.addEventListener('change', ()=>{
-    //     if(solo7.checked){
-    //         keys.player('tom2').solo=true
-    //         console.log('tom2 solo')
-    //     } else {
-    //         keys.player('tom2').solo=false
-    //         console.log('tom2 unsolo')
-    //     }
-    //
-    // })
-    // solo8.addEventListener('change', ()=>{
-    //     if(solo8.checked){
-    //         keys.player('tom3').solo=true
-    //         console.log('tom3 solo')
-    //     } else {
-    //         keys.player('tom3').solo=false
-    //         console.log('tom3 unsolo')
-    //     }
-    //
-    // })
-    // solo9.addEventListener('change', ()=>{
-    //     if(solo9.checked){
-    //         keys.player('rCrash').solo=true
-    //         console.log('reverse crash solo')
-    //     } else {
-    //         keys.player('rCrash').solo=false
-    //         console.log('reverse crash unsolo')
-    //     }
-    // })
-    //
 }

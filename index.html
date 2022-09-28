@@ -14,8 +14,15 @@
 <div id="sequencer" class="container sequencer">
 </div>
 
-<input id="gainSlider" type="range" min="0" max="1" step="0.05" value="0.5" onchange="changeVol(this)"/>
-<button class="play">Test Go</button>
+<label for="compressor" style="font-size: larger; color: blueviolet">compressor</label>
+<div id="compressor" style="border: 1px solid gold; background-color: azure; width: fit-content">
+       Attack<input id="attack" type="range" min="0" max="1" step="0.01" value="0"/><br>
+         knee<input id="knee" type="range" min="0" max="40" step="0.1" value="0"/><br>
+        ratio<input id="ratio" type="range" min="1" max="20" step="0.01" value="1"/><br>
+      release<input id="release" type="range" min="0" max="1" step="0.01" value="0"/><br>
+    threshold<input id="threshold" type="range" min="-100" max="0" step="0.01" value="-100"/><br>
+</div>
+
 <!--<script src="Tone.js">-->
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.7/Tone.js"></script>-->
 <script src="https://unpkg.com/tone@next"></script>
