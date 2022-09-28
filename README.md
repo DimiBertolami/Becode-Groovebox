@@ -1,4 +1,7 @@
 # Becode-Groovebox
+![image](https://user-images.githubusercontent.com/77209365/192674976-e19b57fd-bb0c-4f15-8f55-e480f1b41f74.png)
+>> fixer compressor controls, chorus, phaser, reverb and player pitch
+
 another update guys.. I color coded what is currently working, so i have a better picture of what needs to be done.. there's alot of knobs still not connected properly but that will start working soon i hope. So general volume is connected, distortion also but i have to configure it to be more saturated to give it alot more space inside the sound if that even makes sense. to me it certainly does. Tempo was working all along because there it's simply setting a property (the rest are not just simply numbers that you have to provide, most of the times it's signals like you can imagine an 'sine' oscillator to be a sinusoid type of signal if you remember these from math class). General pitch is working, each channels volume is also working individually now, plus the pitch shifter for each separate channel already allowing me to create some groovy sounds.. but it's a work in progress. Better 'git kraken then' is what my mentor would say to me now! Almost forgot! the individual mute channels are also working but I will have to refactor some of that code probably
 ![afbeelding](https://user-images.githubusercontent.com/77209365/191276319-343763a1-8791-45ac-99b3-d31232bac93d.png)
 
