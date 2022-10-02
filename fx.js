@@ -1,15 +1,46 @@
 // ========================================= Here begins the routing of the audio =====================================================
+const recorder = new Tone.Recorder();
 // Volume channel goes to speakers
 let channel = new Tone.Channel().toDestination();
 const compressor = new Tone.Compressor().connect(channel);
-const mainDistortion = new Tone.Distortion({distortion: 0.9, oversample: "4x"})
+const mainDistortion = new Tone.Distortion({distortion: 0, oversample: "4x"})
+// const biquadFilter = new Tone.BiquadFilter()
+// biquadFilter.type = 'lowpass'
+// biquadFilter.frequency.value = 9e3
+// biquadFilter.q.value = 0
+// biquadFilter.hiPassVal = 200
+// biquadFilter.hiPassFilter = Tone.BiquadFilter()
+// biquadFilter.hiPassFilter.type = 'highpass'
+// biquadFilter.hiPassFilter.frequency.value = biquadFilter.hiPassVal
+// biquadFilter.hiPassFilter.q.value = 0
+// const biquadFilter2 = new Tone.BiquadFilter()
+// biquadFilter2.type = 'highpass'
+// biquadFilter2.frequency.value = biquadFilter.hiPassVal
+// biquadFilter2.q.value = 0
+//
+// biquadFilter.connect(compressor)
+// biquadFilter.hiPassFilter.connect(compressor)
+// biquadFilter2.connect(compressor)
+
+// types:
+/*
+"lowpass"
+"highpass"
+"bandpass"
+"lowshelf"
+"highshelf"
+"peaking"
+"notch"
+"allpass"
+
+ */
 mainDistortion.connect(compressor)
 
-const pitchShift = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0}).connect(mainDistortion);
-const chorus = new Tone.Chorus().connect(mainDistortion);
-const phaser = new Tone.Phaser().connect(mainDistortion);
-const reverb = new Tone.Reverb().connect(mainDistortion);
-const feedbackDelay = new Tone.FeedbackDelay().connect(mainDistortion);
+const pitchShift = new Tone.PitchShift({pitch: 0, windowSize: 0.9, delayTime: 0, feedback: 0.7}).connect(mainDistortion);
+const chorus = new Tone.Chorus().connect(compressor);
+const phaser = new Tone.Phaser().connect(compressor);
+const reverb = new Tone.Reverb().connect(compressor);
+// const feedbackDelay = new Tone.FeedbackDelay().connect(compressor);
 // const pingPong = new Tone.PingPongDelay("4n", 0.6);
 // const soloChannel = new Tone.Solo();
 // soloChannel.connect(compressor)
@@ -17,15 +48,11 @@ const feedbackDelay = new Tone.FeedbackDelay().connect(mainDistortion);
 function setPlayer(p, bReverse = false) {
     if (bReverse) {
         p.reverse = true
-        p.playbackRate = .5
+        p.playbackRate = 2
         console.log('player ', p, 'reversed', p.reverse, 'playbackRate', p.playbackRate)
     }
     showSomeHelpInConsole('        ', p.name, p.value)
-    // p.connect(pitchtuner())
-    // p.connect(chorus)
-    // p.connect(phaser)
-    // p.connect(reverb)
-    // p.connect(feedbackDelay)
+    // p.connect(compressor)
     return p
     // }
 }
@@ -34,30 +61,31 @@ function setPlayer(p, bReverse = false) {
 const keys = new Tone.Players({
     urls: {}
 });
-
+keys.connect(recorder)
+// keys.connect(compressor)
 //separate pitchTuners
-const pitchk = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
-const pitchsn = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
-const pitchhh = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
-const pitchcl = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
-const pitchcr = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
-const pitchsh = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
-const pitcht1 = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
-const pitcht2 = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
-const pitcht3 = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
-const pitchrc = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0});
+const pitchk = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0})
+const pitchsn = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0})
+const pitchhh = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0})
+const pitchcl = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0})
+const pitchcr = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0})
+const pitchsh = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0})
+const pitcht1 = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0})
+const pitcht2 = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0})
+const pitcht3 = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0})
+const pitchrc = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0})
 
 //separate distortion
-const distk = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitchk)
-const distsn = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitchsn)
-const disthh = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitchhh)
-const distcl = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitchcl)
-const distcr = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitchcr)
-const distsh = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitchsh)
-const distt1 = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitcht1)
-const distt2 = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitcht2)
-const distt3 = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitcht3)
-const distrc = new Tone.Distortion({distortion: 0.3, oversample: "none"}).connect(pitchrc)
+const distk = new Tone.Distortion({distortion: 0, oversample: "2x"}).connect(pitchk)
+const distsn = new Tone.Distortion({distortion: 0, oversample: "2x"}).connect(pitchsn)
+const disthh = new Tone.Distortion({distortion: 0, oversample: "2x"}).connect(pitchhh)
+const distcl = new Tone.Distortion({distortion: 0, oversample: "2x"}).connect(pitchcl)
+const distcr = new Tone.Distortion({distortion: 0, oversample: "2x"}).connect(pitchcr)
+const distsh = new Tone.Distortion({distortion: 0, oversample: "2x"}).connect(pitchsh)
+const distt1 = new Tone.Distortion({distortion: 0, oversample: "2x"}).connect(pitcht1)
+const distt2 = new Tone.Distortion({distortion: 0, oversample: "2x"}).connect(pitcht2)
+const distt3 = new Tone.Distortion({distortion: 0, oversample: "2x"}).connect(pitcht3)
+const distrc = new Tone.Distortion({distortion: 0, oversample: "2x"}).connect(pitchrc)
 
 //separate players
 const kick = new Tone.Player('samples/kick.mp3')
@@ -95,7 +123,6 @@ rCrash.name = 'rCrash'
 // distt3.connect(pitcht3)
 // distrc.connect(pitchrc)
 
-// console.log(keys)
 keys.add(kick.name, kick.buffer)
 keys.add(snare.name, snare.buffer)
 keys.add(hihat.name, hihat.buffer)
@@ -106,7 +133,7 @@ keys.add(shaker.name, shaker.buffer)
 keys.add(tom1.name, tom1.buffer)
 keys.add(tom2.name, tom2.buffer)
 keys.add(tom3.name, tom3.buffer)
-
+// console.log(keys.player('kick'))
 keys.player('kick').connect(distk)
 keys.player('snare').connect(distsn)
 keys.player('hihat').connect(disthh)
@@ -117,6 +144,7 @@ keys.player('tom1').connect(distt1)
 keys.player('tom2').connect(distt2)
 keys.player('tom3').connect(distt3)
 keys.player('rCrash').connect(distrc)
+// console.log(keys)
 
 //separate channels
 const chan_kick = new Tone.Channel().connect(compressor)
@@ -243,7 +271,7 @@ function drawMasterSection() {
     containerM.appendChild(createKnob('phaser'));
     containerM.appendChild(createKnob('chorus'));
     containerM.appendChild(createKnob('reverb'));
-    containerM.appendChild(createKnob('vumeter'));
+    // containerM.appendChild(createKnob('vumeter'));
     target.appendChild(containerM)
     // return containerM;
     // document.body.appendChild(containerM);
@@ -318,7 +346,7 @@ function setup(val, elementID) {
             document.getElementById('Disortiondisplay').textContent = val;
             //amount of distortion (nominal range of 0-1)
             mainDistortion.distortion = val;
-            mainDistortion.oversample = 'none'
+            mainDistortion.oversample = '4x'
             mainDistortion.wet = 1
             console.log('main distortion level', mainDistortion.distortion)
             break;
@@ -473,64 +501,124 @@ function setup(val, elementID) {
             keys.player('rCrash').mute = !!document.getElementById('mute9').checked;
             break;
         case 'solo0':
-            chan_kick.solo = !!document.getElementById('solo0').checked;
+            chan_kick.connect(Tone.Destination)
+            // chan_kick.solo = !!
+                if(document.getElementById('solo0').checked === true) {
+                    chan_kick.solo = true
+                } else {
+                    chan_kick.solo = false
+                }
             break;
         case 'solo1':
-            chan_snare.solo = !!document.getElementById('solo1').checked;
+            chan_snare.connect(Tone.Destination)
+            if (document.getElementById('solo1').checked ===true) {
+                chan_snare.solo = true
+            } else {
+                chan_snare.solo = false
+            }
+            // chan_snare.solo = !!document.getElementById('solo1').checked;
             break;
         case 'solo2':
-            chan_hihat.solo = !!document.getElementById('solo2').checked;
+            chan_hihat.connect(Tone.Destination)
+            // chan_hihat.solo = !!
+                if(document.getElementById('solo2').checked ===true) {
+                    chan_hihat.solo = true
+                } else {
+                    chan_hihat.solo = false
+                }
             break;
         case 'solo3':
-            chan_clap.solo = !!document.getElementById('solo3').checked;
+            chan_clap.connect(Tone.Destination)
+            if (document.getElementById('solo3').checked === true){
+                chan_clap.solo = true
+            } else {
+                chan_clap.solo = false
+            }
+            // chan_clap.solo = !!document.getElementById('solo3').checked;
             break;
         case 'solo4':
-            chan_crash.solo = !!document.getElementById('solo4').checked;
+            chan_crash.connect(Tone.Destination)
+            if (document.getElementById('solo4').checked ===true) {
+                chan_crash.solo = true
+            } else {
+                chan_crash.solo = false
+            }
+            // chan_crash.solo = !!document.getElementById('solo4').checked;
             break;
         case 'solo5':
-            chan_shaker.solo = !!document.getElementById('solo5').checked;
+            chan_shaker.connect(Tone.Destination)
+            if (document.getElementById('solo5').checked ===true) {
+                chan_shaker.solo = true
+            }else {
+                chan_shaker.solo = false
+            }
+            // chan_shaker.solo = !!document.getElementById('solo5').checked;
             break;
         case 'solo6':
-            chan_tom1.solo = !!document.getElementById('solo6').checked;
+            chan_tom1.connect(Tone.Destination)
+            if (document.getElementById('solo6').checked ===true) {
+                chan_tom1.solo = true
+            } else {
+                chan_tom1.solo = false
+            }
+            // chan_tom1.solo = !!document.getElementById('solo6').checked;
             break;
         case 'solo7':
-            chan_tom2.solo = !!document.getElementById('solo7').checked;
+            chan_tom2.connect(Tone.Destination)
+            if (document.getElementById('solo7').checked ===true) {
+                chan_tom2.solo = true
+            } else {
+                chan_tom2.solo = false
+            }
+            // chan_tom2.solo = !!document.getElementById('solo7').checked;
             break;
         case 'solo8':
-            chan_tom3.solo = !!document.getElementById('solo8').checked;
+            chan_tom3.connect(Tone.Destination)
+            if (document.getElementById('solo8').checked ===true) {
+                chan_tom3.solo = true
+            } else {
+                chan_tom3.solo = false
+            }
+            // chan_tom3.solo = !!document.getElementById('solo8').checked;
             break;
         case 'solo9':
-            chan_rCrash.solo = !!document.getElementById('solo9').checked;
+            chan_rCrash.connect(Tone.Destination)
+            if (document.getElementById('solo9').checked ===true) {
+                chan_rCrash.solo = true
+            } else {
+                chan_rCrash.solo = false
+            }
+            // chan_rCrash.solo = !!document.getElementById('solo9').checked;
             break;
         case 'pan0':
-            chan_kick.pan = val
+            chan_kick.pan.value = val
             break;
         case 'pan1':
-            chan_snare.pan = val
+            chan_snare.pan.value = val
             break;
         case 'pan2':
-            chan_hihat.pan = val
+            chan_hihat.pan.value = val
             break;
         case 'pan3':
-            chan_clap.pan = val
+            chan_clap.pan.value = val
             break;
         case 'pan4':
-            chan_crash.pan = val
+            chan_crash.pan.value = val
             break;
         case 'pan5':
-            chan_shaker.pan = val
+            chan_shaker.pan.value = val
             break;
         case 'pan6':
-            chan_tom1.pan = val
+            chan_tom1.pan.value = val
             break;
         case 'pan7':
-            chan_tom2.pan = val
+            chan_tom2.pan.value = val
             break;
         case 'pan8':
-            chan_tom3.pan = val
+            chan_tom3.pan.value = val
             break;
         case 'pan9':
-            chan_rCrash.pan = val
+            chan_rCrash.pan.value = val
             break;
         case 'phaser':
             /*
@@ -736,9 +824,9 @@ function createKnob(value) {
             knob.setAttribute("data-fgcolor", "#00ff00");
             knob.setAttribute('class', "input-knob");
             knob.value = '-60';
-            knob.min = '-60';
-            knob.max = '40';
-            knob.step = '1';
+            knob.min = '0';
+            knob.max = '10';
+            knob.step = '0.01';
             break;
         case 'distortion':
             knob.setAttribute('data-diameter', '130');
@@ -817,10 +905,10 @@ function createKnob(value) {
             knob.setAttribute('data-sprites', '100')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
-            knob.step = '10'
-            knob.value = '0.001';
-            knob.min = '0.001';
-            knob.max = '1000';
+            knob.step = '0.01'
+            knob.value = '0.01';
+            knob.min = '0.01';
+            knob.max = '2';
             // led display
             let Reverbdisplay = document.createElement('div')
             Reverbdisplay.setAttribute('id', 'Reverbdisplay')

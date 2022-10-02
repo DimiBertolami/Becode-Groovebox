@@ -1,4 +1,10 @@
 // const context = new AudioContext(Tone.context)
+// const context = Pizzicato.context;
+// const Tone_context = Tone.context
+// console.log('pizzicato context:', context)
+// console.log('tone context:', Tone_context)
+// Tone.setContext(context)
+// console.log('tone context:', Tone_context)
 const target = document.getElementById('target')
 // const { Note, Key } = window.Tonal;
 const play = (p) => p.start('+0.1').stop(+4);
@@ -48,12 +54,23 @@ document.querySelectorAll(".step-sequencer").forEach((sampleSequencerElement) =>
 
 // Play button click handler
 document.querySelector(".play").addEventListener('click', () => {
+    recorder.start();
     Tone.Transport.start('+0.01')
     Tone.start(0)
 });
 
 // Stop button click handler
-document.querySelector(".stop").addEventListener('click', ()=> { Tone.Transport.stop(0) });
+document.querySelector(".stop").addEventListener('click', async ()=> {
+    // the recorded audio is returned as a blob
+    const recording = await recorder.stop();
+    // download the recording by creating an anchor element and blob url
+    const url = URL.createObjectURL(recording);
+    const anchor = document.createElement("a");
+    anchor.download = "recording.webm";
+    anchor.href = url;
+    anchor.click();
+    Tone.Transport.stop(0)
+});
 
 // This thing just ticks away at equal intervals, allowing us to step in and program the samples to play at each one of those intervals
 new Tone.Sequence((time, step) => {
@@ -69,102 +86,102 @@ new Tone.Sequence((time, step) => {
     }
 }, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]).start(0);
 
-const AMSynth = new Tone.AMSynth().toDestination();
-const duoSynth = new Tone.DuoSynth().toDestination();
-const MonoSynth = new Tone.MonoSynth({
-    oscillator: {
-        type: "square"
-    },
-    envelope: {
-        attack: 0.1
-    }
-}).toDestination();
-const plucky = new Tone.PluckSynth().toDestination();
-// create a new cheby
-const cheby = new Tone.Chebyshev(50).toDestination();
-// create a monosynth connected to our cheby
-const synth = new Tone.MonoSynth().connect(cheby);
-
-document.addEventListener('keydown', (event) => {
-    let name = event.key;
-    let code = event.code;
-    switch (name){
-        case 'a':
-            console.log(Tonal.Chord.get("Cmin"))
-            for (let i = 0; i < Tonal.Chord.get("Cmin").notes.length; i++) {
-                // console.log(Tonal.Chord.get("Cmin").notes[i])
-                let note = `${Tonal.Chord.get("Cmin").notes[i]}3`
-                console.log(note)
-                synth.triggerAttackRelease(`${note}`, 0.4);
-                // plucky.triggerAttack(`${note}`, "1n");
-            }
-            break;
-        case 'w':
-            console.log(Tonal.Chord.get("C#min"))
-            for (let i = 0; i < Tonal.Chord.get("C#min").notes.length; i++) { console.log(Tonal.Chord.get("C#min").notes[i]) }
-            break;
-        case 's':
-            console.log(Tonal.Chord.get("Dmin"))
-            for (let i = 0; i < Tonal.Chord.get("Dmin").notes.length; i++) { console.log(Tonal.Chord.get("Dmin").notes[i]) }
-            break;
-        case 'e':
-            console.log(Tonal.Chord.get("D#min"))
-            for (let i = 0; i < Tonal.Chord.get("D#min").notes.length; i++) { console.log(Tonal.Chord.get("D#min").notes[i]) }
-            break;
-        case 'd':
-            console.log(Tonal.Chord.get("Emin"))
-            for (let i = 0; i < Tonal.Chord.get("Emin").notes.length; i++) { console.log(Tonal.Chord.get("Emin").notes[i]) }
-            break;
-        case 'f':
-            console.log(Tonal.Chord.get("Fmin"))
-            for (let i = 0; i < Tonal.Chord.get("Fmin").notes.length; i++) { console.log(Tonal.Chord.get("Fmin").notes[i]) }
-            break;
-        case 't':
-            console.log(Tonal.Chord.get("F#min"))
-            for (let i = 0; i < Tonal.Chord.get("F#min").notes.length; i++) { console.log(Tonal.Chord.get("F#min").notes[i]) }
-            break;
-        case 'g':
-            console.log(Tonal.Chord.get("Gmin"))
-            for (let i = 0; i < Tonal.Chord.get("Gmin").notes.length; i++) { console.log(Tonal.Chord.get("Gmin").notes[i]) }
-            break;
-        case 'y':
-            console.log(Tonal.Chord.get("G#min"))
-            for (let i = 0; i < Tonal.Chord.get("G#min").notes.length; i++) { console.log(Tonal.Chord.get("G#min").notes[i]) }
-            break;
-        case 'h':
-            console.log(Tonal.Chord.get("Amin"))
-            for (let i = 0; i < Tonal.Chord.get("Amin").notes.length; i++) { console.log(Tonal.Chord.get("Amin").notes[i]) }
-            break;
-        case 'u':
-            console.log(Tonal.Chord.get("A#min"))
-            for (let i = 0; i < Tonal.Chord.get("A#min").notes.length; i++) { console.log(Tonal.Chord.get("A#min").notes[i]) }
-            break;
-        case 'j':
-            console.log(Tonal.Chord.get("Bmin"))
-            for (let i = 0; i < Tonal.Chord.get("Bmin").notes.length; i++) { console.log(Tonal.Chord.get("Bmin").notes[i]) }
-            break;
-        case 'k':
-            console.log(Tonal.Chord.get("Cmin"))
-            for (let i = 0; i < Tonal.Chord.get("Cmin").notes.length; i++) { console.log(Tonal.Chord.get("Cmin").notes[i]) }
-            break;
-        case 'o':
-            console.log(Tonal.Chord.get("C#min"))
-            for (let i = 0; i < Tonal.Chord.get("C#min").notes.length; i++) { console.log(Tonal.Chord.get("C#min").notes[i]) }
-            break;
-        case 'l':
-            console.log(Tonal.Chord.get("Dmin"))
-            for (let i = 0; i < Tonal.Chord.get("Dmin").notes.length; i++) { console.log(Tonal.Chord.get("Dmin").notes[i]) }
-            break;
-        case 'p':
-            console.log(Tonal.Chord.get("D#min"))
-            for (let i = 0; i < Tonal.Chord.get("D#min").notes.length; i++) { console.log(Tonal.Chord.get("D#min").notes[i]) }
-            break;
-        case ';':
-            console.log(Tonal.Chord.get("Emin"))
-            for (let i = 0; i < Tonal.Chord.get("Emin").notes.length; i++) { console.log(Tonal.Chord.get("Emin").notes[i]) }
-            break;
-    }
-}, false);
+// const AMSynth = new Tone.AMSynth().toDestination();
+// const duoSynth = new Tone.DuoSynth().toDestination();
+// const MonoSynth = new Tone.MonoSynth({
+//     oscillator: {
+//         type: "square"
+//     },
+//     envelope: {
+//         attack: 0.1
+//     }
+// }).toDestination();
+// const plucky = new Tone.PluckSynth().toDestination();
+// // create a new cheby
+// const cheby = new Tone.Chebyshev(50).toDestination();
+// // create a monosynth connected to our cheby
+// const synth = new Tone.MonoSynth().connect(cheby);
+//
+// document.addEventListener('keydown', (event) => {
+//     let name = event.key;
+//     let code = event.code;
+//     switch (name){
+//         case 'a':
+//             console.log(Tonal.Chord.get("Cmin"))
+//             for (let i = 0; i < Tonal.Chord.get("Cmin").notes.length; i++) {
+//                 // console.log(Tonal.Chord.get("Cmin").notes[i])
+//                 let note = `${Tonal.Chord.get("Cmin").notes[i]}3`
+//                 console.log(note)
+//                 synth.triggerAttackRelease(`${note}`, 0.4);
+//                 // plucky.triggerAttack(`${note}`, "1n");
+//             }
+//             break;
+//         case 'w':
+//             console.log(Tonal.Chord.get("C#min"))
+//             for (let i = 0; i < Tonal.Chord.get("C#min").notes.length; i++) { console.log(Tonal.Chord.get("C#min").notes[i]) }
+//             break;
+//         case 's':
+//             console.log(Tonal.Chord.get("Dmin"))
+//             for (let i = 0; i < Tonal.Chord.get("Dmin").notes.length; i++) { console.log(Tonal.Chord.get("Dmin").notes[i]) }
+//             break;
+//         case 'e':
+//             console.log(Tonal.Chord.get("D#min"))
+//             for (let i = 0; i < Tonal.Chord.get("D#min").notes.length; i++) { console.log(Tonal.Chord.get("D#min").notes[i]) }
+//             break;
+//         case 'd':
+//             console.log(Tonal.Chord.get("Emin"))
+//             for (let i = 0; i < Tonal.Chord.get("Emin").notes.length; i++) { console.log(Tonal.Chord.get("Emin").notes[i]) }
+//             break;
+//         case 'f':
+//             console.log(Tonal.Chord.get("Fmin"))
+//             for (let i = 0; i < Tonal.Chord.get("Fmin").notes.length; i++) { console.log(Tonal.Chord.get("Fmin").notes[i]) }
+//             break;
+//         case 't':
+//             console.log(Tonal.Chord.get("F#min"))
+//             for (let i = 0; i < Tonal.Chord.get("F#min").notes.length; i++) { console.log(Tonal.Chord.get("F#min").notes[i]) }
+//             break;
+//         case 'g':
+//             console.log(Tonal.Chord.get("Gmin"))
+//             for (let i = 0; i < Tonal.Chord.get("Gmin").notes.length; i++) { console.log(Tonal.Chord.get("Gmin").notes[i]) }
+//             break;
+//         case 'y':
+//             console.log(Tonal.Chord.get("G#min"))
+//             for (let i = 0; i < Tonal.Chord.get("G#min").notes.length; i++) { console.log(Tonal.Chord.get("G#min").notes[i]) }
+//             break;
+//         case 'h':
+//             console.log(Tonal.Chord.get("Amin"))
+//             for (let i = 0; i < Tonal.Chord.get("Amin").notes.length; i++) { console.log(Tonal.Chord.get("Amin").notes[i]) }
+//             break;
+//         case 'u':
+//             console.log(Tonal.Chord.get("A#min"))
+//             for (let i = 0; i < Tonal.Chord.get("A#min").notes.length; i++) { console.log(Tonal.Chord.get("A#min").notes[i]) }
+//             break;
+//         case 'j':
+//             console.log(Tonal.Chord.get("Bmin"))
+//             for (let i = 0; i < Tonal.Chord.get("Bmin").notes.length; i++) { console.log(Tonal.Chord.get("Bmin").notes[i]) }
+//             break;
+//         case 'k':
+//             console.log(Tonal.Chord.get("Cmin"))
+//             for (let i = 0; i < Tonal.Chord.get("Cmin").notes.length; i++) { console.log(Tonal.Chord.get("Cmin").notes[i]) }
+//             break;
+//         case 'o':
+//             console.log(Tonal.Chord.get("C#min"))
+//             for (let i = 0; i < Tonal.Chord.get("C#min").notes.length; i++) { console.log(Tonal.Chord.get("C#min").notes[i]) }
+//             break;
+//         case 'l':
+//             console.log(Tonal.Chord.get("Dmin"))
+//             for (let i = 0; i < Tonal.Chord.get("Dmin").notes.length; i++) { console.log(Tonal.Chord.get("Dmin").notes[i]) }
+//             break;
+//         case 'p':
+//             console.log(Tonal.Chord.get("D#min"))
+//             for (let i = 0; i < Tonal.Chord.get("D#min").notes.length; i++) { console.log(Tonal.Chord.get("D#min").notes[i]) }
+//             break;
+//         case ';':
+//             console.log(Tonal.Chord.get("Emin"))
+//             for (let i = 0; i < Tonal.Chord.get("Emin").notes.length; i++) { console.log(Tonal.Chord.get("Emin").notes[i]) }
+//             break;
+//     }
+// }, false);
 
 // Add event listener on keypress
 // document.addEventListener('keypress', (event) => {
@@ -174,7 +191,7 @@ document.addEventListener('keydown', (event) => {
 //     console.log(`Key pressed ${name} \r\n Note: ${Note}  `);
 // }, false);
 document.getElementById('phaserQ').addEventListener('input', function (){
-    phaser.q.value = document.getElementById('phaserQ').value;
+    phaser.q = document.getElementById('phaserQ').value;
 })
 document.getElementById('phaserFreq').addEventListener('input', function (){
     phaser.frequency.value = document.getElementById('phaserFreq').value;
