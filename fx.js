@@ -4,19 +4,23 @@ const recorder = new Tone.Recorder();
 let channel = new Tone.Channel().toDestination();
 const compressor = new Tone.Compressor().connect(channel);
 const mainDistortion = new Tone.Distortion({distortion: 0, oversample: "4x"})
-// const biquadFilter = new Tone.BiquadFilter()
-// biquadFilter.type = 'lowpass'
-// biquadFilter.frequency.value = 9e3
-// biquadFilter.q.value = 0
-// biquadFilter.hiPassVal = 200
-// biquadFilter.hiPassFilter = Tone.BiquadFilter()
-// biquadFilter.hiPassFilter.type = 'highpass'
-// biquadFilter.hiPassFilter.frequency.value = biquadFilter.hiPassVal
-// biquadFilter.hiPassFilter.q.value = 0
-// const biquadFilter2 = new Tone.BiquadFilter()
-// biquadFilter2.type = 'highpass'
-// biquadFilter2.frequency.value = biquadFilter.hiPassVal
-// biquadFilter2.q.value = 0
+// const lowpass = new Tone.BiquadFilter()
+// lowpass.type = 'lowpass'
+// console.log('lowpass', lowpass.get())
+// lowpass.frequency.value = 440
+// lowpass.q.value = 10
+//
+// const highpass = new Tone.BiquadFilter()
+// highpass.hiPassVal = 200
+// highpass.type = 'highpass'
+// console.log('highpass', highpass.get())
+// highpass.frequency.value = highpass.hiPassVal
+// highpass.q.value = 0
+//
+// const bandpass = new Tone.BiquadFilter()
+// bandpass.type = 'bandpass'
+// bandpass.frequency.value = bandpass.hiPassVal
+// bandpass.q.value = 0
 //
 // biquadFilter.connect(compressor)
 // biquadFilter.hiPassFilter.connect(compressor)
@@ -45,10 +49,15 @@ const reverb = new Tone.Reverb().connect(compressor);
 // const soloChannel = new Tone.Solo();
 // soloChannel.connect(compressor)
 
+const filter = new Tone.FeedbackCombFilter()
+filter.set({delayTime: '4n', resonance: 1})
+filter.connect(compressor)
+console.log('filter', filter.get())
+
 function setPlayer(p, bReverse = false) {
     if (bReverse) {
         p.reverse = true
-        p.playbackRate = 2
+        p.playbackRate = 1
         console.log('player ', p, 'reversed', p.reverse, 'playbackRate', p.playbackRate)
     }
     showSomeHelpInConsole('        ', p.name, p.value)
@@ -249,7 +258,8 @@ function GUI_Builder() {
     // document.createElement('hr');
     drawDrumSection()
     drawSynthControls()
-
+    // drawPianoSampler()
+    createPlayer('e2')
 }
 
 function ButtonGenerator() {
@@ -283,6 +293,7 @@ function drawButton(name) {
     let btn = document.createElement('button')
     btn.className = name
     btn.textContent = name
+    btn.id = name
     x.appendChild(btn)
     target.appendChild(x)
 }
@@ -346,67 +357,67 @@ function setup(val, elementID) {
             document.getElementById('Disortiondisplay').textContent = val;
             //amount of distortion (nominal range of 0-1)
             mainDistortion.distortion = val;
-            mainDistortion.oversample = '4x'
+            mainDistortion.oversample = '2x'
             mainDistortion.wet = 1
             console.log('main distortion level', mainDistortion.distortion)
             break;
         case 'distortion0':
             distk.distortion = val;
-            distk.oversample = '4x';
+            distk.oversample = 'none';
             distk.wet = '1';
             console.log('distortion kick', distk.distortion)
             break;
         case 'distortion1':
             distsn.distortion = val;
-            distsn.oversample = '4x';
+            distsn.oversample = 'none';
             distsn.wet = '1';
             console.log('distortion snare', distsn.distortion)
             break;
         case 'distortion2':
             disthh.distortion = val;
-            disthh.oversample = '4x';
+            disthh.oversample = 'none';
             disthh.wet = '1';
             console.log('distortion hihat', disthh.distortion)
             break;
         case 'distortion3':
             distcl.distortion = val;
-            distcl.oversample = '4x';
+            distcl.oversample = 'none';
             distcl.wet = '1';
             console.log('distortion clap', distcl.distortion)
             break;
         case 'distortion4':
             distcr.distortion = val;
-            distcr.oversample = '4x';
+            distcr.oversample = 'none';
             distcr.wet = '1';
             console.log('distortion crash', distcr.distortion)
             break;
         case 'distortion5':
             distsh.distortion = val;
-            distsh.oversample = '4x';
+            distsh.oversample = 'none';
             distsh.wet = '1';
             console.log('distortion shaker', distsh.distortion)
             break;
         case 'distortion6':
             distt1.distortion = val;
-            distt1.oversample = '4x';
+            distt1.oversample = 'none';
             distt1.wet = '1';
             console.log('distortion tom1', distt1.distortion)
             break;
         case 'distortion7':
             distt2.distortion = val;
-            distt2.oversample = '4x';
+            distt2.oversample = 'none';
             distt2.wet = '1';
             console.log('distortion tom2', distt2.distortion)
             break;
         case 'distortion8':
             distt3.distortion = val;
-            distt3.oversample = '4x';
+            distt3.oversample = 'none';
             distt3.wet = '1';
             console.log('distortion tom3', distt3.distortion)
             break;
         case 'distortion9':
             distrc.distortion = val;
-            distrc.oversample = '4x';
+            distrc.oversample = 'none';
             distrc.wet = '1';
             console.log('distortion reverse crash', distrc.distortion)
             break;
@@ -415,7 +426,7 @@ function setup(val, elementID) {
             PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
             speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
             */
-            pitchShift.pitch = val;
+            omniOsc.detune.value = val;
             // pitchShift.delayTime = val/12;
             // pitchShift.feedback = val/40;
             break;
@@ -654,12 +665,18 @@ function setup(val, elementID) {
             document.getElementById('Reverbdisplay').textContent = val;
             reverb.get()
             reverb.set({
-                decay: val * 2,
+                decay: val,
                 preDelay: val / 5,
                 wet: 1
             })
             break;
-
+        case 'cutoff':
+            break;
+        case 'resonance':
+            filter.resonance.value = val;
+            break;
+        case 'envmod':
+            break;
         default:
             break;
     }
@@ -1006,6 +1023,8 @@ function createKnob(value) {
             label.appendChild(BPMdisplay)
             break;
         case 'cut/off':
+            knob.title = 'cutoff'
+            knob.id = 'cutoff'
             knob.setAttribute('data-diameter', '130');
             knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
             knob.setAttribute('data-sprites', '99')
@@ -1017,6 +1036,8 @@ function createKnob(value) {
             knob.step = '0.01'
             break;
         case 'resonance':
+            knob.title= 'resonance'
+            knob.id= 'resonance'
             knob.setAttribute('data-diameter', '130');
             knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
             knob.setAttribute('data-sprites', '99')
@@ -1029,6 +1050,8 @@ function createKnob(value) {
             knob.step = '0.01'
             break;
         case 'envelope/mod':
+            knob.title = 'envmod'
+            knob.id = 'envmod'
             knob.setAttribute('data-diameter', '130');
             knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
             knob.setAttribute('data-sprites', '99')
@@ -1073,9 +1096,9 @@ function createKnob(value) {
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
             knob.value = '0';
-            knob.min = '-23';
-            knob.max = '23';
-            knob.step = '0.1';
+            knob.min = '-1200';
+            knob.max = '1200';
+            knob.step = '1';
             break;
         case 'switch':
             knob.setAttribute('data-diameter', '130');
@@ -1174,39 +1197,3 @@ function createPlayer(value) {
     // return container1;
 }
 
-function drawPianoSampler() {
-    let containerP = document.createElement('div');
-    containerP.id = 'piano-samples';
-    // containerP.appendChild(createPlayer(value = "A1v16"));
-    // containerP.appendChild(createPlayer(value = "A2v16"));
-    // containerP.appendChild(createPlayer(value = "A3v16"));
-    // containerP.appendChild(createPlayer(value = "A4v16"));
-    // containerP.appendChild(createPlayer(value = "A5v16"));
-    // containerP.appendChild(createPlayer(value = "A6v16"));
-    // containerP.appendChild(createPlayer(value = "A7v16"));
-    // containerP.appendChild(createPlayer(value = "C1v16"));
-    // containerP.appendChild(createPlayer(value = "C2v16"));
-    // containerP.appendChild(createPlayer(value = "C3v16"));
-    // containerP.appendChild(createPlayer(value = "C4v16"));
-    // containerP.appendChild(createPlayer(value = "C5v16"));
-    // containerP.appendChild(createPlayer(value = "C6v16"));
-    // containerP.appendChild(createPlayer(value = "C7v16"));
-    // containerP.appendChild(createPlayer(value = "C8v16"));
-    // containerP.appendChild(createPlayer(value = "Ds1v16"));
-    // containerP.appendChild(createPlayer(value = "Ds2v16"));
-    // containerP.appendChild(createPlayer(value = "Ds3v16"));
-    // containerP.appendChild(createPlayer(value = "Ds4v16"));
-    // containerP.appendChild(createPlayer(value = "Ds5v16"));
-    // containerP.appendChild(createPlayer(value = "Ds6v16"));
-    // containerP.appendChild(createPlayer(value = "Ds7v16"));
-    // containerP.appendChild(createPlayer(value = "Fs1v16"));
-    // containerP.appendChild(createPlayer(value = "Fs2v16"));
-    // containerP.appendChild(createPlayer(value = "Fs3v16"));
-    // containerP.appendChild(createPlayer(value = "Fs4v16"));
-    // containerP.appendChild(createPlayer(value = "Fs5v16"));
-    // containerP.appendChild(createPlayer(value = "Fs6v16"));
-    // containerP.appendChild(createPlayer(value = "Fs7v16"));
-    // document.body.appendChild(containerP);
-    return containerP
-
-}

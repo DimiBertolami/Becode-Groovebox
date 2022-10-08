@@ -11,7 +11,6 @@ const play = (p) => p.start('+0.1').stop(+4);
 const stop = (p) => p.stop(0);
 const volumeUp = (p) => ++keys.player(p).volume.value;
 const volumeDown = (p) => --p.volume.value;
-
 let counter = 0;
 let reverse = true;
 
@@ -19,6 +18,10 @@ GUI_Builder()
 
 Tone.Transport.bpm.value = 120;
 const SixTeenth_Note_Length = () => 0.25 * 60 / Tone.Transport.bpm.value
+console.log('16th', SixTeenth_Note_Length())
+const osc = new Tone.Oscillator('c2', "sawtooth").toDestination() //osc .start(time, +.1, '4n');
+// const omniOsc = new Tone.OmniOscillator("C2", "pwm").toDestination(); //.start()
+const omniOsc = new Tone.OmniOscillator("C2", "pwm").connect(filter);
 
 // This is an object of sequence arrays, keeping track of each of the on/off positions of all the steps for each sample
 const sequences = {
@@ -32,6 +35,7 @@ const sequences = {
     tom1: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
     tom2: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
     tom3: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    e2: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
 }
 
 // Loops over all step sequencer rows ( each row represents a sample, indicated by its `data-sampleName` property
@@ -72,15 +76,33 @@ document.querySelector(".stop").addEventListener('click', async ()=> {
     Tone.Transport.stop(0)
 });
 
+// repeated event every 16th note
+// Tone.Transport.scheduleRepeat((time) => {
+//     use the callback time to schedule events
+    // omniOsc.start(time).stop(time + 0.1);
+// }, "16n");
+
+
 // This thing just ticks away at equal intervals, allowing us to step in and program the samples to play at each one of those intervals
 new Tone.Sequence((time, step) => {
     for (const instrument in sequences) {
         // console.log('step ', step,  instrument, sequences[instrument][step] )
         if(sequences[instrument][step]){
+            if (instrument=== 'e2'){
+                omniOsc.volume.value = -20
+                omniOsc.start(time).stop(time + 0.1);
+                //     console.log(omniOsc.get())
+            //     omniOsc.detune = 100
+            //     omniOsc.start(0, 0, '16N')
+            }
             if (instrument=== 'rCrash') {
                 keys.player(instrument).start(time, 0.01);
             } else {
                 keys.player(instrument).start(time, 0.01, '4n');
+            }
+        } else {
+            if (instrument==='e2'){
+                omniOsc.stop(time+0.1)
             }
         }
     }
