@@ -90,7 +90,7 @@ new Tone.Sequence((time, step) => {
         if(sequences[instrument][step]){
             if (instrument=== 'e2'){
                 omniOsc.volume.value = -20
-                omniOsc.start(time).stop(time + 0.1);
+                omniOsc.start(time).stop(time + SixTeenth_Note_Length());
                 return
                 //     console.log(omniOsc.get())
             //     omniOsc.detune = 100

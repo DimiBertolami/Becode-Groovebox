@@ -353,6 +353,10 @@ function setup(val, elementID) {
             keys.player("rCrash").volume.value = val;
             console.log('reverse crash volume', keys.player("rCrash").volume.value)
             break;
+        case 'volume10':
+            omniOsc.volume.value = val;
+            console.log('oscillator volume', omniOsc.volume.value)
+            break;
         case 'distortion':
             document.getElementById('Disortiondisplay').textContent = val;
             //amount of distortion (nominal range of 0-1)
@@ -650,7 +654,8 @@ function setup(val, elementID) {
             break;
         case 'cutoff':
             console.log('cutoff', omniOsc.phase.value)
-            omniOsc.phase.value = val;
+            // omniOsc.phase.value = val;
+            omniOsc.modulationFrequency.value = val;
             break;
         case 'resonance':
             console.log('resonance', filter.resonance.value)
@@ -659,11 +664,15 @@ function setup(val, elementID) {
         case 'envmod':
             console.log('envmod', omniOsc.modulationFrequency.value)
             // omniOsc.modulationFrequency.value = val;
-            omniOsc.modulationFrequency = val;
+            omniOsc.modulationFrequency.value = val;
             break;
         case 'decay':
             console.log('decay', filter.delayTime.value)
             filter.delayTime.value = val
+            break;
+        case 'accent':
+            console.log('accent', filter.delayTime.value)
+            omniOsc.frequency.value = val
             break;
         default:
             break;
@@ -828,10 +837,10 @@ function createKnob(value) {
             knob.setAttribute("type", "range");
             knob.setAttribute("data-fgcolor", "#00ff00");
             knob.setAttribute('class', "input-knob");
-            knob.value = '-60';
-            knob.min = '0';
+            knob.value = '-19';
+            knob.min = '-19';
             knob.max = '10';
-            knob.step = '0.01';
+            knob.step = '0.1';
             break;
         case 'distortion':
             knob.setAttribute('data-diameter', '130');
@@ -967,7 +976,7 @@ function createKnob(value) {
             knob.setAttribute('data-sprites', '100')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
-            knob.title = `GRAND MASTER VOLUME`;
+            knob.title = `MASTER VOLUME`;
             knob.id = `masterVolume`;
             knob.value = '0';
             knob.min = '-60';
@@ -1020,8 +1029,8 @@ function createKnob(value) {
             knob.setAttribute('class', "input-knob");
             knob.value = '0';
             knob.min = '0';
-            knob.max = '360';
-            knob.step = '1'
+            knob.max = '10000';
+            knob.step = '10'
             break;
         case 'resonance':
             knob.title= 'resonance'
@@ -1045,11 +1054,10 @@ function createKnob(value) {
             knob.setAttribute('data-sprites', '99')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
-            knob.value = '0';
-            knob.step = '0.01'
-            knob.min = '0';
-            knob.max = '1';
-            knob.step = '0.01'
+            knob.value = '0.1';
+            knob.step = '0.1'
+            knob.min = '0.1';
+            knob.max = '5';
             break;
         case 'decay':
             knob.title = 'decay'
@@ -1059,22 +1067,23 @@ function createKnob(value) {
             knob.setAttribute('data-sprites', '99')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
-            knob.value = '0';
-            knob.min = '0';
+            knob.value = '0.1';
+            knob.min = '0.1';
             knob.max = '1';
-            knob.step = '0.01'
+            knob.step = '0.1'
             break;
         case 'accent':
+            knob.title = 'accent'
+            knob.id = 'accent'
             knob.setAttribute('data-diameter', '130');
             knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
             knob.setAttribute('data-sprites', '99')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
             knob.value = '0';
-            knob.step = '0.01'
+            knob.step = '1'
             knob.min = '0';
-            knob.max = '1';
-            knob.step = '0.01'
+            knob.max = '1000';
             break;
         case 'pitch':
             knob.title = `pitch shift controller`; //id
@@ -1186,6 +1195,8 @@ function createPlayer(value) {
     }
 
     container1.appendChild(container2);
+    container1.appendChild(channelStrip(`${value}`)) //    div1.appendChild(channelStrip(`${Name}`))
+
     target.appendChild(container1)
     // return container1;
 }
