@@ -50,7 +50,7 @@ const reverb = new Tone.Reverb().connect(compressor);
 // soloChannel.connect(compressor)
 
 const filter = new Tone.FeedbackCombFilter()
-filter.set({delayTime: '4n', resonance: 1})
+filter.set({delayTime: '4n', resonance: 0.99})
 filter.connect(compressor)
 console.log('filter', filter.get())
 
@@ -250,7 +250,7 @@ function fancylog(msg1, msg2, msg3) {
         "color: yellow; font-style: italic; font-size: large; background-color: blue;padding: 2px; border: 3px solid yellow",
         `...`);
 }
-
+let synthcounter = 0
 function GUI_Builder() {
     drawButton('play')
     drawButton('stop')
@@ -258,8 +258,10 @@ function GUI_Builder() {
     // document.createElement('hr');
     drawDrumSection()
     drawSynthControls()
-    // drawPianoSampler()
     createPlayer('e2')
+    synthcounter++
+    // drawSynthControls2()
+    // createPlayer('g2')
 }
 
 function ButtonGenerator() {
@@ -355,7 +357,11 @@ function setup(val, elementID) {
             break;
         case 'volume10':
             omniOsc.volume.value = val;
-            console.log('oscillator volume', omniOsc.volume.value)
+            console.log('omni oscillator volume', omniOsc.volume.value)
+            break;
+        case 'volume11':
+            osc.volume.value = val;
+            console.log('oscillator volume', osc.volume.value)
             break;
         case 'distortion':
             document.getElementById('Disortiondisplay').textContent = val;
@@ -425,12 +431,13 @@ function setup(val, elementID) {
             distrc.wet = '1';
             console.log('distortion reverse crash', distrc.distortion)
             break;
-        case 'pitch':
-            /*
-            PitchShift does near-realtime pitch shifting to the incoming signal. The effect is achieved by
-            speeding up or slowing down the delayTime of a DelayNode using a sawtooth wave.
-            */
+        case 'pitch_1':
             omniOsc.detune.value = val;
+            // pitchShift.delayTime = val/12;
+            // pitchShift.feedback = val/40;
+            break;
+        case 'pitch_2':
+            osc.detune.value =  val;
             // pitchShift.delayTime = val/12;
             // pitchShift.feedback = val/40;
             break;
@@ -637,40 +644,47 @@ function setup(val, elementID) {
             break;
         case 'phaser':
             document.getElementById('Phaserdisplay').textContent = val;
-            phaser.set({ frequency: val });
+            console.log('phaserQ', phaser.q)
+            phaser.q = val;
             break;
         case 'chorus':
             document.getElementById('Chorusdisplay').textContent = val;
-            chorus.set({ depth: val })
+            chorus.depth= 1
+            chorus.frequency = val
+            chorus.spread = 360
+
             break;
         case 'reverb':
             document.getElementById('Reverbdisplay').textContent = val;
             // reverb.get()
             reverb.set({
                 decay: val,
-                preDelay: val / 5,
+                preDelay: 0.3,
                 wet: 1
             })
             break;
-        case 'cutoff':
-            console.log('cutoff', omniOsc.phase.value)
-            // omniOsc.phase.value = val;
+        case 'cutoff1':
+            console.log('cutoff', omniOsc.modulationFrequency.value)
             omniOsc.modulationFrequency.value = val;
             break;
-        case 'resonance':
+        case 'cutoff2':
+            console.log('cutoff', omniOsc.modulationFrequency.value)
+            osc.modulationFrequency.value = val;
+            break;
+        case 'resonance1':
             console.log('resonance', filter.resonance.value)
             filter.resonance.value = val;
             break;
-        case 'envmod':
+        case 'envmod1':
             console.log('envmod', omniOsc.modulationFrequency.value)
             // omniOsc.modulationFrequency.value = val;
             omniOsc.modulationFrequency.value = val;
             break;
-        case 'decay':
+        case 'decay1':
             console.log('decay', filter.delayTime.value)
             filter.delayTime.value = val
             break;
-        case 'accent':
+        case 'accent1':
             console.log('accent', filter.delayTime.value)
             omniOsc.frequency.value = val
             break;
@@ -862,7 +876,7 @@ function createKnob(value) {
                 "font-size: large; font-weight: bold; " +
                 "font-family: 'The Led Display St', sans-serif; " +
                 "color: gold; width: 45px; height: 25px"
-            Disortiondisplay.textContent = ''
+            Disortiondisplay.textContent = '0'
             label.appendChild(Disortiondisplay)
             break;
         case 'phaser':
@@ -875,8 +889,8 @@ function createKnob(value) {
             knob.setAttribute('class', "input-knob");
             knob.value = '0';
             knob.min = '0';
-            knob.max = '1';
-            knob.step = '0.01'
+            knob.max = '100';
+            knob.step = '1'
             // led display
             let Phaserdisplay = document.createElement('div')
             Phaserdisplay.setAttribute('id', 'Phaserdisplay')
@@ -885,7 +899,7 @@ function createKnob(value) {
                 "font-size: large; font-weight: bold; " +
                 "font-family: 'The Led Display St', sans-serif; " +
                 "color: gold; width: 45px; height: 25px"
-            Phaserdisplay.textContent = ''
+            Phaserdisplay.textContent = '0'
             label.appendChild(Phaserdisplay)
             break;
         case 'chorus':
@@ -908,7 +922,7 @@ function createKnob(value) {
                 "font-size: large; font-weight: bold; " +
                 "font-family: 'The Led Display St', sans-serif; " +
                 "color: gold; width: 45px; height: 25px"
-            Chorusdisplay.textContent = ''
+            Chorusdisplay.textContent = '0'
             label.appendChild(Chorusdisplay)
             break;
         case 'reverb':
@@ -931,7 +945,7 @@ function createKnob(value) {
                 "font-size: large; font-weight: bold; " +
                 "font-family: 'The Led Display St', sans-serif; " +
                 "color: gold; width: 45px; height: 25px"
-            Reverbdisplay.textContent = ''
+            Reverbdisplay.textContent = '0.01'
             label.appendChild(Reverbdisplay)
             break;
         case 'dist':
@@ -980,7 +994,7 @@ function createKnob(value) {
             knob.id = `masterVolume`;
             knob.value = '0';
             knob.min = '-60';
-            knob.max = '0';
+            knob.max = '4';
             knob.step = '0.01';
             // led display
             let voldisplay = document.createElement('div')
@@ -991,7 +1005,7 @@ function createKnob(value) {
                 "font-family: 'The Led Display St', sans-serif; " +
                 "color: gold; width: 60px; height: 25px"
 
-            voldisplay.textContent = ''
+            voldisplay.textContent = '0'
             label.appendChild(voldisplay)
 
             break;
@@ -1016,81 +1030,158 @@ function createKnob(value) {
                 "font-size: large; font-weight: bold; " +
                 "font-family: 'The Led Display St', sans-serif; " +
                 "color: gold; width: 45px; height: 25px"
-            BPMdisplay.textContent = ''
+            BPMdisplay.textContent = '175'
             label.appendChild(BPMdisplay)
             break;
-        case 'cut/off':
-            knob.title = 'cutoff'
-            knob.id = 'cutoff'
+        case 'cutoff_0':
+            knob.title = 'cutoff1'
+            knob.id = 'cutoff1'
             knob.setAttribute('data-diameter', '130');
-            knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
-            knob.setAttribute('data-sprites', '99')
+            knob.setAttribute('data-src', "images/blauw.png");
+            knob.setAttribute('data-sprites', '100')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
             knob.value = '0';
             knob.min = '0';
-            knob.max = '10000';
-            knob.step = '10'
+            knob.max = '6000';
+            knob.step = '1'
             break;
-        case 'resonance':
-            knob.title= 'resonance'
-            knob.id= 'resonance'
+        case 'cutoff_1':
+            knob.title = 'cutoff2'
+            knob.id = 'cutoff2'
             knob.setAttribute('data-diameter', '130');
-            knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
-            knob.setAttribute('data-sprites', '99')
+            knob.setAttribute('data-src', "images/blauw.png");
+            knob.setAttribute('data-sprites', '100')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
-            knob.step = 1;
+            knob.value = '0';
+            knob.min = '0';
+            knob.max = '6000';
+            knob.step = '1'
+            break;
+        case 'resonance_0':
+            knob.title= 'resonance1'
+            knob.id= 'resonance1'
+            knob.setAttribute('data-diameter', '130');
+            knob.setAttribute('data-src', "images/blauw.png");
+            knob.setAttribute('data-sprites', '100')
+            knob.setAttribute("type", "range");
+            knob.setAttribute('class', "input-knob");
             knob.value = '0';
             knob.min = '0';
             knob.max = '1';
             knob.step = '0.01'
             break;
-        case 'envelope/mod':
-            knob.title = 'envmod'
-            knob.id = 'envmod'
+        case 'resonance_1':
+            knob.title= 'resonance2'
+            knob.id= 'resonance2'
             knob.setAttribute('data-diameter', '130');
-            knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
-            knob.setAttribute('data-sprites', '99')
-            knob.setAttribute("type", "range");
-            knob.setAttribute('class', "input-knob");
-            knob.value = '0.1';
-            knob.step = '0.1'
-            knob.min = '0.1';
-            knob.max = '5';
-            break;
-        case 'decay':
-            knob.title = 'decay'
-            knob.id = 'decay'
-            knob.setAttribute('data-diameter', '130');
-            knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
-            knob.setAttribute('data-sprites', '99')
-            knob.setAttribute("type", "range");
-            knob.setAttribute('class', "input-knob");
-            knob.value = '0.1';
-            knob.min = '0.1';
-            knob.max = '1';
-            knob.step = '0.1'
-            break;
-        case 'accent':
-            knob.title = 'accent'
-            knob.id = 'accent'
-            knob.setAttribute('data-diameter', '130');
-            knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
-            knob.setAttribute('data-sprites', '99')
+            knob.setAttribute('data-src', "images/blauw.png");
+            knob.setAttribute('data-sprites', '100')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
             knob.value = '0';
-            knob.step = '1'
             knob.min = '0';
-            knob.max = '1000';
+            knob.max = '1';
+            knob.step = '0.01'
             break;
-        case 'pitch':
-            knob.title = `pitch shift controller`; //id
-            knob.id = `pitch`; //id
+        case 'envmod_0':
+            knob.title = 'envmod1'
+            knob.id = 'envmo1'
             knob.setAttribute('data-diameter', '130');
-            knob.setAttribute('data-src', "./images/808_Voulme_Knob.png");
-            knob.setAttribute('data-sprites', '99')
+            knob.setAttribute('data-src', "images/blauw.png");
+            knob.setAttribute('data-sprites', '100')
+            knob.setAttribute("type", "range");
+            knob.setAttribute('class', "input-knob");
+            knob.value = '0.1';
+            knob.step = '0.1'
+            knob.min = '0.1';
+            knob.max = '3';
+            break;
+        case 'envmod_1':
+            knob.title = 'envmod2'
+            knob.id = 'envmo2'
+            knob.setAttribute('data-diameter', '130');
+            knob.setAttribute('data-src', "images/blauw.png");
+            knob.setAttribute('data-sprites', '100')
+            knob.setAttribute("type", "range");
+            knob.setAttribute('class', "input-knob");
+            knob.value = '0.1';
+            knob.step = '0.1'
+            knob.min = '0.1';
+            knob.max = '3';
+            break;
+        case 'decay_0':
+            knob.title = 'decay1'
+            knob.id = 'decay1'
+            knob.setAttribute('data-diameter', '130');
+            knob.setAttribute('data-src', "images/blauw.png");
+            knob.setAttribute('data-sprites', '100')
+            knob.setAttribute("type", "range");
+            knob.setAttribute('class', "input-knob");
+            knob.value = '0.01';
+            knob.min = '0.01';
+            knob.max = '0.99';
+            knob.step = '0.01'
+            break;
+        case 'decay_1':
+            knob.title = 'decay2'
+            knob.id = 'decay2'
+            knob.setAttribute('data-diameter', '130');
+            knob.setAttribute('data-src', "images/blauw.png");
+            knob.setAttribute('data-sprites', '100')
+            knob.setAttribute("type", "range");
+            knob.setAttribute('class', "input-knob");
+            knob.value = '0.01';
+            knob.min = '0.01';
+            knob.max = '0.99';
+            knob.step = '0.01'
+            break;
+        case 'accent_0':
+            knob.title = 'accent1'
+            knob.id = 'accent1'
+            knob.setAttribute('data-diameter', '130');
+            knob.setAttribute('data-src', "images/blauw.png");
+            knob.setAttribute('data-sprites', '100')
+            knob.setAttribute("type", "range");
+            knob.setAttribute('class', "input-knob");
+            knob.value = '40';
+            knob.step = '1'
+            knob.min = '40';
+            knob.max = '224';
+            break;
+        case 'accent_1':
+            knob.title = 'accent2'
+            knob.id = 'accent2'
+            knob.setAttribute('data-diameter', '130');
+            knob.setAttribute('data-src', "images/blauw.png");
+            knob.setAttribute('data-sprites', '100')
+            knob.setAttribute("type", "range");
+            knob.setAttribute('class', "input-knob");
+            knob.value = '40';
+            knob.step = '1'
+            knob.min = '40';
+            knob.max = '224';
+            break;
+        case 'pitch_0':
+            knob.title = `pitch shift controller 1`; //id
+            knob.id = `pitch_1`; //id
+            knob.setAttribute('data-diameter', '130');
+            knob.setAttribute('data-src', "images/blauw.png");
+            knob.setAttribute('data-sprites', '100')
+            knob.setAttribute("type", "range");
+            knob.setAttribute('class', "input-knob");
+            knob.value = '0';
+            knob.min = '-1200';
+            knob.max = '1200';
+            knob.step = '1';
+            break;
+        case 'pitch_1':
+            knob.title = `pitch shift controller 2`; //id
+            knob.id = `pitch_2`; //id
+            knob.setAttribute('data-diameter', '130');
+            knob.setAttribute('data-src', "images/blauw.png");
+            knob.setAttribute('data-sprites', '100')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
             knob.value = '0';
@@ -1156,12 +1247,27 @@ function drawSynthControls() {
     let containerS = document.createElement('div');
     containerS.id = 'Synth-controls';
     containerS.className = 'container';
-    containerS.appendChild(createKnob('pitch'));
-    containerS.appendChild(createKnob('cut/off'));
-    containerS.appendChild(createKnob('resonance'));
-    containerS.appendChild(createKnob('envelope/mod'));
-    containerS.appendChild(createKnob('decay'));
-    containerS.appendChild(createKnob('accent'));
+    containerS.appendChild(createKnob(`pitch_${synthcounter}`));
+    containerS.appendChild(createKnob(`cutoff_${synthcounter}`));
+    containerS.appendChild(createKnob(`resonance_${synthcounter}`));
+    containerS.appendChild(createKnob(`envmod_${synthcounter}`));
+    containerS.appendChild(createKnob(`decay_${synthcounter}`));
+    containerS.appendChild(createKnob(`accent_${synthcounter}`));
+    target.appendChild(containerS)
+    // return containerS;
+    // document.body.appendChild(containerS);
+
+}
+function drawSynthControls2() {
+    let containerS = document.createElement('div');
+    containerS.id = 'Synth-controls';
+    containerS.className = 'container';
+    containerS.appendChild(createKnob(`pitch_${synthcounter}`));
+    containerS.appendChild(createKnob(`cutoff_${synthcounter}`));
+    containerS.appendChild(createKnob(`resonance_${synthcounter}`));
+    containerS.appendChild(createKnob(`envmod_${synthcounter}`));
+    containerS.appendChild(createKnob(`decay_${synthcounter}`));
+    containerS.appendChild(createKnob(`accent_${synthcounter}`));
     target.appendChild(containerS)
     // return containerS;
     // document.body.appendChild(containerS);
@@ -1189,6 +1295,10 @@ function createPlayer(value) {
         button.appendChild(light);
         container2.appendChild(button);
         if(value==='e2'){
+            light.className = "light active";
+            // console.log('e2')
+        }
+        if(value==='g2'){
             light.className = "light active";
             // console.log('e2')
         }

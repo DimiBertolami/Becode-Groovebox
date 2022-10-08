@@ -16,12 +16,9 @@ let reverse = true;
 
 GUI_Builder()
 
-Tone.Transport.bpm.value = 120;
+Tone.Transport.bpm.value = 175;
 const SixTeenth_Note_Length = () => 0.25 * 60 / Tone.Transport.bpm.value
-console.log('16th', SixTeenth_Note_Length())
-const osc = new Tone.Oscillator('c2', "sawtooth").toDestination() //osc .start(time, +.1, '4n');
-// const omniOsc = new Tone.OmniOscillator("C2", "pwm").toDestination(); //.start()
-const omniOsc = new Tone.OmniOscillator("C2", "pwm").connect(filter);
+// console.log('16th', SixTeenth_Note_Length())
 
 // This is an object of sequence arrays, keeping track of each of the on/off positions of all the steps for each sample
 const sequences = {
@@ -35,7 +32,8 @@ const sequences = {
     tom1: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
     tom2: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
     tom3: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    e2: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]
+    e2: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true],
+    g2: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]
 }
 
 // Loops over all step sequencer rows ( each row represents a sample, indicated by its `data-sampleName` property
@@ -92,9 +90,11 @@ new Tone.Sequence((time, step) => {
                 omniOsc.volume.value = -20
                 omniOsc.start(time).stop(time + SixTeenth_Note_Length());
                 return
-                //     console.log(omniOsc.get())
-            //     omniOsc.detune = 100
-            //     omniOsc.start(0, 0, '16N')
+            }
+            if (instrument=== 'g2'){
+                osc.volume.value = -20
+                osc.start(time).stop(time + SixTeenth_Note_Length());
+                return;
             }
             if (instrument=== 'rCrash') {
                 keys.player(instrument).start(time, 0.01);
@@ -103,11 +103,14 @@ new Tone.Sequence((time, step) => {
             }
         } else {
             if (instrument==='e2'){
-                omniOsc.stop(time+0.1)
+                omniOsc.stop(time+0.01)
+            }
+            if (instrument==='g2'){
+                osc.stop(time+0.01)
             }
         }
     }
-}, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]).start(0);
+}, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]).start(+0.01);
 
 // const AMSynth = new Tone.AMSynth().toDestination();
 // const duoSynth = new Tone.DuoSynth().toDestination();
