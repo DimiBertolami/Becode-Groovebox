@@ -632,38 +632,16 @@ function setup(val, elementID) {
             chan_rCrash.pan.value = val
             break;
         case 'phaser':
-            /*
-            The phaser effect is created by splitting an audio signal into two paths.
-            One path treats the signal with an all-pass filter, which preserves the amplitude of
-            the original signal and alters the phase. The amount of change in phase depends on the
-            frequency. When signals from the two paths are mixed, the frequencies that are out of
-            phase will cancel each other out, creating the phaser's characteristic notches.
-            Changing the mix ratio changes the depth of the notches
-            */
             document.getElementById('Phaserdisplay').textContent = val;
             phaser.set({ frequency: val });
             break;
         case 'chorus':
-            /*
-            */
             document.getElementById('Chorusdisplay').textContent = val;
             chorus.set({ depth: val })
-            // keys.player('kick').connect(chorus.toDestination())
-            // console.log('chorus settings', chorus.get())
-
             break;
         case 'reverb':
-            /*
-            Simple convolution created with a decaying noise. Convolution uses impulse responses to record
-            the reverberation of physical spaces and recreate them digitally.
-            The amount of time it will reverberate for.
-            wet 1 = 100% effected signal, 0 = 100% dry signal
-            preDelay: in seconds
-            decay: also seconds
-            */
-            // console.log('Reverb Settings', reverb.get())
             document.getElementById('Reverbdisplay').textContent = val;
-            reverb.get()
+            // reverb.get()
             reverb.set({
                 decay: val,
                 preDelay: val / 5,
@@ -671,11 +649,21 @@ function setup(val, elementID) {
             })
             break;
         case 'cutoff':
+            console.log('cutoff', omniOsc.phase.value)
+            omniOsc.phase.value = val;
             break;
         case 'resonance':
+            console.log('resonance', filter.resonance.value)
             filter.resonance.value = val;
             break;
         case 'envmod':
+            console.log('envmod', omniOsc.modulationFrequency.value)
+            // omniOsc.modulationFrequency.value = val;
+            omniOsc.modulationFrequency = val;
+            break;
+        case 'decay':
+            console.log('decay', filter.delayTime.value)
+            filter.delayTime.value = val
             break;
         default:
             break;
@@ -957,8 +945,8 @@ function createKnob(value) {
             knob.title = `pitch${counter}`; //id
             knob.id = `pitch${counter}`; //id
             knob.value = '0';
-            knob.min = '-50';
-            knob.max = '50';
+            knob.min = '-12';
+            knob.max = '12';
             knob.step = '1';
             break;
         case 'pan':
@@ -1032,8 +1020,8 @@ function createKnob(value) {
             knob.setAttribute('class', "input-knob");
             knob.value = '0';
             knob.min = '0';
-            knob.max = '1';
-            knob.step = '0.01'
+            knob.max = '360';
+            knob.step = '1'
             break;
         case 'resonance':
             knob.title= 'resonance'
@@ -1064,13 +1052,14 @@ function createKnob(value) {
             knob.step = '0.01'
             break;
         case 'decay':
+            knob.title = 'decay'
+            knob.id = 'decay'
             knob.setAttribute('data-diameter', '130');
             knob.setAttribute('data-src', "images/808_Voulme_Knob.png");
             knob.setAttribute('data-sprites', '99')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
             knob.value = '0';
-            knob.step = "1"
             knob.min = '0';
             knob.max = '1';
             knob.step = '0.01'
@@ -1190,6 +1179,10 @@ function createPlayer(value) {
         light.className = "light";
         button.appendChild(light);
         container2.appendChild(button);
+        if(value==='e2'){
+            light.className = "light active";
+            // console.log('e2')
+        }
     }
 
     container1.appendChild(container2);

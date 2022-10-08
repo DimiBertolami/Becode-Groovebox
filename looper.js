@@ -35,7 +35,7 @@ const sequences = {
     tom1: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
     tom2: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
     tom3: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    e2: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+    e2: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]
 }
 
 // Loops over all step sequencer rows ( each row represents a sample, indicated by its `data-sampleName` property
@@ -91,6 +91,7 @@ new Tone.Sequence((time, step) => {
             if (instrument=== 'e2'){
                 omniOsc.volume.value = -20
                 omniOsc.start(time).stop(time + 0.1);
+                return
                 //     console.log(omniOsc.get())
             //     omniOsc.detune = 100
             //     omniOsc.start(0, 0, '16N')
