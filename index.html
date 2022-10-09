@@ -10,67 +10,148 @@
 </head>
 <body><!--style="background-image: radial-gradient(#40c9ff, #e81cff);"-->
 <!--<div id="bpmDisplay" style="background-color: #dd0000; border: 1px solid gold; font-family: 'The Led Display St', sans-serif; color: yellow; width: 120px; height: 30px"></div>-->
+
+<table style="border: 3px double crimson; opacity: 0.7; width: fit-content; border-radius: 15px">
+    <t5>
+        <th style="font-size: larger; border: 5px dotted lightgrey; width: fit-content; border-radius: 4px">compressor controls</th>
+        <th style="font-size: larger; border: 5px dotted lightgrey; width: fit-content; border-radius: 4px">distortion controls</th>
+        <th style="font-size: larger; border: 5px dotted lightgrey; width: fit-content; border-radius: 4px">phaser controls</th>
+        <th style="font-size: larger; border: 5px dotted lightgrey; width: fit-content; border-radius: 4px">chorus controls</th>
+        <th style="font-size: larger; border: 5px dotted lightgrey; width: fit-content; border-radius: 4px">reverb controls</th>
+    </t5>
+    <tr>
+        <td>
+            <div id="compressor" style="border: 1px solid gold; background-color: azure; width: fit-content">
+                Attack<input id="attack" type="range" min="0" max="1" step="0.01" value="0.2"/><br>
+                knee<input id="knee" type="range" min="0" max="40" step="0.1" value="35"/><br>
+                ratio<input id="ratio" type="range" min="1" max="20" step="0.01" value="10"/><br>
+                release<input id="release" type="range" min="0" max="1" step="0.01" value="0.3"/><br>
+                threshold<input id="threshold" type="range" min="-100" max="0" step="0.01" value="0"/>
+            </div>
+        </td>
+        <td><div id="distortionControl" style="border: 1px solid gold; background-color: azure; width: fit-content">
+            oversample<select id="oversample" name="oversample">
+                <option value="none">none</option>
+                <option value="2x">2x</option>
+                <option value="4x">4x</option>
+            </select><br>
+            wet<input id="distortionWet" type="range" min="0" max="1" step="0.01" value="1"/>
+            </div>
+        </td>
+        <td>
+            <div id="phaserControl" style="border: 1px solid gold;width: fit-content;background-color: azure">
+                Q<input id="phaserQ" type="range" min="0" max="100" step="1" value="0"/><br>
+                baseFrequency<input id="phaserBaseFreq" type="range" min="350" max="7000" step="0.1" value="0.5"/><br>
+                octaves<input id="phaserOct" type="range" min="0" max="5" step="1" value="2"/><br>
+                frequency<input id="phaserFrequency" type="range" min="0" max="30" step="1" value="0.9"/><br>
+                wet<input id="phaserWet" type="range" min="0" max="1" step="0.01" value="1"/>
+            </div>
+        </td>
+        <td>
+            <div id="chorusControl" style="border: 1px solid gold;width: fit-content;background-color: azure">
+                delayTime<input id="chorusDelayTime" type="range" min="0" max="100" step="1" value="0"/><br>
+                feedback<input id="chorusFeedback" type="range" min="0" max="1" step="0.01" value="0"/><br>
+                depth<input id="chorusDepth" type="range" min="0" max="1" step="0.01" value="0.7"/><br>
+                frequency<input id="chorusFrequency" type="range" min="0" max="1" step="0.01" value="0"/><br>
+                spread<input id="chorusSpread" type="range" min="0" max="360" step="1" value="360"/><br>
+                type <select id="chorusType" name="chorusType">
+                <option value="square">square</option>
+                <option value="square2">square2</option>
+                <option value="square4">square4</option>
+                <option value="square8">square8</option>
+                <option value="sine">sine</option>
+                <option value="sine2">sine2</option>
+                <option value="sine4">sine4</option>
+                <option value="sine8">sine8</option>
+                <option value="sawtooth">sawtooth</option>
+                <option value="sawtooth2">sawtooth2</option>
+                <option value="sawtooth4">sawtooth4</option>
+                <option value="sawtooth8">sawtooth8</option>
+                <option value="sawtooth16">sawtooth16</option>
+                <option value="triangle">triangle</option>
+                <option value="triangle2">triangle2</option>
+                <option value="triangle4">triangle4</option>
+                <option value="triangle8">triangle8</option>
+            </select><br>
+                wet<input id="chorusWet" type="range" min="0" max="1" step="0.01" value="1"/>
+            </div>
+        </td>
+        <td><div id="reverbControls"  style="border: 1px solid gold;width: fit-content;background-color: azure">
+            decay<input id="reverbDecay" type="range" min="0" max="1" step="0.01" value="0"/><br>
+            preDelay<input id="reverbPreDelay" type="range" min="0" max="1" step="0.01" value="0"/><br>
+            wet<input id="reverbWet" type="range" min="0" max="1" step="0.01" value="0"/><br>
+        </div></td>
+        <td></td>
+    </tr>
+</table>
+
 <div id="target"></div>
 <div id="sequencer" class="container sequencer">
 </div>
 
-<label for="compressor" style="font-size: larger; color: blueviolet">compressor</label>
-<div id="compressor" style="border: 1px solid gold; background-color: azure; width: fit-content">
-       Attack<input id="attack" type="range" min="0" max="1" step="0.01" value="0"/><br>
-         knee<input id="knee" type="range" min="0" max="40" step="0.1" value="0"/><br>
-        ratio<input id="ratio" type="range" min="1" max="20" step="0.01" value="1"/><br>
-      release<input id="release" type="range" min="0" max="1" step="0.01" value="0"/><br>
-    threshold<input id="threshold" type="range" min="-100" max="0" step="0.01" value="-100"/>
-</div>
 
 <label for="distortionControl" hidden>Distortion</label>
 <div id='distortionControl' style="border: 1px solid gold;width: fit-content;" hidden>
     oversample<select name="oversample" id="oversample"><br>
-        <option value="none">none</option>
-        <option value="2x">2x</option>
-        <option value="4x">4x</option>
-    </select>
+    <option value="none">none</option>
+    <option value="2x">2x</option>
+    <option value="4x">4x</option>
+</select>
     wet <input id="distortionWet" type="range" min="0" max="1" step="0.01" value="0"/>
 </div>
 
-<label for="phaserControl">phaserControl</label>
-<div id="phaserControl" style="border: 1px solid gold;width: fit-content;background-color: azure">
-    Q<input id="phaserQ" type="range" min="0" max="100" step="1" value="0"/><br>
-    baseFrequency<input id="phaserBaseFreq" type="range" min="350" max="7000" step="0.1" value="0.5"/><br>
-    octaves<input id="phaserOct" type="range" min="0" max="7" step="1" value="3"/><br>
-    frequency<input id="phaserFrequency" type="range" min="100" max="1000" step="1" value="10"/><br>
-    wet<input id="phaserWet" type="range" min="0" max="1" step="0.01" value="1"/>
-</div>
-<label for="chorusControl" >chorusControl</label>
-<div id="chorusControl" style="border: 1px solid gold;width: fit-content;background-color: azure" >
-    delayTime<input id="chorusDelayTime" type="range" min="0" max="100" step="1" value="0"/><br>
-    feedback<input  id="chorusFeedback" type="range" min="0" max="1" step="0.01" value="0"/><br>
-    frequency<input id="chorusFrequency" type="range" min="0" max="1" step="0.01" value="0"/><br>
-    spread<input    id="chorusSpread" type="range" min="0" max="360" step="1" value="360"/><br>
-    type <select    id="chorusType" name="chorusType">
-            <option value="square">square</option>
-            <option value="square2">square2</option>
-            <option value="square4">square4</option>
-            <option value="square8">square8</option>
-            <option value="sine">sine</option>
-            <option value="sine2">sine2</option>
-            <option value="sine4">sine4</option>
-            <option value="sine8">sine8</option>
-            <option value="sawtooth">sawtooth</option>
-            <option value="sawtooth2">sawtooth2</option>
-            <option value="sawtooth4">sawtooth4</option>
-            <option value="sawtooth8">sawtooth8</option>
-            <option value="sawtooth16">sawtooth16</option>
-            <option value="triangle">triangle</option>
-            <option value="triangle2">triangle2</option>
-            <option value="triangle4">triangle4</option>
-            <option value="triangle8">triangle8</option>
-        </select><br>
-    wet<input id="chorusDelayTime" type="range" min="0" max="1" step="0.01" value="1"/>
-</div>
 <div id="my-peak-meter" style="width: 5em; height: 20em; margin: 1em 0;">
 </div>
 
+<div class="container" style="background-color: beige; color: #0000dd; font-size: large">
+    <button id="start-button">Start Loop</button>
+    <button id="stop-button">Stop Loop</button>
+    <br>
+    <label for="volume-control">Master Volume</label><br>
+    <input type="range" id="volume-control" min="0" max="1" step="0.05" value=".2"><br>
+    <label for="tempo-control">Tempo</label><br>
+    <input type="range" id="tempo-control" min="60" max="300" step="5" value="120"><br>
+    <div id="note-selects-div">
+        <h2>Notes</h2>
+    </div>
+    <div id="oscillator-options">
+        <h2>Oscillator</h2>
+        <input type="radio" id="sin-wave" name="waveform" value="sine"
+               checked>
+        <label for="sin-wave">Sin Wave</label><br>
+        <input type="radio" id="square-wave" name="waveform" value="square">
+        <label for="square-wave">Square Wave</label><br>
+        <input type="radio" id="triangle-wave" name="waveform" value="triangle">
+        <label for="triangle-wave">Triangle Wave</label><br>
+        <input type="radio" id="sawtooth-wave" name="waveform" value="sawtooth">
+        <label for="sawtooth-wave">Sawtooth Wave</label>
+    </div>
+    <div id="envelope-options">
+        <h2>Envelope</h2>
+        <label for="attack-control">Attack Time</label><br>
+        <input type="range" id="attack-control" value="0.3" min="0" max="0.5" step="0.02"><br>
+        <label for="release-control">Release Time</label><br>
+        <input type="range" id="release-control" value="0.3" min="0" max="0.5" step="0.02"><br>
+        <label for="note-length-control">Note Length</label><br>
+        <input type="range" id="note-length-control" value="1" min="0.2" max="2" step="0.05"><br>
+    </div>
+    <div id="vibrato-options">
+        <h2>Vibrato</h2>
+        <label for="vibrato-amount-control">Vibrato Amount</label><br>
+        <input type="range" id="vibrato-amount-control" value="0" min="0" max="5" step="0.5"><br>
+        <label for="vibrato-amount-control">Vibrato Speed</label><br>
+        <input type="range" id="vibrato-speed-control" value="10" min="0" max="30" step="0.5"><br>
+    </div>
+    <div id="delay-options">
+        <h2>Delay</h2>
+        <label for="delay-time-control">Delay Time</label><br>
+        <input id='delay-time-control' type="range" min="0" max="1" step='0.05' value='0'><br>
+        <label for="feedback-control">Delay Feedback</label><br>
+        <input id='feedback-control' type="range" min="0" max=".9" step='0.05' value='0'><br>
+        <label for="delay-amount-control">Delay Amount</label><br>
+        <input id='delay-amount-control' type="range" min="0" max=".9" step='0.05' value='0'>
+    </div>
+</div>
 <!--<div id="VUmeter">-->
 <!--    <script type="text/javascript" src="nWebAudioVuA.js"></script>-->
 <!--    <canvas id="nWebAudioCanvasVuA"  width="125" height="80" style="border: inset 2px #808080;"></canvas>-->
@@ -82,19 +163,21 @@
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.7/Tone.js"></script>-->
 <script>
     var myMeterElement = document.getElementById('my-peak-meter');
-    var myAudio = document.getElementById('play');
+    var myAudio = document.getElementById('start-button');
     var audioCtx = new window.AudioContext();
     var sourceNode = audioCtx.createMediaElementSource(myAudio);
     sourceNode.connect(audioCtx.destination);
     var meterNode = webAudioPeakMeter.createMeterNode(sourceNode, audioCtx);
     webAudioPeakMeter.createMeter(myMeterElement, meterNode, {});
-    myAudio.addEventListener('play', function() {
+    myAudio.addEventListener('play', function () {
         audioCtx.resume();
     });
 
 </script>
 <!--<script src="https://unpkg.com/tone@next"></script>-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.9/Tone.js" integrity="sha512-nUjml8mN4CNYqBAy0ndDrd8pJV/eTtBNDsnvNtPqozx9/BccUeWSoKW14qWkQUnhuh8E3m+yra3qdzM68lqPEQ==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.9/Tone.js"
+        integrity="sha512-nUjml8mN4CNYqBAy0ndDrd8pJV/eTtBNDsnvNtPqozx9/BccUeWSoKW14qWkQUnhuh8E3m+yra3qdzM68lqPEQ=="
+        crossorigin="anonymous"></script>
 <!--<script src="require.js"></script>-->
 <script src="input-knobs.js"></script>
 <!--<script src="js/W3Module.js"></script>-->
@@ -109,7 +192,7 @@
 <!--        referrerpolicy="no-referrer"></script>-->
 <script src="synth.js"></script>
 <script src="fx.js"></script>
-<script src="looper.js" ></script>
+<script src="looper.js"></script>
 
 </body>
 </html>

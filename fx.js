@@ -230,6 +230,14 @@ document.getElementById('threshold').onchange = function () {
     compressor.threshold.value= document.getElementById('threshold').value
 }
 
+document.getElementById('distortionWet').addEventListener('change', function (){
+    mainDistortion.wet.value = document.getElementById('distortionWet').value
+})
+document.getElementById('oversample').addEventListener('change', function (){
+    mainDistortion.oversample = document.getElementById('oversample').value
+})
+
+
 document.getElementById('phaserQ').addEventListener('change', function (){
     phaser.q = document.getElementById('phaserQ').value
 })
@@ -254,6 +262,9 @@ document.getElementById('chorusDelayTime').addEventListener('change', function (
 document.getElementById('chorusFeedback').addEventListener('change', function (){
     chorus.feedback.value = document.getElementById('chorusFeedback').value
 })
+document.getElementById('chorusDepth').addEventListener('change', function (){
+    chorus.depth = document.getElementById('chorusDepth').value
+})
 document.getElementById('chorusFrequency').addEventListener('change', function (){
     chorus.frequency.value = document.getElementById('chorusFrequency').value
 })
@@ -262,6 +273,19 @@ document.getElementById('chorusSpread').addEventListener('change', function (){
 })
 document.getElementById('chorusType').addEventListener('change', function (){
     chorus.type = document.getElementById('chorusType').value
+})
+document.getElementById('chorusWet').addEventListener('change', function (){
+    chorus.wet.value = document.getElementById('chorusWet').value
+})
+
+document.getElementById('reverbDecay').addEventListener('change', function (){
+    reverb.decay = document.getElementById('reverbDecay').value
+})
+document.getElementById('reverbPreDelay').addEventListener('change', function (){
+    reverb.preDelay = document.getElementById('reverbPreDelay').value
+})
+document.getElementById('reverbWet').addEventListener('change', function (){
+    reverb.wet.value = document.getElementById('reverbWet').value
 })
 
 
