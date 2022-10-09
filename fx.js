@@ -3,28 +3,29 @@ const recorder = new Tone.Recorder();
 // Volume channel goes to speakers
 let channel = new Tone.Channel().toDestination();
 const compressor = new Tone.Compressor().connect(channel);
-const mainDistortion = new Tone.Distortion({distortion: 0, oversample: "4x"})
-// const lowpass = new Tone.BiquadFilter()
-// lowpass.type = 'lowpass'
-// console.log('lowpass', lowpass.get())
-// lowpass.frequency.value = 440
-// lowpass.q.value = 10
+const mainDistortion = new Tone.Distortion({distortion: 0, oversample: "none"})
+const lowpass = new Tone.BiquadFilter()
+lowpass.type = 'lowpass'
+lowpass.frequency.value = 440
+lowpass.q = 10
+console.log('lowpass', lowpass.get())
 //
-// const highpass = new Tone.BiquadFilter()
+const highpass = new Tone.BiquadFilter()
 // highpass.hiPassVal = 200
-// highpass.type = 'highpass'
-// console.log('highpass', highpass.get())
-// highpass.frequency.value = highpass.hiPassVal
-// highpass.q.value = 0
+highpass.type = 'highpass'
+highpass.frequency.value = 200
+highpass.q = 0
+console.log('highpass', highpass.get())
 //
-// const bandpass = new Tone.BiquadFilter()
-// bandpass.type = 'bandpass'
-// bandpass.frequency.value = bandpass.hiPassVal
-// bandpass.q.value = 0
+const bandpass = new Tone.BiquadFilter()
+bandpass.type = 'bandpass'
+bandpass.frequency.value = 200
+bandpass.q = 0
+console.log('bandpass', bandpass.get())
 //
-// biquadFilter.connect(compressor)
-// biquadFilter.hiPassFilter.connect(compressor)
-// biquadFilter2.connect(compressor)
+lowpass.connect(compressor)
+highpass.connect(compressor)
+bandpass.connect(compressor)
 
 // types:
 /*
@@ -50,14 +51,20 @@ const reverb = new Tone.Reverb().connect(compressor);
 // soloChannel.connect(compressor)
 
 const filter = new Tone.FeedbackCombFilter()
-filter.set({delayTime: '4n', resonance: 0.99})
 filter.connect(compressor)
 console.log('filter', filter.get())
+
+
+
+const synth = new Tone.PolySynth().connect(filter);
+const osc = new Tone.Oscillator('g2', "sawtooth").connect(filter); //osc .start(time, +.1, '4n');
+const omniOsc = new Tone.OmniOscillator("C2", "pwm").connect(filter);
+
 
 function setPlayer(p, bReverse = false) {
     if (bReverse) {
         p.reverse = true
-        p.playbackRate = 1
+        p.playbackRate = 2
         console.log('player ', p, 'reversed', p.reverse, 'playbackRate', p.playbackRate)
     }
     showSomeHelpInConsole('        ', p.name, p.value)
@@ -83,7 +90,7 @@ const pitcht1 = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, fe
 const pitcht2 = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0})
 const pitcht3 = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0})
 const pitchrc = new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0})
-
+const pitchosc= new Tone.PitchShift({pitch: 0, windowSize: 0.1, delayTime: 0, feedback: 0})
 //separate distortion
 const distk = new Tone.Distortion({distortion: 0, oversample: "2x"}).connect(pitchk)
 const distsn = new Tone.Distortion({distortion: 0, oversample: "2x"}).connect(pitchsn)
@@ -95,7 +102,7 @@ const distt1 = new Tone.Distortion({distortion: 0, oversample: "2x"}).connect(pi
 const distt2 = new Tone.Distortion({distortion: 0, oversample: "2x"}).connect(pitcht2)
 const distt3 = new Tone.Distortion({distortion: 0, oversample: "2x"}).connect(pitcht3)
 const distrc = new Tone.Distortion({distortion: 0, oversample: "2x"}).connect(pitchrc)
-
+const distosc= new Tone.Distortion({distortion: 0, oversample: "2x"}).connect(pitchosc)
 //separate players
 const kick = new Tone.Player('samples/kick.mp3')
 const snare = new Tone.Player('samples/snare.mp3')
@@ -107,7 +114,7 @@ const tom1 = new Tone.Player('samples/tom1.mp3')
 const tom2 = new Tone.Player('samples/tom2.mp3')
 const tom3 = new Tone.Player('samples/tom3.mp3')
 const rCrash = new Tone.Player('samples/crash.mp3')
-
+omniOsc.connect(distosc)
 
 kick.name = 'kick'
 snare.name = 'snare'
@@ -119,18 +126,6 @@ tom1.name = 'tom1'
 tom2.name = 'tom2'
 tom3.name = 'tom3'
 rCrash.name = 'rCrash'
-
-
-// distk.connect(pitchk)
-// distsn.connect(pitchsn)
-// disthh.connect(pitchhh)
-// distcl.connect(pitchcl)
-// distcr.connect(pitchcr)
-// shaker.connect(pitchsh)
-// distt1.connect(pitcht1)
-// distt2.connect(pitcht2)
-// distt3.connect(pitcht3)
-// distrc.connect(pitchrc)
 
 keys.add(kick.name, kick.buffer)
 keys.add(snare.name, snare.buffer)
@@ -167,6 +162,8 @@ const chan_tom2 = new Tone.Channel().connect(compressor)
 const chan_tom3 = new Tone.Channel().connect(compressor)
 const chan_rCrash = new Tone.Channel().connect(compressor)
 
+const chan_osc= new Tone.Channel().connect(compressor)
+
 pitchk.connect(chan_kick)
 pitchsn.connect(chan_snare)
 pitchhh.connect(chan_hihat)
@@ -177,7 +174,7 @@ pitcht1.connect(chan_tom1)
 pitcht2.connect(chan_tom2)
 pitcht3.connect(chan_tom3)
 pitchrc.connect(chan_rCrash)
-
+pitchosc.connect(chan_osc)
 // pitchShift.connect(mainDistortion)
 // mainDistortion.connect(chorus)
 chorus.connect(phaser)
@@ -201,35 +198,71 @@ setPlayer(tom3)
 
 //compressor
 document.getElementById('attack').oninput = function () {
-    compressor.set({attack: document.getElementById('attack').value})
+    // compressor.set({attack: document.getElementById('attack').value})
+    compressor.attack.value =document.getElementById('attack').value
+        // .set({attack: document.getElementById('attack').value})
 }
 document.getElementById('knee').oninput = function () {
-    compressor.set({knee: document.getElementById('knee').value})
+    compressor.knee.value = document.getElementById('knee').value
 }
 document.getElementById('ratio').oninput = function () {
-    compressor.set({ratio: document.getElementById('ratio').value})
+    compressor.ratio.value= document.getElementById('ratio').value
 }
 document.getElementById('release').oninput = function () {
-    compressor.set({release: document.getElementById('release').value})
+    compressor.release.value= document.getElementById('release').value
 }
 document.getElementById('threshold').oninput = function () {
-    compressor.set({threshold: document.getElementById('threshold').value})
+    compressor.threshold.value= document.getElementById('threshold').value
 }
 document.getElementById('attack').onchange = function () {
-    compressor.set({attack: document.getElementById('attack').value})
+    compressor.attack.value= document.getElementById('attack').value
 }
 document.getElementById('knee').onchange = function () {
-    compressor.set({knee: document.getElementById('knee').value})
+    compressor.knee.value= document.getElementById('knee').value
 }
 document.getElementById('ratio').onchange = function () {
-    compressor.set({ratio: document.getElementById('ratio').value})
+    compressor.ratio.value= document.getElementById('ratio').value
 }
 document.getElementById('release').onchange = function () {
-    compressor.set({release: document.getElementById('release').value})
+    compressor.release.value= document.getElementById('release').value
 }
 document.getElementById('threshold').onchange = function () {
-    compressor.set({threshold: document.getElementById('threshold').value})
+    compressor.threshold.value= document.getElementById('threshold').value
 }
+
+document.getElementById('phaserQ').addEventListener('change', function (){
+    phaser.q = document.getElementById('phaserQ').value
+})
+document.getElementById('phaserBaseFreq').addEventListener('change', function (){
+    phaser.baseFrequency = document.getElementById('phaserBaseFreq').value
+})
+document.getElementById('phaserOct').addEventListener('change', function (){
+    phaser.octaves = document.getElementById('phaserOct').value
+})
+let phaserFreq = new Tone.Signal()
+document.getElementById('phaserFrequency').addEventListener('change', function (){
+    phaserFreq.value = document.getElementById('phaserFrequency').value
+    phaser.frequency.value = phaserFreq.value
+})
+document.getElementById('phaserWet').addEventListener('change', function (){
+    phaser.wet.value = document.getElementById('phaserWet').value
+})
+
+document.getElementById('chorusDelayTime').addEventListener('change', function (){
+    chorus.delayTime.value = document.getElementById('chorusDelayTime').value
+})
+document.getElementById('chorusFeedback').addEventListener('change', function (){
+    chorus.feedback.value = document.getElementById('chorusFeedback').value
+})
+document.getElementById('chorusFrequency').addEventListener('change', function (){
+    chorus.frequency.value = document.getElementById('chorusFrequency').value
+})
+document.getElementById('chorusSpread').addEventListener('change', function (){
+    chorus.spread.value = document.getElementById('chorusSpread').value
+})
+document.getElementById('chorusType').addEventListener('change', function (){
+    chorus.type = document.getElementById('chorusType').value
+})
 
 
 // =======================================  end audio routing =======================================================
@@ -255,10 +288,9 @@ function GUI_Builder() {
     drawButton('play')
     drawButton('stop')
     drawMasterSection()
-    // document.createElement('hr');
     drawDrumSection()
-    drawSynthControls()
     createPlayer('e2')
+    drawSynthControls()
     synthcounter++
     // drawSynthControls2()
     // createPlayer('g2')
@@ -315,6 +347,7 @@ function setup(val, elementID) {
             document.getElementById('BPMDisplay').textContent = val;
             Tone.Transport.bpm.value = val;
             break;
+            // --------------------------------------------------------------------------------------------
         case 'volume0':
             keys.player("kick").volume.value = val;
             console.log('kick volume', keys.player("kick").volume.value)
@@ -363,6 +396,7 @@ function setup(val, elementID) {
             osc.volume.value = val;
             console.log('oscillator volume', osc.volume.value)
             break;
+        // --------------------------------------------------------------------------------------------
         case 'distortion':
             document.getElementById('Disortiondisplay').textContent = val;
             //amount of distortion (nominal range of 0-1)
@@ -427,6 +461,12 @@ function setup(val, elementID) {
             break;
         case 'distortion9':
             distrc.distortion = val;
+            distrc.oversample = 'none';
+            distrc.wet = '1';
+            console.log('distortion reverse crash', distrc.distortion)
+            break;
+        case 'distortion10':
+            distosc.distortion = val;
             distrc.oversample = 'none';
             distrc.wet = '1';
             console.log('distortion reverse crash', distrc.distortion)
@@ -697,6 +737,7 @@ function drawDrumSection() {
     let containerD = document.createElement('div');
     // containerD.style = 'border: 1px solid gold'
     containerD.id = 'drumz';
+    // containerD.style = 'border: 3px solid gold'
     containerD.appendChild(DrawGui('kick'))
     containerD.appendChild(DrawGui('snare'))
     containerD.appendChild(DrawGui('hihat'))
@@ -889,8 +930,8 @@ function createKnob(value) {
             knob.setAttribute('class', "input-knob");
             knob.value = '0';
             knob.min = '0';
-            knob.max = '100';
-            knob.step = '1'
+            knob.max = '10';
+            knob.step = '0.1'
             // led display
             let Phaserdisplay = document.createElement('div')
             Phaserdisplay.setAttribute('id', 'Phaserdisplay')
@@ -913,7 +954,7 @@ function createKnob(value) {
             knob.step = '0.01'
             knob.value = '0';
             knob.min = '0';
-            knob.max = '1';
+            knob.max = '0.99';
             // led display
             let Chorusdisplay = document.createElement('div')
             Chorusdisplay.setAttribute('id', 'Chorusdisplay')
@@ -936,7 +977,7 @@ function createKnob(value) {
             knob.step = '0.01'
             knob.value = '0.01';
             knob.min = '0.01';
-            knob.max = '2';
+            knob.max = '0.99';
             // led display
             let Reverbdisplay = document.createElement('div')
             Reverbdisplay.setAttribute('id', 'Reverbdisplay')
@@ -994,7 +1035,7 @@ function createKnob(value) {
             knob.id = `masterVolume`;
             knob.value = '0';
             knob.min = '-60';
-            knob.max = '4';
+            knob.max = '0';
             knob.step = '0.01';
             // led display
             let voldisplay = document.createElement('div')
@@ -1067,9 +1108,9 @@ function createKnob(value) {
             knob.setAttribute('data-sprites', '100')
             knob.setAttribute("type", "range");
             knob.setAttribute('class', "input-knob");
-            knob.value = '0';
-            knob.min = '0';
-            knob.max = '1';
+            knob.value = '0.01';
+            knob.min = '0.01';
+            knob.max = '0.99';
             knob.step = '0.01'
             break;
         case 'resonance_1':
@@ -1096,7 +1137,7 @@ function createKnob(value) {
             knob.value = '0.1';
             knob.step = '0.1'
             knob.min = '0.1';
-            knob.max = '3';
+            knob.max = '30';
             break;
         case 'envmod_1':
             knob.title = 'envmod2'
@@ -1280,9 +1321,9 @@ function createPlayer(value) {
     container1.innerHTML = value;
     container1.value = value;
 
-    container1.appendChild(createKnob('switch'));
-    container1.appendChild(createKnob('switch'));
-    container1.appendChild(createKnob('switchX'));
+    // container1.appendChild(createKnob('switch'));
+    // container1.appendChild(createKnob('switch'));
+    // container1.appendChild(createKnob('switchX'));
 
     let container2 = document.createElement('div');
     container2.className = "step-sequencer";

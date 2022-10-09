@@ -34,20 +34,20 @@
 </div>
 
 <label for="phaserControl">phaserControl</label>
-<div id="phaserControl" style="border: 1px solid gold;width: fit-content;">
-    Q<input id="phaserQ" type="range" min="0" max="100" step="1" value="0"/>
-    baseFrequency<input id="phaserFreq" type="range" min="0" max="100" step="0.1" value="0.5"/>
-    octaves<input id="phaserOct" type="range" min="0" max="7" step="1" value="3"/>
-    stages<input id="phaserStages" type="range" min="1" max="100" step="1" value="10"/>
+<div id="phaserControl" style="border: 1px solid gold;width: fit-content;background-color: azure">
+    Q<input id="phaserQ" type="range" min="0" max="100" step="1" value="0"/><br>
+    baseFrequency<input id="phaserBaseFreq" type="range" min="350" max="7000" step="0.1" value="0.5"/><br>
+    octaves<input id="phaserOct" type="range" min="0" max="7" step="1" value="3"/><br>
+    frequency<input id="phaserFrequency" type="range" min="100" max="1000" step="1" value="10"/><br>
     wet<input id="phaserWet" type="range" min="0" max="1" step="0.01" value="1"/>
 </div>
-<label for="chorusControl" hidden>chorusControl</label>
-<div id="chorusControl" style="border: 1px solid gold;width: fit-content;" hidden>
-    delayTime<input id="chorusDelayTime" type="range" min="0" max="100" step="1" value="0"/>
-    feedback<input id="chorusFeedback" type="range" min="0" max="100" step="1" value="0"/>
-    frequency<input id="chorusDelayTime" type="range" min="0" max="100" step="1" value="0"/>
-    spread<input id="chorusDelayTime" type="range" min="0" max="360" step="1" value="360"/>
-    type <select name="chorusType" id="chorusType">
+<label for="chorusControl" >chorusControl</label>
+<div id="chorusControl" style="border: 1px solid gold;width: fit-content;background-color: azure" >
+    delayTime<input id="chorusDelayTime" type="range" min="0" max="100" step="1" value="0"/><br>
+    feedback<input  id="chorusFeedback" type="range" min="0" max="1" step="0.01" value="0"/><br>
+    frequency<input id="chorusFrequency" type="range" min="0" max="1" step="0.01" value="0"/><br>
+    spread<input    id="chorusSpread" type="range" min="0" max="360" step="1" value="360"/><br>
+    type <select    id="chorusType" name="chorusType">
             <option value="square">square</option>
             <option value="square2">square2</option>
             <option value="square4">square4</option>
@@ -65,7 +65,7 @@
             <option value="triangle2">triangle2</option>
             <option value="triangle4">triangle4</option>
             <option value="triangle8">triangle8</option>
-        </select>
+        </select><br>
     wet<input id="chorusDelayTime" type="range" min="0" max="1" step="0.01" value="1"/>
 </div>
 <div id="my-peak-meter" style="width: 5em; height: 20em; margin: 1em 0;">
@@ -107,8 +107,8 @@
 <!--        integrity="sha512-VyI1QFJ5vvwgy/FPf+XWs64XHBFUEMRZNzrhQiXdOFEyDuNO6H8hp/Of4jfo7NG4UEJOnxjP5cwj1P9nqLkTYg=="-->
 <!--        crossorigin="anonymous"-->
 <!--        referrerpolicy="no-referrer"></script>-->
-<script src="fx.js"></script>
 <script src="synth.js"></script>
+<script src="fx.js"></script>
 <script src="looper.js" ></script>
 
 </body>

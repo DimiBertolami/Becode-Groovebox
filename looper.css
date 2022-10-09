@@ -1,5 +1,5 @@
 *{
-    /*background-color: darkslategrey;*/
+    background-color: silver;
     /*background-image: radial-gradient(#40c9ff, #e81cff);*/
     /*opacity: 1;*/
 
@@ -15,6 +15,7 @@
 }
 .step-sequencer {
     display: flex;
+    background-color: lightgrey;
 }
 
 .step-sequencer button {
@@ -23,7 +24,7 @@
     display: flex;
     height: 45px;
     width: 62px;
-    border: 2px solid greenyellow;
+    border: 3px solid greenyellow;
     border-radius: 4px;
     /*border: 1px solid orangered;*/
     justify-content: start;

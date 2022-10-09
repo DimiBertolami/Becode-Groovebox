@@ -91,11 +91,11 @@ new Tone.Sequence((time, step) => {
                 omniOsc.start(time).stop(time + SixTeenth_Note_Length());
                 return
             }
-            if (instrument=== 'g2'){
-                osc.volume.value = -20
-                osc.start(time).stop(time + SixTeenth_Note_Length());
-                return;
-            }
+            // if (instrument=== 'g2'){
+            //     osc.volume.value = -20
+            //     osc.start(time).stop(time + SixTeenth_Note_Length());
+            //     return;
+            // }
             if (instrument=== 'rCrash') {
                 keys.player(instrument).start(time, 0.01);
             } else {
@@ -105,9 +105,9 @@ new Tone.Sequence((time, step) => {
             if (instrument==='e2'){
                 omniOsc.stop(time+0.01)
             }
-            if (instrument==='g2'){
-                osc.stop(time+0.01)
-            }
+            // if (instrument==='g2'){
+            //     osc.stop(time+0.01)
+            // }
         }
     }
 }, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]).start(+0.01);
@@ -216,18 +216,18 @@ new Tone.Sequence((time, step) => {
 //     // Alert the key name and key code on keydown
 //     console.log(`Key pressed ${name} \r\n Note: ${Note}  `);
 // }, false);
-document.getElementById('phaserQ').addEventListener('input', function (){
-    phaser.q = document.getElementById('phaserQ').value;
-})
-document.getElementById('phaserFreq').addEventListener('input', function (){
-    phaser.frequency.value = document.getElementById('phaserFreq').value;
-})
-document.getElementById('phaserOct').addEventListener('input', function (){
-    phaser.octaves = document.getElementById('phaserOct').value;
-})
-document.getElementById('phaserStages').addEventListener('input', function (){
-    phaser.stages = document.getElementById('phaserStages').value;
-})
-document.getElementById('phaserWet').addEventListener('input', function (){
-    phaser.wet.value = document.getElementById('phaserWet').value;
-})
+// document.getElementById('phaserQ').addEventListener('input', function (){
+//     phaser.q.value = document.getElementById('phaserQ').value;
+// })
+// document.getElementById('phaserFreq').addEventListener('input', function (){
+//     phaser.frequency.value = document.getElementById('phaserFreq').value;
+// })
+// document.getElementById('phaserOct').addEventListener('input', function (){
+//     phaser.octaves.value = document.getElementById('phaserOct').value;
+// })
+// document.getElementById('phaserStages').addEventListener('input', function (){
+//     phaser.stages.value = document.getElementById('phaserStages').value;
+// })
+// document.getElementById('phaserWet').addEventListener('input', function (){
+//     phaser.wet.value = document.getElementById('phaserWet').value;
+// })
