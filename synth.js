@@ -25,15 +25,11 @@
 // Tone.Transport.start();
 
 
-const synth = new Tone.PolySynth().toDestination();
-const osc = new Tone.Oscillator('g2', "sawtooth").connect(filter); //osc .start(time, +.1, '4n');
-const omniOsc = new Tone.OmniOscillator("C2", "pwm").connect(filter);
-
 // set the attributes across all the voices using 'set'
-synth.set({ detune: -1200 });
+// synth.set({ detune: -1200 });
 // play a chord
-synth.triggerAttackRelease(["C4", "E4", "A4"], 1);
+// synth.triggerAttackRelease(["C4", "E4", "A4"], 1);
 
-const meter = new Tone.Meter();
-keys.connect(meter)
+// const meter = new Tone.Meter();
+// keys.connect(meter)
 // setInterval(() => console.log(meter.getValue()), 300);
