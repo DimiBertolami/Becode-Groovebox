@@ -49,6 +49,7 @@ for (let i = 0; i <= 7; i++) {
 
 let currentNotes = [0, 3, 0, 7, 8, 7, 3, 2]
 const noteSelects = document.querySelectorAll('select');
+
 function setNoteSelects() {
     for (let i = 0; i < currentNotes.length; i++) {
         noteSelects[i].value = currentNotes[i];
@@ -80,7 +81,7 @@ masterVolume.gain.value = 0.2
 
 const volumeControl = document.querySelector('#volume-control');
 
-volumeControl.addEventListener('input', function(){
+volumeControl.addEventListener('input', function () {
     masterVolume.gain.value = this.value;
 });
 
@@ -89,15 +90,15 @@ const waveforms = document.getElementsByName('waveform');
 let waveform = "sine";
 
 function setWaveform() {
-    for(var i = 0; i < waveforms.length; i++){
-        if(waveforms[i].checked){
+    for (var i = 0; i < waveforms.length; i++) {
+        if (waveforms[i].checked) {
             waveform = waveforms[i].value;
         }
     }
 }
 
 waveforms.forEach((waveformInput) => {
-    waveformInput.addEventListener('change', function() {
+    waveformInput.addEventListener('change', function () {
         setWaveform();
     });
 });
@@ -115,15 +116,15 @@ const attackControl = document.querySelector('#attack-control');
 const releaseControl = document.querySelector('#release-control');
 const noteLengthControl = document.querySelector('#note-length-control');
 
-attackControl.addEventListener('input', function() {
+attackControl.addEventListener('input', function () {
     attackTime = Number(this.value);
 });
 
-releaseControl.addEventListener('input', function() {
+releaseControl.addEventListener('input', function () {
     releaseTime = Number(this.value);
 });
 
-noteLengthControl.addEventListener('input', function() {
+noteLengthControl.addEventListener('input', function () {
     noteLength = Number(this.value);
 });
 
@@ -131,20 +132,20 @@ noteLengthControl.addEventListener('input', function() {
 let vibratoSpeed = 10;
 let vibratoAmount = 0;
 const vibratoAmountControl = document.querySelector('#vibrato-amount-control');
-const vibratoSpeedControl= document.querySelector('#vibrato-speed-control');
+const vibratoSpeedControl = document.querySelector('#vibrato-speed-control');
 
-vibratoAmountControl.addEventListener('input', function() {
+vibratoAmountControl.addEventListener('input', function () {
     vibratoAmount = this.value;
 })
 
-vibratoSpeedControl.addEventListener('input', function() {
+vibratoSpeedControl.addEventListener('input', function () {
     vibratoSpeed = this.value;
 })
 
 // Delay
 const delayAmountControl = document.querySelector('#delay-amount-control');
-const delayTimeControl= document.querySelector('#delay-time-control');
-const feedbackControl= document.querySelector('#feedback-control');
+const delayTimeControl = document.querySelector('#delay-time-control');
+const feedbackControl = document.querySelector('#feedback-control');
 const delay = context.createDelay();
 const feedback = context.createGain();
 const delayAmountGain = context.createGain();
@@ -159,15 +160,15 @@ delay.delayTime.value = 0;
 delayAmountGain.gain.value = 0;
 feedback.gain.value = 0;
 
-delayAmountControl.addEventListener('input', function() {
+delayAmountControl.addEventListener('input', function () {
     delayAmountGain.value = this.value;
 })
 
-delayTimeControl.addEventListener('input', function() {
+delayTimeControl.addEventListener('input', function () {
     delay.delayTime.value = this.value;
 })
 
-feedbackControl.addEventListener('input', function() {
+feedbackControl.addEventListener('input', function () {
     feedback.gain.value = this.value;
 })
 
@@ -176,22 +177,26 @@ feedbackControl.addEventListener('input', function() {
 const startButton = document.querySelector('#start-button');
 const stopButton = document.querySelector('#stop-button');
 const tempoControl = document.querySelector('#tempo-control');
-let tempo = Tone.Transport.bpm.value;
+let tempo = 175;
+tempoControl.value = tempo;
 let currentNoteIndex = 0;
 let isPlaying = false;
 
-tempoControl.addEventListener('input', function() {
-    tempo = Number(this.value);
+tempoControl.addEventListener('input', function () {
+    tempo = Number(Tone.Transport.bpm.value);
 }, false);
 
-startButton.addEventListener('click', function() {
-    if (!isPlaying){
+startButton.addEventListener('click', function () {
+    if (!isPlaying) {
         isPlaying = true;
         noteLoop();
     }
+    recorder.start();
+    Tone.Transport.start('+0.01')
+    Tone.start(0)
 })
 
-stopButton.addEventListener('click', function() {
+stopButton.addEventListener('click', function () {
     isPlaying = false;
 })
 
@@ -200,14 +205,15 @@ function noteLoop() {
     if (isPlaying) {
         playCurrentNote();
         nextNote();
-        window.setTimeout(function() {
+        window.setTimeout(function () {
             noteLoop();
         }, secondsPerBeat * 1000)
-    };
+    }
+    ;
 }
 
 function nextNote() {
-    noteSelects[currentNoteIndex].style.background = "yellow";
+    noteSelects[currentNoteIndex].style.background = "greenyellow";
     if (noteSelects[currentNoteIndex - 1]) {
         noteSelects[currentNoteIndex - 1].style.background = "white";
     } else {
@@ -246,8 +252,8 @@ function playCurrentNote() {
     noteGain.connect(masterVolume);
     noteGain.connect(delay);
 }
-// ----------------------------------------------------------------------------------------
 
+// ----------------------------------------------------------------------------------------
 
 
 // This is an object of sequence arrays, keeping track of each of the on/off positions of all the steps for each sample
@@ -289,10 +295,14 @@ document.querySelector(".play").addEventListener('click', () => {
     recorder.start();
     Tone.Transport.start('+0.01')
     Tone.start(0)
+    if (!isPlaying) {
+        isPlaying = true;
+        noteLoop();
+    }
 });
 
 // Stop button click handler
-document.querySelector(".stop").addEventListener('click', async ()=> {
+document.querySelector(".stop").addEventListener('click', async () => {
     // the recorded audio is returned as a blob
     const recording = await recorder.stop();
     // download the recording by creating an anchor element and blob url
@@ -307,7 +317,7 @@ document.querySelector(".stop").addEventListener('click', async ()=> {
 // repeated event every 16th note
 // Tone.Transport.scheduleRepeat((time) => {
 //     use the callback time to schedule events
-    // omniOsc.start(time).stop(time + 0.1);
+// omniOsc.start(time).stop(time + 0.1);
 // }, "16n");
 
 
@@ -315,8 +325,8 @@ document.querySelector(".stop").addEventListener('click', async ()=> {
 new Tone.Sequence((time, step) => {
     for (const instrument in sequences) {
         // console.log('step ', step,  instrument, sequences[instrument][step] )
-        if(sequences[instrument][step]){
-            if (instrument=== 'e2'){
+        if (sequences[instrument][step]) {
+            if (instrument === 'e2') {
                 omniOsc.volume.value = -20
                 omniOsc.start(time).stop(time + SixTeenth_Note_Length());
                 return
@@ -326,14 +336,14 @@ new Tone.Sequence((time, step) => {
             //     osc.start(time).stop(time + SixTeenth_Note_Length());
             //     return;
             // }
-            if (instrument=== 'rCrash') {
+            if (instrument === 'rCrash') {
                 keys.player(instrument).start(time, 0.01);
             } else {
                 keys.player(instrument).start(time, 0.01, '4n');
             }
         } else {
-            if (instrument==='e2'){
-                omniOsc.stop(time+0.01)
+            if (instrument === 'e2') {
+                omniOsc.stop(time + 0.01)
             }
             // if (instrument==='g2'){
             //     osc.stop(time+0.01)

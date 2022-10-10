@@ -313,6 +313,7 @@ function GUI_Builder() {
     drawButton('stop')
     drawMasterSection()
     drawDrumSection()
+
     createPlayer('e2')
     drawSynthControls()
     synthcounter++
@@ -369,6 +370,7 @@ function setup(val, elementID) {
         case 'tempo':
             // Beats per minute
             document.getElementById('BPMDisplay').textContent = val;
+            document.getElementById('tempo-control').value = val;
             Tone.Transport.bpm.value = val;
             break;
             // --------------------------------------------------------------------------------------------

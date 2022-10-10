@@ -11,7 +11,7 @@
     background-color: silver;
     /*background-image: radial-gradient(#40c9ff, #e81cff);*/
     color: darkorchid;
-    /*box-shadow: 3px #1aff8c;*/
+    /*box-shadow: 3px '#1aff8c';*/
 }
 .step-sequencer {
     display: flex;
